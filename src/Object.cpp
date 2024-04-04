@@ -13,29 +13,20 @@ Object::~Object()
 {
     //dtor
 }
-void Object::initObject(int x, int y, char* fileName)
+void Object::initObject(float x, float y, float z, int fX, int fY, char* fileName)
 {
-    objPosition.x = -0.55;  //initialize position
-    objPosition.y = 1.5;    //out of screen until needed
-    objPosition.z = -1.0;
+    objPosition.x = x;  //initialize position
+    objPosition.y = y;  //out of screen until needed
+    objPosition.z = z;
 
-    objScale.x = 0.5;  //initialize scale
-    objScale.y = 0.5;
-    objScale.z = 1.0;
+    objScale.x = 1.0;   //initialize scale
+    objScale.y = 0.2;
+    objScale.z = 1.5;
 
-    framesX = x;               // record number of frames
-    framesY = y;
+    framesX = fX;               // record number of frames
+    framesY = fY;
 
     texture->loadTexture(fileName); //loading my background
-
-    xMin = 0;
-    xMax = 1.0/(float)framesX;
-    yMax = 2.0/(float)framesY;
-    yMin = yMax-2.0/(float)framesY;
-
-    pause = false;
-    ret = false;
-
 
     myTime->startTime = clock();
 }
@@ -50,38 +41,101 @@ void Object::drawObject()
 
 
     glBegin(GL_QUADS);
-      glTexCoord2f(xMin,yMax);
-      glVertex3f(vert[0].x,vert[0].y,vert[0].z);
+    glTexCoord2f(xMin,yMax);
+    glVertex3f(vert[0].x,vert[0].y,vert[0].z);
 
-      glTexCoord2f(xMax,yMax);
-      glVertex3f(vert[1].x,vert[1].y,vert[1].z);
+    glTexCoord2f(xMax,yMax);
+    glVertex3f(vert[1].x,vert[1].y,vert[1].z);
 
-      glTexCoord2f(xMax,yMin);
-      glVertex3f(vert[2].x,vert[2].y,vert[2].z);
+    glTexCoord2f(xMax,yMin);
+    glVertex3f(vert[2].x,vert[2].y,vert[2].z);
 
-      glTexCoord2f(xMin,yMin);
-      glVertex3f(vert[3].x,vert[3].y,vert[3].z);
+    glTexCoord2f(xMin,yMin);
+    glVertex3f(vert[3].x,vert[3].y,vert[3].z);
 
     glEnd();
 }
-void Object::objectMove(float y,float x)
+void Object::new_button(float w, float h, float screenWidth, float screenHeight)
 {
-    if(!pause)
+    xMin = 0;
+    xMax = 1.0/(float)framesX;
+    yMax = 1.0/(float)framesY;
+    yMin = yMax-1.0/(float)framesY;
+
+    BUTTON_RIGHT_LIMIT = 500;
+    BUTTON_TOP_LIMIT = 265;
+    BUTTON_BOTTOM_LIMIT = 365;
+
+    normalizedBRL = (BUTTON_RIGHT_LIMIT / screenWidth)*w;
+    normalizedBTL = (BUTTON_TOP_LIMIT / screenHeight)*h;
+    normalizedBBL = (BUTTON_BOTTOM_LIMIT / screenHeight)*h;
+}
+
+void Object::guide_button(float w, float h, float screenWidth, float screenHeight)
+{
+    xMin = 0;
+    xMax = 1.0/(float)framesX;
+    yMax = 2.0/(float)framesY;
+    yMin = yMax-1.0/(float)framesY;
+
+    BUTTON_RIGHT_LIMIT = 500;
+    BUTTON_TOP_LIMIT = 385;
+    BUTTON_BOTTOM_LIMIT = 480;
+
+    normalizedBRL = (BUTTON_RIGHT_LIMIT / screenWidth)*w;
+    normalizedBTL = (BUTTON_TOP_LIMIT / screenHeight)*h;
+    normalizedBBL = (BUTTON_BOTTOM_LIMIT / screenHeight)*h;
+}
+
+void Object::quit_button(float w, float h, float screenWidth, float screenHeight)
+{
+    xMin = 0;
+    xMax = 1.0/(float)framesX;
+    yMax = 3.0/(float)framesY;
+    yMin = yMax-1.0/(float)framesY;
+
+    BUTTON_RIGHT_LIMIT = 500;
+    BUTTON_TOP_LIMIT = 490;
+    BUTTON_BOTTOM_LIMIT = 585;
+
+    normalizedBRL = (BUTTON_RIGHT_LIMIT / screenWidth)*w;
+    normalizedBTL = (BUTTON_TOP_LIMIT / screenHeight)*h;
+    normalizedBBL = (BUTTON_BOTTOM_LIMIT / screenHeight)*h;
+}
+void Object::actions()
+{
+    cout << objPosition.x << endl;
+    switch (moveTrigger)
     {
-        objPosition.y = y;
-        objPosition.x = x;
-        pause = true;
-    }
-    if((clock() - myTime->startTime) > 45)
-    {
-        if(!ret) objPosition.y +=0.1;
-        else objPosition.y -=0.1;
-        if(objPosition.y >= -0.15) ret = true;
-        if(objPosition.y <= y)
+    case APPEAR:
+        if(clock() - myTime->startTime>30)
         {
-            ret = false;
-            pause = false;
+            if (objPosition.x < -0.9) objPosition.x += 0.1;
+            myTime->startTime = clock();
         }
-        myTime->startTime = clock();
+        break;
+    case POP:
+        if(clock() - myTime->startTime>20)
+        {
+            if (objPosition.x < -0.7) objPosition.x += 0.1;
+            myTime->startTime = clock();
+        }
+        break;
+    case RETREAT:
+        if(clock() - myTime->startTime>30)
+        {
+            if (objPosition.x > -0.8) objPosition.x -= 0.1;
+            myTime->startTime = clock();
+        }
+        break;
+    case DISAPPEAR:
+        if(clock() - myTime->startTime>30)
+        {
+            if (objPosition.x > -2) objPosition.x -= 0.1;
+            myTime->startTime = clock();
+        }
+        break;
+    default:
+        break;
     }
 }

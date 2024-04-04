@@ -1,9 +1,6 @@
 #ifndef GLINPUTS_H
 #define GLINPUTS_H
-#include<GLParallax.h>
-#include<GLPlayer.h>
 #include<Screen.h>
-#include<Menu.h>
 #include<Object.h>
 #include<common.h>
 
@@ -14,15 +11,15 @@ class GLInputs
         GLTimer *myTime = new GLTimer();
         virtual ~GLInputs();
 
-        void keyPress(Screen*, Menu*);                // when key pressed
-        void keyUP();               // when key released
-        void keyBackground(GLParallax *, float);     // parallax model & speed
+        void keyPress(Screen*, Screen*, Screen*);            // when key pressed
+        void keyUP(Screen*, Screen*, Object*, Object*, Object*);                               // when key released
+        void keyBackground(float);    // parallax model & speed
 
 
-        void mouseEventDown(Menu*, Screen*, Object*, GLTimer*, double, double); // mouse btn pressed
-        void mouseEventUp();                                // mouse btn released
+        void mouseEventDown(Screen*, Screen*,Object*,Object*,Object*, GLTimer*, double, double); // mouse btn pressed
+        void mouseEventUp(Object*,Object*,Object*, GLTimer*, double, double);                                // mouse btn released
         void mouseWheel(double);              // mouse wheel rolled
-        void mouseMove(Menu*, Screen*, Object* arrow, double,double);       // mouse moved
+        void mouseMove(float, float, float, float, Object*, Object*, Object*, double,double);       // mouse moved
 
         double prev_MouseX;      // current mouse location X before action
         double prev_MouseY;      // current mouse location Y before action
@@ -30,15 +27,10 @@ class GLInputs
         bool mouse_Translate;    // if mouse moved
         bool mouse_Rotate;       // if mouse moved for rotation
 
-        bool firstReturn;        //get out of screen
-
         enum {LOADING, MENUSCREEN, HELPSCREEN, GAMESCREEN};  // For inputs, determines if button locations should be interactable
         int screenToggle;
         bool helpTransitioning; // Flag to control Help screen animation
-        bool menuTransitioning; // to control menu animation
-        bool arrowOscillate;    // flag for arrow movement within menu
-        bool bgSummon;
-        bool gameToMenu;
+        bool menuTransitioning; // to control screen animation
 
         WPARAM wParam;           // catching input interrupts
 

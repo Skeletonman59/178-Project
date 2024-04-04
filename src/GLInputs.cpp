@@ -11,16 +11,11 @@ GLInputs::GLInputs()
     mouse_Translate =0;
     mouse_Rotate =0;
 
-    firstReturn = false;
     helpTransitioning = false; // Flag to control Help screen animation
     menuTransitioning = false;
-    arrowOscillate = false;
-    bgSummon = false;
-    gameToMenu = false;
 
     screenToggle = LOADING;
     myTime->startTime = clock();
-
 }
 
 GLInputs::~GLInputs()
@@ -28,45 +23,30 @@ GLInputs::~GLInputs()
     //dtor
 }
 
-void GLInputs::keyPress(Screen* screen, Menu* menu)
+void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help)
 {
     switch(wParam)
     {
     case VK_LEFT:
-        //pl->actionTrigger= pl->WALKLEFT;
         break;
-
     case VK_RIGHT:
-        //pl->actionTrigger = pl->WALKRIGHT;
         break;
-
     case VK_DOWN:
         break;
-
     case VK_UP:
         break;
 
-    case VK_ADD:
-        break;
-    case VK_SUBTRACT:
-        break;
     case VK_RETURN:
-        //screen->blackFade(0.125);
-        //menu->fadeIn(0.125);
-        //if((clock() - myTime->startTime) > 30)
-        //{
         switch(screenToggle) //WHERE ARE WE?
         {
-        case LOADING:        //LOADING: PRESS START, AFTERWARDS WE NEVER COME HERE AGAIN
-            firstReturn = true;
-            screenToggle = MENUSCREEN;
+        case LOADING:
+            load->screenTrigger = load->FADEOUT;
             break;
         case MENUSCREEN:
             break;
         case HELPSCREEN:
             //go back
-            menuTransitioning = true;
-            screenToggle = MENUSCREEN;
+            help->screenTrigger = help->HELPOUT;
             break;
         case GAMESCREEN:
             break;
@@ -81,33 +61,59 @@ void GLInputs::keyPress(Screen* screen, Menu* menu)
             break;
         case HELPSCREEN:  //escape also should escape from help
             //go back
-            menuTransitioning = true;
-            screenToggle = MENUSCREEN;
+            help->screenTrigger = help->HELPOUT;
             break;
         case GAMESCREEN:
-             if (MessageBox(NULL,"Leave to main menu?", "Everything not saved will be lost ~Nintendo",MB_YESNO|MB_ICONQUESTION)==IDYES)
-             {
-                 //make them go to main menu
-                 gameToMenu = true;
-                 screenToggle = MENUSCREEN;
-                 //exit(0); //TEMP
-             }
+            if (MessageBox(NULL,"Leave to main screen?", "Everything not saved will be lost ~Nintendo",MB_YESNO|MB_ICONQUESTION)==IDYES)
+            {
+                //make them go to main screen
+                screenToggle = MENUSCREEN;
+                //exit(0); //TEMP
+            }
             break;
         }
         break;
     }
 }
 
-void GLInputs::keyUP()
+void GLInputs::keyUP(Screen* load, Screen* menu, Object* newgame, Object* guide, Object* quit)
 {
     switch(wParam)
     {
+    case VK_RETURN:
+        switch(screenToggle) //WHERE ARE WE?
+        {
+        case LOADING:
+            //make menu move forward
+            //make menu fade in
+            load->screenTrigger = load->NOTHING;
+            menu->screenTrigger = menu->FADEIN;
+
+            newgame->moveTrigger = newgame->APPEAR;
+            guide->moveTrigger = guide->APPEAR;
+            quit->moveTrigger = quit->APPEAR;
+
+            screenToggle = MENUSCREEN;
+            break;
+        case MENUSCREEN:
+            break;
+        case HELPSCREEN:
+            newgame->moveTrigger = newgame->APPEAR;
+            guide->moveTrigger = guide->APPEAR;
+            quit->moveTrigger = quit->APPEAR;
+
+            screenToggle = MENUSCREEN;
+            break;
+        case GAMESCREEN:
+            break;
+        }
+        break;
     default:
         break;
     }
 }
 
-void GLInputs::mouseEventDown(Menu* menu, Screen* help, Object* arrow, GLTimer* T, double x, double y)
+void GLInputs::mouseEventDown(Screen* menu, Screen* help, Object* newgame, Object* guide, Object* quit, GLTimer* T, double x, double y)
 {
     prev_MouseX = x;    //keep previous x and y values
     prev_MouseY = y;
@@ -115,43 +121,23 @@ void GLInputs::mouseEventDown(Menu* menu, Screen* help, Object* arrow, GLTimer* 
     switch (wParam)
     {
     case MK_LBUTTON:
-        //ON MOUSE CLICK:
-        //keep the menu enum value saved. For example, if "HELP" is selected,
-        //then ofc the Help screen shows up, but pressing [ESC] still has to
-        //take you back to the main menu.
-
-        //UPDATE: escape already closes the game, figure out how to stop that
         switch(screenToggle)
         {
         case LOADING:
-            //do nothing, or open menu on mouseclick, TBD
-            //if i DO decide to do on mouseclick, change firstReturn val
-            firstReturn = true;
-            screenToggle = MENUSCREEN;
             break;
         case MENUSCREEN:
-            if (x >= menu->BUTTON_LEFT_LIMIT && x <= menu->BUTTON_RIGHT_LIMIT)
+
+            if(x >= 0 && x <= newgame->normalizedBRL)
             {
-                if      (y >= menu->NEW_GAME_Y1 && y <= menu->NEW_GAME_Y2)
+                if (y >= newgame->normalizedBTL && y <= newgame->normalizedBBL)
                 {
-                    // Execute "New Game" action
-                    //TODO: actually make a game. Something simple, a giant monster in a background
-                    //trying to crush the player with his fists
-                    //considering background in BAMF - pegboard nerds
-                    //or https://www.freepik.com/premium-ai-image/man-stands-front-city-with-giant-monster-background_46188508.htm
-
-                    //edited the second image, i can probably try to make the alpha dimmer to make the monster pop out less
-                    bgSummon = true;
-                    screenToggle = GAMESCREEN;
-
+                    //TODO: activate game stuff
                 }
-                else if (y >= menu->HELP_Y1 && y <= menu->HELP_Y2)           // Execute "Help" action
+                else if (y >= guide->normalizedBTL && y <= guide->normalizedBBL)
                 {
-                    helpTransitioning = true;
-                    arrow->objPosition.y = 1.5;
-                    screenToggle = HELPSCREEN;
+                    help->screenTrigger = help->HELPIN;
                 }
-                else if (y >= menu->QUIT_Y1 && y <= menu->QUIT_Y2)
+                else if (y >= quit->normalizedBTL && y <= quit->normalizedBBL)
                 {
                     if (MessageBox(NULL,"Are you sure you want to quit?", "EXIT GAME?",MB_YESNO|MB_ICONQUESTION)==IDYES)exit(0);
                 }
@@ -177,64 +163,83 @@ void GLInputs::mouseEventDown(Menu* menu, Screen* help, Object* arrow, GLTimer* 
     }
 }
 
-void GLInputs::mouseEventUp()
+void GLInputs::mouseEventUp(Object* newgame, Object* guide, Object* quit, GLTimer* T, double x, double y)
 {
     mouse_Rotate =false;    // reset rotation flag
     mouse_Translate =false; //reset translation flag
+    switch (wParam)
+    {
+    case MK_LBUTTON:
+        switch(screenToggle)
+        {
+        case LOADING:
+            break;
+        case MENUSCREEN:
+            //make buttons go away
+            newgame->moveTrigger = newgame->DISAPPEAR;
+            guide->moveTrigger = guide->DISAPPEAR;
+            quit->moveTrigger = quit->DISAPPEAR;
+            screenToggle = HELPSCREEN;
+            break;
+        case HELPSCREEN:
+            break;
+        case GAMESCREEN:
+            break;
+        }
+
+        break;
+    case MK_RBUTTON:
+
+        break;
+
+    case MK_MBUTTON:
+        // something you like to add
+        break;
+
+    default:
+        break;
+    }
 }
 
 void GLInputs::mouseWheel(double delta)
 {
 
 }
-
-void GLInputs::mouseMove(Menu* menu, Screen* help, Object* arrow, double x, double y)
+void GLInputs::mouseMove(float w, float h, float screenWidth, float screenHeight, Object* newgame, Object* guide, Object* quit, double x, double y)
 {
-    //prev_MouseX =x;                      // update previous mouse x
-    //prev_MouseY =y;
-    //here in the mousemove function, we will check if the mouse is touching a button, which will make
-    //the hitbox glow
-    //cout << x << " " << y << endl;
-    //cout << menu->buttonToggle << endl;
     switch (screenToggle)
     {
     case LOADING:
         break;
-
     case MENUSCREEN:
-        if (x >= menu->BUTTON_LEFT_LIMIT && x <= menu->BUTTON_RIGHT_LIMIT)
+        //What is this? Mouse coord normalize tester. divide a button limit by the screen's width/height
+        //and then multiply by the resized value to get a semi-accurate coordinate.
+        //why semi-accurate? mouse pos is in double, button coords are in floats.
+        /*
+                cout << "full width and height:  " << screenWidth << " " << screenHeight << endl;
+                cout << "resized screen:         " << w << " " << h << endl;
+                cout << "mouse coordinate:       " << (float)x << " " << (float)y << endl;
+                cout << "Button limit:           " << normalizedBTL  << " " << normalizedBBL <<endl << endl;
+        */
+
+        if(x >= 0 && x <= newgame->normalizedBRL) //which BRL doesn't matter they're all the same
         {
-            if (y >= menu->NEW_GAME_Y1 && y <= menu->NEW_GAME_Y2)
+            if (y >= newgame->normalizedBTL && y <= newgame->normalizedBBL) newgame->moveTrigger = newgame->POP;
+            else if (y >= guide->normalizedBTL && y <= guide->normalizedBBL) guide->moveTrigger = guide->POP;
+            else if (y >= quit->normalizedBTL && y <= quit->normalizedBBL) quit->moveTrigger = quit->POP;
+            else
             {
-                //Trigger "New Game"
-                menu->buttonToggle = menu->NEW;
-                if(!menuTransitioning&& !helpTransitioning && firstReturn && !gameToMenu)arrowOscillate = true;
-                arrow->objPosition.y = -0.2;
-
-            }
-            else if (y >= menu->HELP_Y1 && y <= menu->HELP_Y2)
-            {
-                // Trigger "Help"
-                menu->buttonToggle = menu->HELP;
-                if(!menuTransitioning && !helpTransitioning && firstReturn && !gameToMenu)arrowOscillate = true;
-                arrow->objPosition.y = -0.4;
-            }
-            else if (y >= menu->QUIT_Y1 && y <= menu->QUIT_Y2)
-            {
-                //Trigger "Quit"
-                menu->buttonToggle = menu->QUIT;
-                if(!menuTransitioning&& !helpTransitioning && firstReturn && !gameToMenu)arrowOscillate = true;
-                arrow->objPosition.y = -0.6;
-
-            }
-            else  //no button is hovered
-            {
-                arrow->objPosition.y = 1.5; //lazy way to get arrow out of screen
-                arrowOscillate = false;
-                menu->buttonToggle = menu->NONE;
+                newgame->moveTrigger = newgame->RETREAT;
+                guide->moveTrigger = guide->RETREAT;
+                quit->moveTrigger = quit->RETREAT;
             }
         }
-        else arrowOscillate = false;
+        else
+        {
+            newgame->moveTrigger = newgame->RETREAT;
+            guide->moveTrigger = guide->RETREAT;
+            quit->moveTrigger = quit->RETREAT;
+        }
         break;
     case HELPSCREEN:
         break;
@@ -243,31 +248,21 @@ void GLInputs::mouseMove(Menu* menu, Screen* help, Object* arrow, double x, doub
     }
 
 }
-void GLInputs::keyBackground(GLParallax* prlx, float speed)
+void GLInputs::keyBackground(float speed)
 {
     //  if(clock() - myTime->startTime>15)
     switch(wParam)
     {
     case VK_UP:               // move parallax up
-        prlx->yMin -=speed;
-        prlx->yMax -=speed;
         break;
 
     case VK_DOWN:           // move parallax down
-        prlx->yMin +=speed;
-        prlx->yMax +=speed;
         break;
 
     case VK_LEFT:            // move parallax left
-
-        prlx->xMin -=speed;
-        prlx->xMax -=speed;
         break;
 
     case VK_RIGHT:         //// move parallax right
-
-        prlx->xMin +=speed;
-        prlx->xMax +=speed;
         break;
         //    myTime->startTime =clock();
     }

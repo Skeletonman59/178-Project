@@ -14,13 +14,15 @@ class Screen
         GLTimer   *myTime = new GLTimer();
         virtual ~Screen();
 
-        void screenInit(char *);// load background file
-        void screenDraw(float, float); // width and height
-        void blackFade(float);          //fades "screen" to black
-        void retreat(float);            //makes the loading screen move back, or return if inverted values
-
-        float xMax,xMin,yMax,yMin,zPos, xPos;
+        void screenInit(float, float, float, float, char*);        // load background file
+        void screenDraw(float, float);  // width and height
+        float xMax,xMin,yMax,yMin,zPos,xPos, yPos;
         float alphaIter, alpha;
+
+        enum{NOTHING, FADEIN, FADEOUT, HELPIN, HELPOUT};
+        void actions();
+        int screenTrigger;
+        bool menuLock;  //prevents all actions from being done at once.
 
     protected:
 
