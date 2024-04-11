@@ -120,8 +120,8 @@ void GLInputs::mouseEventDown(Screen* menu, Screen* help, Object* newgame, Objec
 
     switch (wParam)
     {
-    case MK_LBUTTON:
-        switch(screenToggle)
+    case MK_LBUTTON:  //left mouse click
+        switch(screenToggle)  //what screen are we on?
         {
         case LOADING:
             break;
@@ -135,11 +135,11 @@ void GLInputs::mouseEventDown(Screen* menu, Screen* help, Object* newgame, Objec
                 }
                 else if (y >= guide->normalizedBTL && y <= guide->normalizedBBL)
                 {
-                    help->screenTrigger = help->HELPIN;
+                    //help->screenTrigger = help->HELPIN;
                 }
                 else if (y >= quit->normalizedBTL && y <= quit->normalizedBBL)
                 {
-                    if (MessageBox(NULL,"Are you sure you want to quit?", "EXIT GAME?",MB_YESNO|MB_ICONQUESTION)==IDYES)exit(0);
+                    //if (MessageBox(NULL,"Are you sure you want to quit?", "EXIT GAME?",MB_YESNO|MB_ICONQUESTION)==IDYES)exit(0);
                 }
             }
             break;
@@ -176,10 +176,28 @@ void GLInputs::mouseEventUp(Object* newgame, Object* guide, Object* quit, GLTime
             break;
         case MENUSCREEN:
             //make buttons go away
-            newgame->moveTrigger = newgame->DISAPPEAR;
-            guide->moveTrigger = guide->DISAPPEAR;
-            quit->moveTrigger = quit->DISAPPEAR;
-            screenToggle = HELPSCREEN;
+            //TODO: check if the button was originally pressed
+            //Possible fix: check bool if both mousepress and mouserelease are in the same area?
+            if(x >= 0 && x <= newgame->normalizedBRL)
+            {
+                if (y >= newgame->normalizedBTL && y <= newgame->normalizedBBL)
+                {
+                    //TODO: activate game stuff
+                }
+                else if (y >= guide->normalizedBTL && y <= guide->normalizedBBL)
+                {
+                    //help->screenTrigger = help->HELPIN;
+                    newgame->moveTrigger = newgame->DISAPPEAR;
+                    guide->moveTrigger = guide->DISAPPEAR;
+                    quit->moveTrigger = quit->DISAPPEAR;
+                    screenToggle = HELPSCREEN;
+                }
+                else if (y >= quit->normalizedBTL && y <= quit->normalizedBBL)
+                {
+                    if (MessageBox(NULL,"Are you sure you want to quit?", "EXIT GAME?",MB_YESNO|MB_ICONQUESTION)==IDYES)exit(0);
+                }
+            }
+
             break;
         case HELPSCREEN:
             break;

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1711153499 source:c:\users\skele\desktop\178games\project_deadrunner\main.cpp
+1712198217 source:c:\users\skele\desktop\178games\project_deadrunner\main.cpp
 	<windows.h>
 	<GLScene.h>
 	<GL/glut.h>
@@ -7,7 +7,7 @@
 	<iostream>
 	<windows.h>
 
-1710785889 c:\users\skele\desktop\178games\project_deadrunner\include\glscene.h
+1712212526 c:\users\skele\desktop\178games\project_deadrunner\include\glscene.h
 	<common.h>
 
 1711085524 c:\users\skele\desktop\178games\project_deadrunner\include\common.h
@@ -50,15 +50,12 @@
 1710785889 c:\users\skele\desktop\178games\project_deadrunner\include\gltexture.h
 	<common.h>
 
-1712174993 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
+1712794616 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
 	"GLInputs.h"
 	<common.h>
 
-1712175486 c:\users\skele\desktop\178games\project_deadrunner\include\glinputs.h
-	<GLParallax.h>
-	<GLPlayer.h>
+1712224219 c:\users\skele\desktop\178games\project_deadrunner\include\glinputs.h
 	<Screen.h>
-	<Menu.h>
 	<Object.h>
 	<common.h>
 
@@ -75,17 +72,17 @@
 	<GLTexture.h>
 	<GLTimer.h>
 
-1712173640 c:\users\skele\desktop\178games\project_deadrunner\include\screen.h
+1712222141 c:\users\skele\desktop\178games\project_deadrunner\include\screen.h
 	<common.h>
 	<GLTexture.h>
 	<GLTimer.h>
 
-1711146928 c:\users\skele\desktop\178games\project_deadrunner\include\menu.h
+1712179757 c:\users\skele\desktop\178games\project_deadrunner\include\menu.h
 	<common.h>
 	<GLTexture.h>
 	<GLTimer.h>
 
-1711187478 c:\users\skele\desktop\178games\project_deadrunner\include\object.h
+1712222830 c:\users\skele\desktop\178games\project_deadrunner\include\object.h
 	<common.h>
 	<GLTexture.h>
 	<GLTimer.h>
@@ -114,23 +111,18 @@
 1712173640 source:c:\users\skele\desktop\178games\project_deadrunner\src\menu.cpp
 	"Menu.h"
 
-1711188001 source:c:\users\skele\desktop\178games\project_deadrunner\src\object.cpp
+1712225528 source:c:\users\skele\desktop\178games\project_deadrunner\src\object.cpp
 	"Object.h"
 
-1712173640 source:c:\users\skele\desktop\178games\project_deadrunner\src\screen.cpp
+1712224541 source:c:\users\skele\desktop\178games\project_deadrunner\src\screen.cpp
 	"Screen.h"
 
-1712175437 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
+1712225664 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
 	<GLScene.h>
 	<GLLight.h>
 	<GLTexture.h>
 	<GLInputs.h>
-	<GLParallax.h>
-	<GLPlayer.h>
-	<GLEnms.h>
 	<GLTimer.h>
-	<GLCheckCollision.h>
 	<Screen.h>
-	<Menu.h>
 	<Object.h>
 
