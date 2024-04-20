@@ -23,7 +23,7 @@ GLInputs::~GLInputs()
     //dtor
 }
 
-void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help)
+void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Object* newgame, Object* guide, Object* quit)
 {
     switch(wParam)
     {
@@ -32,8 +32,101 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help)
     case VK_RIGHT:
         break;
     case VK_DOWN:
+        switch(screenToggle) //WHERE ARE WE?
+        {
+        case LOADING:
+            break;
+        case MENUSCREEN:
+            //make menus button-interactable
+            //if no button currently selected (start) select New Game
+            //if selected button is New Game, make selected button be Help
+            //if selected button is Help, make selected button be Quit
+            //if selected button is Quit, cycle up to New Game
+            switch(buttonToggle)
+            {
+            case NEW_BUTTON:
+                newgame->moveTrigger = newgame->RETREAT;
+                guide->moveTrigger = guide->POP;
+                quit->moveTrigger = guide->RETREAT;
+                buttonToggle = HELP_BUTTON;
+                //cout << "new goes to help" << endl;
+                break;
+            case HELP_BUTTON:
+                newgame->moveTrigger = newgame->RETREAT;
+                guide->moveTrigger = guide->RETREAT;
+                quit->moveTrigger = guide->POP;
+                buttonToggle = QUIT_BUTTON;
+                //cout << "help goes to quit" << endl;
+                break;
+            case QUIT_BUTTON:
+                newgame->moveTrigger = newgame->POP;
+                guide->moveTrigger = guide->RETREAT;
+                quit->moveTrigger = guide->RETREAT;
+                buttonToggle = NEW_BUTTON;
+                //cout << "quit goes to new" << endl;
+                break;
+            default:
+                newgame->moveTrigger = newgame->RETREAT;
+                guide->moveTrigger = guide->RETREAT;
+                quit->moveTrigger = guide->RETREAT;
+                buttonToggle = NEW_BUTTON;
+                break;
+            }
+
+            break;
+        case HELPSCREEN:
+            break;
+        case GAMESCREEN:
+            break;
+        }
         break;
     case VK_UP:
+        switch(screenToggle) //WHERE ARE WE?
+        {
+        case LOADING:
+            break;
+        case MENUSCREEN:
+            //make menus button-interactable
+            //if no button currently selected (start) select Quit
+            //if selected button is New Game, make selected button be Quit
+            //if selected button is Help, make selected button be New Game
+            //if selected button is Quit, cycle up to Help
+            switch(buttonToggle)
+            {
+            case NEW_BUTTON:
+                newgame->moveTrigger = newgame->RETREAT;
+                guide->moveTrigger = guide->RETREAT;
+                quit->moveTrigger = guide->POP;
+                buttonToggle = QUIT_BUTTON;
+                //cout << "new goes to quit" << endl;
+                break;
+            case HELP_BUTTON:
+                newgame->moveTrigger = newgame->POP;
+                guide->moveTrigger = guide->RETREAT;
+                quit->moveTrigger = guide->RETREAT;
+                buttonToggle = NEW_BUTTON;
+                //cout << "help goes to new" << endl;
+                break;
+            case QUIT_BUTTON:
+                newgame->moveTrigger = newgame->RETREAT;
+                guide->moveTrigger = guide->POP;
+                quit->moveTrigger = guide->RETREAT;
+                buttonToggle = HELP_BUTTON;
+                //cout << "quit goes to help" << endl;
+                break;
+            default:
+                newgame->moveTrigger = newgame->RETREAT;
+                guide->moveTrigger = guide->RETREAT;
+                quit->moveTrigger = guide->RETREAT;
+                buttonToggle = QUIT_BUTTON;
+                break;
+            }
+            break;
+        case HELPSCREEN:
+            break;
+        case GAMESCREEN:
+            break;
+        }
         break;
 
     case VK_RETURN:
@@ -76,7 +169,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help)
     }
 }
 
-void GLInputs::keyUP(Screen* load, Screen* menu, Object* newgame, Object* guide, Object* quit)
+void GLInputs::keyUP(Screen* load, Screen* help, Screen* menu, Object* newgame, Object* guide, Object* quit)
 {
     switch(wParam)
     {
@@ -96,6 +189,24 @@ void GLInputs::keyUP(Screen* load, Screen* menu, Object* newgame, Object* guide,
             screenToggle = MENUSCREEN;
             break;
         case MENUSCREEN:
+            switch(buttonToggle)
+            {
+            case NEW_BUTTON:
+                //TODO: activate game stuff
+                break;
+            case HELP_BUTTON:
+                help->screenTrigger = help->HELPIN;
+                newgame->moveTrigger = newgame->DISAPPEAR;
+                guide->moveTrigger = guide->DISAPPEAR;
+                quit->moveTrigger = quit->DISAPPEAR;
+                screenToggle = HELPSCREEN;
+                break;
+            case QUIT_BUTTON:
+                if (MessageBox(NULL,"Are you sure you want to quit?", "EXIT GAME?",MB_YESNO|MB_ICONQUESTION)==IDYES)exit(0);
+                break;
+            default:
+                break;
+            }
             break;
         case HELPSCREEN:
             newgame->moveTrigger = newgame->APPEAR;
@@ -113,7 +224,7 @@ void GLInputs::keyUP(Screen* load, Screen* menu, Object* newgame, Object* guide,
     }
 }
 
-void GLInputs::mouseEventDown(Screen* menu, Screen* help, Object* newgame, Object* guide, Object* quit, GLTimer* T, double x, double y)
+void GLInputs::mouseEventDown(Screen* load, Screen* menu, Screen* help, Object* newgame, Object* guide, Object* quit, GLTimer* T, double x, double y)
 {
     prev_MouseX = x;    //keep previous x and y values
     prev_MouseY = y;
@@ -124,6 +235,7 @@ void GLInputs::mouseEventDown(Screen* menu, Screen* help, Object* newgame, Objec
         switch(screenToggle)  //what screen are we on?
         {
         case LOADING:
+            load->screenTrigger = load->FADEOUT;
             break;
         case MENUSCREEN:
 
@@ -163,7 +275,7 @@ void GLInputs::mouseEventDown(Screen* menu, Screen* help, Object* newgame, Objec
     }
 }
 
-void GLInputs::mouseEventUp(Object* newgame, Object* guide, Object* quit, GLTimer* T, double x, double y)
+void GLInputs::mouseEventUp(Screen* load, Screen* menu, Screen* help, Object* newgame, Object* guide, Object* quit, GLTimer* T, double x, double y)
 {
     mouse_Rotate =false;    // reset rotation flag
     mouse_Translate =false; //reset translation flag
@@ -173,6 +285,14 @@ void GLInputs::mouseEventUp(Object* newgame, Object* guide, Object* quit, GLTime
         switch(screenToggle)
         {
         case LOADING:
+            load->screenTrigger = load->NOTHING;
+            menu->screenTrigger = menu->FADEIN;
+
+            newgame->moveTrigger = newgame->APPEAR;
+            guide->moveTrigger = guide->APPEAR;
+            quit->moveTrigger = quit->APPEAR;
+
+            screenToggle = MENUSCREEN;
             break;
         case MENUSCREEN:
             //make buttons go away
@@ -186,7 +306,7 @@ void GLInputs::mouseEventUp(Object* newgame, Object* guide, Object* quit, GLTime
                 }
                 else if (y >= guide->normalizedBTL && y <= guide->normalizedBBL)
                 {
-                    //help->screenTrigger = help->HELPIN;
+                    help->screenTrigger = help->HELPIN;
                     newgame->moveTrigger = newgame->DISAPPEAR;
                     guide->moveTrigger = guide->DISAPPEAR;
                     quit->moveTrigger = quit->DISAPPEAR;

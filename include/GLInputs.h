@@ -11,13 +11,13 @@ class GLInputs
         GLTimer *myTime = new GLTimer();
         virtual ~GLInputs();
 
-        void keyPress(Screen*, Screen*, Screen*);            // when key pressed
-        void keyUP(Screen*, Screen*, Object*, Object*, Object*);                               // when key released
+        void keyPress(Screen*, Screen*, Screen*, Object*, Object*, Object*);            // when key pressed
+        void keyUP(Screen*, Screen*, Screen*, Object*, Object*, Object*);                               // when key released
         void keyBackground(float);    // parallax model & speed
 
 
-        void mouseEventDown(Screen*, Screen*,Object*,Object*,Object*, GLTimer*, double, double); // mouse btn pressed
-        void mouseEventUp(Object*,Object*,Object*, GLTimer*, double, double);                                // mouse btn released
+        void mouseEventDown(Screen*, Screen*, Screen*,Object*,Object*,Object*, GLTimer*, double, double); // mouse btn pressed
+        void mouseEventUp(Screen*, Screen*,Screen*,Object*,Object*,Object*, GLTimer*, double, double);                                // mouse btn released
         void mouseWheel(double);              // mouse wheel rolled
         void mouseMove(float, float, float, float, Object*, Object*, Object*, double,double);       // mouse moved
 
@@ -28,6 +28,8 @@ class GLInputs
         bool mouse_Rotate;       // if mouse moved for rotation
 
         enum {LOADING, MENUSCREEN, HELPSCREEN, GAMESCREEN};  // For inputs, determines if button locations should be interactable
+        enum {NEW_BUTTON, HELP_BUTTON, QUIT_BUTTON};
+        int buttonToggle;       // Flag for key inputs
         int screenToggle;
         bool helpTransitioning; // Flag to control Help screen animation
         bool menuTransitioning; // to control screen animation

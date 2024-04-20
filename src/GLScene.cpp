@@ -136,17 +136,17 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
     case WM_KEYDOWN:
         kbMs->wParam = wParam;
-          kbMs->keyPress(load, menu, help); // Pass screen instance
+          kbMs->keyPress(load, menu, help, newgame, guide, quit); // Pass screen instance
          break;
 
     case WM_KEYUP:
         kbMs->wParam = wParam;
-        kbMs->keyUP(load, menu, newgame, guide, quit);
+        kbMs->keyUP(load, help, menu, newgame, guide, quit);
          break;
 
     case WM_LBUTTONDOWN:
         kbMs->wParam = wParam;
-        kbMs->mouseEventDown(menu, help, newgame, guide, quit, T, LOWORD(lParam), HIWORD(lParam));
+        kbMs->mouseEventDown(load, menu, help, newgame, guide, quit, T, LOWORD(lParam), HIWORD(lParam));
          break;
 
     case WM_RBUTTONDOWN:
@@ -154,7 +154,7 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
          break;
 
     case WM_LBUTTONUP:
-        kbMs->mouseEventUp(newgame, guide, quit, T, LOWORD(lParam), HIWORD(lParam));
+        kbMs->mouseEventUp(load, menu, help, newgame, guide, quit, T, LOWORD(lParam), HIWORD(lParam));
     case WM_RBUTTONUP:
     case WM_MBUTTONUP:
 

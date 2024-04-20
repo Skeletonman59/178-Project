@@ -104,7 +104,7 @@ void Object::quit_button(float w, float h, float screenWidth, float screenHeight
 }
 void Object::actions()
 {
-    cout << objPosition.x << endl;
+    //cout << objPosition.x << endl;
     switch (moveTrigger)
     {
     case APPEAR:

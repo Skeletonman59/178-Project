@@ -50,11 +50,11 @@
 1710785889 c:\users\skele\desktop\178games\project_deadrunner\include\gltexture.h
 	<common.h>
 
-1712794616 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
+1713581951 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
 	"GLInputs.h"
 	<common.h>
 
-1712224219 c:\users\skele\desktop\178games\project_deadrunner\include\glinputs.h
+1713581951 c:\users\skele\desktop\178games\project_deadrunner\include\glinputs.h
 	<Screen.h>
 	<Object.h>
 	<common.h>
@@ -111,13 +111,13 @@
 1712173640 source:c:\users\skele\desktop\178games\project_deadrunner\src\menu.cpp
 	"Menu.h"
 
-1712225528 source:c:\users\skele\desktop\178games\project_deadrunner\src\object.cpp
+1713578673 source:c:\users\skele\desktop\178games\project_deadrunner\src\object.cpp
 	"Object.h"
 
 1712224541 source:c:\users\skele\desktop\178games\project_deadrunner\src\screen.cpp
 	"Screen.h"
 
-1712225664 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
+1713581950 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
 	<GLScene.h>
 	<GLLight.h>
 	<GLTexture.h>
