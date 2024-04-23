@@ -5,6 +5,7 @@
 #include<GLTimer.h>
 #include<Screen.h>
 #include<Object.h>
+#include<GLSounds.h>
 
 GLInputs *kbMs = new GLInputs();    //keyboard and mouse
 GLTimer *T = new GLTimer();
@@ -15,6 +16,8 @@ Screen *menu = new Screen();         //screen with button locations
 Object *newgame = new Object();
 Object *guide = new Object();
 Object *quit = new Object();
+
+GLSounds *snds = new GLSounds();
 
 
 GLScene::GLScene()
@@ -57,8 +60,14 @@ GLint GLScene::initGL()
     quit->initObject(-2,-0.27,0,2,5, "images/menu/buttons.png");
     quit->quit_button(w,h, screenWidth, screenHeight);
 
+    snds->initSounds();
+    snds->playMusic("sounds/Menu/BeginningIntro.wav");
+    snds->myTime->startTime = clock();
+
+    menuLoopTrigger = true;
 
     T->startTime = clock();
+
     return true;
 }
 
@@ -112,6 +121,10 @@ GLint GLScene::drawScene()    // this function runs on a loop
     quit->actions();
     glEnable(GL_LIGHTING);
     glPopMatrix();      //exit group
+
+    if(clock() - snds->myTime->startTime > 14500) snds->playMenuLoop("sounds/Menu/MenuLoop.wav", menuLoopTrigger);
+    //TODO: TWO BOOLS? one bool that flicks the above on, another that is always on, that gets flicked off after function
+    //ends, music line starts only if both bools are on.
 
     return true;
 
@@ -170,5 +183,3 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
        break;
     }
 }
-
-

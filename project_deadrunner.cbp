@@ -18,6 +18,7 @@
 				</Compiler>
 				<Linker>
 					<Add library="../common/lib/libSOIL.a" />
+					<Add library="../common/lib/libirrKlang.a" />
 					<Add directory="../project_deadrunner" />
 				</Linker>
 			</Target>
@@ -38,9 +39,11 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add directory="C:/Users/Skele/Desktop/178Games/common/include" />
+			<Add directory="include/AL" />
 		</Compiler>
 		<Linker>
 			<Add library="../common/lib/libSOIL.a" />
+			<Add library="lib/OpenAL32.lib" />
 			<Add library="glut32" />
 			<Add library="opengl32" />
 			<Add library="glu32" />
@@ -51,6 +54,7 @@
 		<Unit filename="include/GLInputs.h" />
 		<Unit filename="include/GLLight.h" />
 		<Unit filename="include/GLScene.h" />
+		<Unit filename="include/GLSounds.h" />
 		<Unit filename="include/GLTexture.h" />
 		<Unit filename="include/GLTimer.h" />
 		<Unit filename="include/Object.h" />
@@ -60,6 +64,7 @@
 		<Unit filename="src/GLInputs.cpp" />
 		<Unit filename="src/GLLight.cpp" />
 		<Unit filename="src/GLScene.cpp" />
+		<Unit filename="src/GLSounds.cpp" />
 		<Unit filename="src/GLTexture.cpp" />
 		<Unit filename="src/GLTimer.cpp" />
 		<Unit filename="src/Object.cpp" />

@@ -9,6 +9,7 @@ class GLScene
     public:
         GLScene();
         virtual ~GLScene();
+
         GLint initGL();
         GLint drawScene();
         GLvoid resizeScene(GLsizei, GLsizei);
@@ -20,6 +21,8 @@ class GLScene
 
         float screenWidth;                     // get values from main window
         float screenHeight;                    // get Values from main window
+
+        bool menuLoopTrigger;
 
     protected:
 

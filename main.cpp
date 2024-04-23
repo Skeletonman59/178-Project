@@ -132,7 +132,7 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool fullscree
 
 		dwExStyle=WS_EX_APPWINDOW;								// Window Extended Style
 		dwStyle= WS_POPUP;			// must handle Gsync situations: Windows Style
-		ShowCursor(FALSE);									// Hide Mouse Pointer
+		ShowCursor(TRUE);									// Hide Mouse Pointer
 	}
 	else
 	{
@@ -224,7 +224,12 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool fullscree
 	SetFocus(hWnd);									// Sets Keyboard Focus To The Window
 	scene->resizeScene(width,height);           	// Set Up Our Perspective GL Screen
 
-
+	if (!scene->initGL())							// Initialize Our Newly Created GL Window
+	{
+		KillGLWindow();								// Reset The Display
+		MessageBox(NULL,"Initialization Failed.","ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;								// Return FALSE
+	}
 	return TRUE;									// Success
 }
 
@@ -330,38 +335,6 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 
 	while(!done)									// Loop That Runs While done=FALSE
 	{
-	    if(!scene->doneLoading && scene->level1){
-	    if (!scene->initGL())							// Initialize Our Newly Created GL Window
-        {
-		KillGLWindow();								// Reset The Display
-		MessageBox(NULL,"Initialization Failed.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;								// Return FALSE
-        }
-	    }
-        if(!scene->doneLoading && scene->level2){
-        if (!scene->initGL())							// Initialize Our Newly Created GL Window
-        {
-		KillGLWindow();								// Reset The Display
-		MessageBox(NULL,"Initialization Failed.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;								// Return FALSE
-        }
-        }
-         if(!scene->doneLoading && scene->level3){
-        if (!scene->initGL())							// Initialize Our Newly Created GL Window
-        {
-		KillGLWindow();								// Reset The Display
-		MessageBox(NULL,"Initialization Failed.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;								// Return FALSE
-        }
-        }
-          if(!scene->doneLoading && scene->level4){
-        if (!scene->initGL())							// Initialize Our Newly Created GL Window
-        {
-		KillGLWindow();								// Reset The Display
-		MessageBox(NULL,"Initialization Failed.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;								// Return FALSE
-        }
-        }
 		if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))	// Is There A Message Waiting?
 		{
 			if (msg.message==WM_QUIT)				// Have We Received A Quit Message?
@@ -377,13 +350,12 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 		else										// If There Are No Messages
 		{
 			// Draw The Scene.  Watch For ESC Key And Quit Messages From DrawGLScene()
-			if ( keys[VK_ESCAPE])	// Active?  Was There A Quit Received?
+			if ( false/*keys[VK_ESCAPE]*/)	// Active?  Was There A Quit Received?
 			{
 				done=TRUE;							// ESC or DrawGLScene Signalled A Quit
 			}
 			else									// Not Time To Quit, Update Screen
 			{
-			    if(scene->doneLoading)
 			    scene->drawScene();
 				SwapBuffers(hDC);					// Swap Buffers (Double Buffering)
 			}
@@ -400,24 +372,6 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 					return 0;						// Quit If Window Was Not Created
 				}
 			}
-			if(scene->player->rightBound() && scene->level1){
-                scene->level2 = !scene->level2;
-                scene->level1 = !scene->level1;
-                scene->doneLoading = false;
-			}
-
-			else if(scene->player->rightBound()&& scene->level2 ){
-                scene->level3 = !scene->level3;
-                scene->level2 = !scene->level2;
-                scene->doneLoading = false;
-			}
-
-			else if(scene->player->rightBound()&& scene->level3 ){
-                scene->level4 = !scene->level4;
-                scene->level3 = !scene->level3;
-                scene->doneLoading = false;
-			}
-
 		}
 	}
 

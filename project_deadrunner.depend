@@ -7,10 +7,10 @@
 	<iostream>
 	<windows.h>
 
-1712212526 c:\users\skele\desktop\178games\project_deadrunner\include\glscene.h
+1713836069 c:\users\skele\desktop\178games\project_deadrunner\include\glscene.h
 	<common.h>
 
-1711085524 c:\users\skele\desktop\178games\project_deadrunner\include\common.h
+1713775093 c:\users\skele\desktop\178games\project_deadrunner\include\common.h
 	<windows.h>
 	<unistd.h>
 	<iostream>
@@ -21,6 +21,7 @@
 	<math.h>
 	<GLTimer.h>
 	<SOIL.h>
+	<sounds/irrKlang.h>
 
 1706577452 c:\users\skele\desktop\178games\common\include\gl\glut.h
 	<windows.h>
@@ -117,7 +118,7 @@
 1712224541 source:c:\users\skele\desktop\178games\project_deadrunner\src\screen.cpp
 	"Screen.h"
 
-1713581950 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
+1713839146 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
 	<GLScene.h>
 	<GLLight.h>
 	<GLTexture.h>
@@ -125,4 +126,120 @@
 	<GLTimer.h>
 	<Screen.h>
 	<Object.h>
+	<GLSounds.h>
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\irrklang.h
+	"ik_irrKlangTypes.h"
+	"ik_vec3d.h"
+	"ik_IRefCounted.h"
+	"ik_IVirtualRefCounted.h"
+	"ik_ESoundOutputDrivers.h"
+	"ik_ESoundEngineOptions.h"
+	"ik_EStreamModes.h"
+	"ik_SAudioStreamFormat.h"
+	"ik_ISoundEngine.h"
+	"ik_ISoundSource.h"
+	"ik_ISound.h"
+	"ik_IAudioStream.h"
+	"ik_IAudioStreamLoader.h"
+	"ik_ISoundEffectControl.h"
+	"ik_ISoundStopEventReceiver.h"
+	"ik_IFileFactory.h"
+	"ik_IFileReader.h"
+	"ik_ISoundDeviceList.h"
+	"ik_IAudioRecorder.h"
+	"ik_ISoundMixedOutputReceiver.h"
+
+1710977029 c:\users\skele\desktop\178games\common\include\sounds\ik_irrklangtypes.h
+	<wchar.h>
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_vec3d.h
+	<math.h>
+	"ik_irrKlangTypes.h"
+
+1710977029 c:\users\skele\desktop\178games\common\include\sounds\ik_irefcounted.h
+	"ik_irrKlangTypes.h"
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_ivirtualrefcounted.h
+	"ik_irrKlangTypes.h"
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_esoundoutputdrivers.h
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_esoundengineoptions.h
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_estreammodes.h
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_saudiostreamformat.h
+	"ik_IRefCounted.h"
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_isoundengine.h
+	"ik_IRefCounted.h"
+	"ik_vec3d.h"
+	"ik_ISoundSource.h"
+	"ik_ISound.h"
+	"ik_EStreamModes.h"
+	"ik_IFileFactory.h"
+	"ik_ISoundMixedOutputReceiver.h"
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_isoundsource.h
+	"ik_IVirtualRefCounted.h"
+	"ik_vec3d.h"
+	"ik_EStreamModes.h"
+	"ik_SAudioStreamFormat.h"
+
+1710977029 c:\users\skele\desktop\178games\common\include\sounds\ik_isound.h
+	"ik_IVirtualRefCounted.h"
+	"ik_ISoundEffectControl.h"
+	"ik_vec3d.h"
+
+1710977029 c:\users\skele\desktop\178games\common\include\sounds\ik_isoundeffectcontrol.h
+	"ik_IVirtualRefCounted.h"
+	"ik_vec3d.h"
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_ifilefactory.h
+	"ik_IRefCounted.h"
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_isoundmixedoutputreceiver.h
+	"ik_IRefCounted.h"
+	"ik_SAudioStreamFormat.h"
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_iaudiostream.h
+	"ik_IRefCounted.h"
+	"ik_SAudioStreamFormat.h"
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_iaudiostreamloader.h
+	"ik_IRefCounted.h"
+	"ik_IFileReader.h"
+
+1710977029 c:\users\skele\desktop\178games\common\include\sounds\ik_ifilereader.h
+	"ik_IRefCounted.h"
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_isoundstopeventreceiver.h
+	"ik_IRefCounted.h"
+	"ik_SAudioStreamFormat.h"
+
+1710977029 c:\users\skele\desktop\178games\common\include\sounds\ik_isounddevicelist.h
+	"ik_IRefCounted.h"
+
+1710977030 c:\users\skele\desktop\178games\common\include\sounds\ik_iaudiorecorder.h
+	"ik_IRefCounted.h"
+	"ik_ISoundSource.h"
+
+1713836069 c:\users\skele\desktop\178games\project_deadrunner\include\glsounds.h
+	<common.h>
+
+1713836191 source:c:\users\skele\desktop\178games\project_deadrunner\src\glsounds.cpp
+	"GLSounds.h"
+
+1713814119 source:c:\users\skele\desktop\178games\project_deadrunner\src\alsounds.cpp
+	"ALSounds.h"
+
+1713813829 c:\users\skele\desktop\178games\project_deadrunner\include\alsounds.h
+	<common.h>
+	<AL/al.h>
+	<AL/alc.h>
+
+1713809704 c:\users\skele\desktop\178games\project_deadrunner\include\al\al.h
+
+1713809704 c:\users\skele\desktop\178games\project_deadrunner\include\al\alc.h
 

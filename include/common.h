@@ -12,8 +12,10 @@
 #include<math.h>
 #include <GLTimer.h>
 #include<SOIL.h>
+#include<sounds/irrKlang.h>
 
 using namespace std;
+using namespace irrklang;
 
 typedef struct{   // shader positions in 3D
     float x;
