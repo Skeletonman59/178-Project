@@ -5,6 +5,9 @@
 #include<GLTimer.h>
 #include<Screen.h>
 #include<Object.h>
+#include <GLPlayer.h>
+#include <GLEnms.h>
+#include <GLCheckCollision.h>
 #include<GLSounds.h>
 
 GLInputs *kbMs = new GLInputs();    //keyboard and mouse
@@ -18,6 +21,10 @@ Object *guide = new Object();
 Object *quit = new Object();
 
 GLSounds *snds = new GLSounds();
+
+GLPlayer *pl = new GLPlayer();
+GLEnms E[20];
+GLCheckCollision *hit = new GLCheckCollision();
 
 
 GLScene::GLScene()
@@ -67,6 +74,17 @@ GLint GLScene::initGL()
     menuLoopTrigger = true;
 
     T->startTime = clock();
+
+    for(int i=0; i<20; i++)
+    {
+        E[i].pos.x = (float)rand()/(float)RAND_MAX*5-2.5;
+        E[i].pos.y =-1.2;
+
+        E[i].pos.x<pl->plPosition.x?E[i].action =E[i].WALKRIGHT:E[i].action =E[i].WALKLEFT;
+
+        E[i].eScale.x = E[i].eScale.y = (float)(rand()%12)/30.0;
+
+    }
 
     return true;
 }
@@ -125,6 +143,31 @@ GLint GLScene::drawScene()    // this function runs on a loop
     if(clock() - snds->myTime->startTime > 14500) snds->playMenuLoop("sounds/Menu/MenuLoop.wav", menuLoopTrigger);
     //TODO: TWO BOOLS? one bool that flicks the above on, another that is always on, that gets flicked off after function
     //ends, music line starts only if both bools are on.
+
+    for(int i=0; i<20; i++)
+    {
+
+       if(E[i].pos.x >3.5){E[i].action =E[i].WALKLEFT;E[i].speed =-0.01; E[i].pos.y =-1.2;E[i].eRotate.z =0;}
+       if(E[i].pos.x<-3.5){E[i].action =E[i].WALKRIGHT;E[i].speed =0.01;E[i].pos.y =-1.2; E[i].eRotate.z =0;}
+           if (pl->actionTrigger= pl->ROLL){}
+     else if(hit->isRadialCollision(E[i].pos, pl->plPosition,0.5,0.5,0.02))
+     {
+     {
+        if(E[i].pos.x >3.5){E[i].action =E[i].WALKRIGHT;E[i].speed =-0.01;}
+       if(E[i].pos.x<-3.5){E[i].action =E[i].WALKLEFT;E[i].speed =0.01;}
+       pl->hp =  pl->hp-1;
+       if (pl->hp <= 0){
+        pl->playeralive = false; //optional player death
+        break;
+       }
+
+     }
+
+       E[i].drawEnemy();
+       E[i].actions();
+    }
+}
+
 
     return true;
 

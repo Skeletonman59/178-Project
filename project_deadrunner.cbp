@@ -39,11 +39,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add directory="C:/Users/Skele/Desktop/178Games/common/include" />
-			<Add directory="include/AL" />
 		</Compiler>
 		<Linker>
 			<Add library="../common/lib/libSOIL.a" />
-			<Add library="lib/OpenAL32.lib" />
 			<Add library="glut32" />
 			<Add library="opengl32" />
 			<Add library="glu32" />

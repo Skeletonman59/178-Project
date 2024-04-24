@@ -3,6 +3,7 @@
 #include<Screen.h>
 #include<Object.h>
 #include<common.h>
+#include<GLPlayer.h>
 
 class GLInputs
 {
@@ -12,6 +13,7 @@ class GLInputs
         virtual ~GLInputs();
 
         void keyPress(Screen*, Screen*, Screen*, Object*, Object*, Object*);            // when key pressed
+        void keyPress2(GLPlayer*);
         void keyUP(Screen*, Screen*, Screen*, Object*, Object*, Object*);                               // when key released
         void keyBackground(float);    // parallax model & speed
 

@@ -22,6 +22,24 @@ GLInputs::~GLInputs()
 {
     //dtor
 }
+void GLInputs::keyPress2(GLPlayer* pl)
+{
+    switch(wParam)
+    {
+    case VK_LEFT:
+        pl->actionTrigger = pl->WALKLEFT;
+        break;
+    case VK_RIGHT:
+        pl->actionTrigger = pl->WALKRIGHT;
+        break;
+    case VK_UP:
+        pl->actionTrigger = pl->JUMP;
+        break;
+        case VK_SPACE:
+        pl->actionTrigger = pl->ROLL;
+        break;
+    }
+}
 
 void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Object* newgame, Object* guide, Object* quit)
 {

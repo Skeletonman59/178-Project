@@ -13,6 +13,8 @@
 #include <GLTimer.h>
 #include<SOIL.h>
 #include<sounds/irrKlang.h>
+#define PI 3.14
+#define GRAVITY 9.81
 
 using namespace std;
 using namespace irrklang;
