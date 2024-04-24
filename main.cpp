@@ -11,11 +11,11 @@
 #pragma comment(lib, "glu32.lib")
 
 #include <GLScene.h>
-
 #include <GL/glut.h>
 #include <stdlib.h>
 #include <iostream>
 #include <windows.h>		// Header File For Windows
+
 
 using namespace std;
 
@@ -335,6 +335,41 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 
 	while(!done)									// Loop That Runs While done=FALSE
 	{
+	     if(!scene->doneLoading && scene->level1){
+	    if (!scene->initGL())							// Initialize Our Newly Created GL Window
+        {
+		KillGLWindow();								// Reset The Display
+		MessageBox(NULL,"Initialization Failed.","ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;								// Return FALSE
+        }
+	     }
+	     if(!scene->doneLoading && scene->level2){
+        if (!scene->initGL())							// Initialize Our Newly Created GL Window
+        {
+		KillGLWindow();								// Reset The Display
+		MessageBox(NULL,"Initialization Failed.","ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;								// Return FALSE
+        }
+        }
+        if(!scene->doneLoading && scene->level3){
+        if (!scene->initGL())							// Initialize Our Newly Created GL Window
+        {
+		KillGLWindow();								// Reset The Display
+		MessageBox(NULL,"Initialization Failed.","ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;								// Return FALSE
+        }
+        }
+          if(!scene->doneLoading && scene->level4){
+        if (!scene->initGL())							// Initialize Our Newly Created GL Window
+        {
+		KillGLWindow();								// Reset The Display
+		MessageBox(NULL,"Initialization Failed.","ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;								// Return FALSE
+        }
+        }
+
+
+
 		if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))	// Is There A Message Waiting?
 		{
 			if (msg.message==WM_QUIT)				// Have We Received A Quit Message?
@@ -372,8 +407,30 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 					return 0;						// Quit If Window Was Not Created
 				}
 			}
+
+			if(scene->player->rightBound() && scene->level1){
+                scene->level2 = !scene->level2;
+                scene->level1 = !scene->level1;
+                scene->doneLoading = false;
+			}
+
+			else if(scene->player->rightBound()&& scene->level2 ){
+                scene->level3 = !scene->level3;
+                scene->level2 = !scene->level2;
+                scene->doneLoading = false;
+			}
+
+			else if(scene->player->rightBound()&& scene->level3 ){
+                scene->level4 = !scene->level4;
+                scene->level3 = !scene->level3;
+                scene->doneLoading = false;
+			}
+
+
+
 		}
 	}
+
 
 	// Shutdown
 	KillGLWindow();

@@ -12,9 +12,9 @@ class GLInputs
         GLTimer *myTime = new GLTimer();
         virtual ~GLInputs();
 
-        void keyPress(Screen*, Screen*, Screen*, Object*, Object*, Object*);            // when key pressed
+        void keyPress(Screen*, Screen*, Screen*, Screen*, Screen*, Object*, Object*, Object*, GLPlayer*);            // when key pressed
         void keyPress2(GLPlayer*);
-        void keyUP(Screen*, Screen*, Screen*, Object*, Object*, Object*);                               // when key released
+        void keyUP(Screen*, Screen*, Screen*, Screen*, Screen*, Screen*, GLPlayer* player , Object*, Object*, Object*);                               // when key released
         void keyBackground(float);    // parallax model & speed
 
 
@@ -29,7 +29,7 @@ class GLInputs
         bool mouse_Translate;    // if mouse moved
         bool mouse_Rotate;       // if mouse moved for rotation
 
-        enum {LOADING, MENUSCREEN, HELPSCREEN, GAMESCREEN};  // For inputs, determines if button locations should be interactable
+        enum {LOADING, MENUSCREEN, HELPSCREEN, GAMESCREEN, PAUSESCREEN, CREDITSCREEN};  // For inputs, determines if button locations should be interactable
         enum {NEW_BUTTON, HELP_BUTTON, QUIT_BUTTON};
         int buttonToggle;       // Flag for key inputs
         int screenToggle;

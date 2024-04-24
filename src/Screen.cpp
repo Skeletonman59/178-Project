@@ -9,6 +9,7 @@ Screen::Screen()
     yMin = 1.0;
 
     screenTrigger = 0;
+    current = false;
     menuLock = false;
 }
 

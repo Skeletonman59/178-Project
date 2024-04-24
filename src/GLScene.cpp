@@ -1,5 +1,6 @@
 #include<GLScene.h>
 #include<GLLight.h>
+#include<GLParallax.h>
 #include<GLTexture.h>
 #include<GLInputs.h>
 #include<GLTimer.h>
@@ -15,14 +16,18 @@ GLTimer *T = new GLTimer();
 Screen *load = new Screen();         //static screen object
 Screen *help = new Screen();         //much like a second parallax, this is a separate screen object
 Screen *menu = new Screen();         //screen with button locations
+Screen *pause = new Screen();
+Screen *game = new Screen();
+Screen *credit = new Screen();
 
 Object *newgame = new Object();
 Object *guide = new Object();
 Object *quit = new Object();
+GLParallax *p = new GLParallax();
 
 GLSounds *snds = new GLSounds();
 
-GLPlayer *pl = new GLPlayer();
+GLPlayer *player = new GLPlayer();
 GLEnms E[20];
 GLCheckCollision *hit = new GLCheckCollision();
 
@@ -33,6 +38,11 @@ GLScene::GLScene()
 
     screenWidth  = GetSystemMetrics(SM_CXSCREEN);
     screenHeight = GetSystemMetrics(SM_CYSCREEN);
+    level1=  true;   //Used to switch through screens
+    level2= false;
+    level3=false;
+    level4=false;
+    doneLoading= false;
 }
 
 GLScene::~GLScene()
@@ -55,9 +65,12 @@ GLint GLScene::initGL()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glEnable(GL_TEXTURE_2D);  //enable textures
-    load->screenInit( 0, 0,  0, 0, "images/menu/start.png");
-    menu->screenInit( 0, 0, -1, 1, "images/menu/mainMenuScreen.png");
-    help->screenInit(-4, 0, 0, 0, "images/menu/help.png");
+    load->screenInit( 0, 0,  0, 0, "images/menu/loadmenu.png");
+    menu->screenInit( 0, 0, -1, 1, "images/menu/2.png");
+    help->screenInit(-4, 0, 0, 0, "images/menu/helpmenu.png");
+    pause->screenInit(0, 0, 0, 0, "images/menu/pause.png");  //TODO: FIND
+    credit->screenInit(0,0,0,0,"images/menu/creators.png");
+
     //                x  y   z  a
 
     newgame->initObject(-2,0.11,0,2,5, "images/menu/buttons.png");
@@ -70,21 +83,39 @@ GLint GLScene::initGL()
     snds->initSounds();
     snds->playMusic("sounds/Menu/BeginningIntro.wav");
     snds->myTime->startTime = clock();
-
     menuLoopTrigger = true;
 
     T->startTime = clock();
 
+    player->initPlayer(4,4,"images/game/poke.png");
     for(int i=0; i<20; i++)
     {
         E[i].pos.x = (float)rand()/(float)RAND_MAX*5-2.5;
         E[i].pos.y =-1.2;
-
-        E[i].pos.x<pl->plPosition.x?E[i].action =E[i].WALKRIGHT:E[i].action =E[i].WALKLEFT;
-
+        E[i].pos.x<player->plPosition.x?E[i].action =E[i].WALKRIGHT:E[i].action =E[i].WALKLEFT;
         E[i].eScale.x = E[i].eScale.y = (float)(rand()%12)/30.0;
-
     }
+    if(level1)
+    {
+        p->parallaxInit("images/game/stage1.png");
+        doneLoading=true;
+    }
+    if(level2)
+    {
+        p->parallaxInit("images/game/stage2.png");
+        doneLoading=true;
+    }
+    if(level3)
+    {
+        p->parallaxInit("images/game/stage3.png");
+        doneLoading=true;
+    }
+    if(level4)
+    {
+        p->parallaxInit("images/game/stage4.png");
+        doneLoading=true;
+    }
+
 
     return true;
 }
@@ -103,7 +134,21 @@ GLint GLScene::drawScene()    // this function runs on a loop
     load->screenDraw(screenWidth, screenHeight);  //draw model obj
     load->actions();
     glPopMatrix();
-
+    /*
+    if(load->current){
+       glPushMatrix();     //group object
+        glScalef(3.33,3.33,1.0);
+        glDisable(GL_LIGHTING);
+        glTranslatef(load->xPos, load->yPos, load->zPos);
+        load->screenDraw(screenWidth, screenHeight);  //draw model obj
+        load->actions();
+           if(clock() - snds->myTime->startTime > 14500) snds->playMenuLoop("sounds/Menu/MenuLoop.wav", menuLoopTrigger);
+        //TODO: TWO BOOLS? one bool that flicks the above on, another that is always on, that gets flicked off after function
+        //ends, music line starts only if both bools are on.
+         glEnable(GL_LIGHTING);
+        glPopMatrix();
+    }
+    */
     glPushMatrix();
     glScalef(3.33,3.33,1.0);
     glTranslatef(menu->xPos, load->yPos, menu->zPos);
@@ -146,28 +191,123 @@ GLint GLScene::drawScene()    // this function runs on a loop
 
     for(int i=0; i<20; i++)
     {
-
-       if(E[i].pos.x >3.5){E[i].action =E[i].WALKLEFT;E[i].speed =-0.01; E[i].pos.y =-1.2;E[i].eRotate.z =0;}
-       if(E[i].pos.x<-3.5){E[i].action =E[i].WALKRIGHT;E[i].speed =0.01;E[i].pos.y =-1.2; E[i].eRotate.z =0;}
-           if (pl->actionTrigger= pl->ROLL){}
-     else if(hit->isRadialCollision(E[i].pos, pl->plPosition,0.5,0.5,0.02))
-     {
-     {
-        if(E[i].pos.x >3.5){E[i].action =E[i].WALKRIGHT;E[i].speed =-0.01;}
-       if(E[i].pos.x<-3.5){E[i].action =E[i].WALKLEFT;E[i].speed =0.01;}
-       pl->hp =  pl->hp-1;
-       if (pl->hp <= 0){
-        pl->playeralive = false; //optional player death
-        break;
-       }
-
-     }
-
-       E[i].drawEnemy();
-       E[i].actions();
+        if(E[i].pos.x >3.5)
+        {
+            E[i].action =E[i].WALKLEFT;
+            E[i].speed =-0.01;
+            E[i].pos.y =-1.2;
+            E[i].eRotate.z =0;
+        }
+        if(E[i].pos.x<-3.5)
+        {
+            E[i].action =E[i].WALKRIGHT;
+            E[i].speed =0.01;
+            E[i].pos.y =-1.2;
+            E[i].eRotate.z =0;
+        }
+        if (player->actionTrigger= player->ROLL) {}
+        else if(hit->isRadialCollision(E[i].pos, player->plPosition,0.5,0.5,0.02))
+        {
+            {
+                if(E[i].pos.x >3.5)
+                {
+                    E[i].action =E[i].WALKRIGHT;
+                    E[i].speed =-0.01;
+                }
+                if(E[i].pos.x<-3.5)
+                {
+                    E[i].action =E[i].WALKLEFT;
+                    E[i].speed =0.01;
+                }
+                player->hp =  player->hp-1;
+                if (player->hp <= 0)
+                {
+                    player->playeralive = false; //optional player death
+                    break;
+                }
+            }
+            E[i].drawEnemy();
+            E[i].actions();
+        }
     }
-}
+    /*
+    if(menu->current){
+    glPushMatrix();
+    glScalef(3.33,3.33,1.0);
+     glDisable(GL_LIGHTING);
+    glTranslatef(menu->xPos, menu->yPos, menu->zPos);
+    menu->screenDraw(screenWidth, screenHeight);
+    menu->actions();
+       glEnable(GL_LIGHTING);
+    glPopMatrix();
+    }
 
+    if(credit->current){
+    glPushMatrix();
+    glScalef(3.33,3.33,1.0);
+     glDisable(GL_LIGHTING);
+    glTranslatef(credit->xPos, credit->yPos, credit->zPos);
+    credit->screenDraw(screenWidth, screenHeight);
+    credit->actions();
+       glEnable(GL_LIGHTING);
+    glPopMatrix();
+    }
+    if(help->current){
+    glPushMatrix();     //group object
+    glScalef(3.33,3.33,1.0);
+    glDisable(GL_LIGHTING);
+    glTranslatef(help->xPos, help->yPos, help->zPos);
+    help->screenDraw(screenWidth, screenHeight);  //draw model obj
+    help->actions();
+     glEnable(GL_LIGHTING);
+    glPopMatrix();
+    }
+
+
+    if(game->current ){
+    glPushMatrix();     //group object
+    glScalef(3.33,3.33,1.0);
+    glDisable(GL_LIGHTING);
+    if(level1 || level2 || level3 || level4)
+    {
+       glPushMatrix();
+
+       glDisable(GL_LIGHTING);
+
+       p->parallaxDraw(screenWidth,screenHeight);
+       glEnable(GL_LIGHTING);
+       glPopMatrix();
+
+    }
+     if(player->playerSpawn){
+
+       glPushMatrix();
+
+       glDisable(GL_LIGHTING);
+       player->drawPlayer();
+       player->actions();
+       glEnable(GL_LIGHTING);
+        glPopMatrix();
+
+    }
+    glEnable(GL_LIGHTING);
+    glPopMatrix();
+
+    }
+
+
+    if(pause->current){
+    glPushMatrix();     //group object
+    glScalef(3.33,3.33,1.0);
+    glDisable(GL_LIGHTING);
+    glTranslatef(pause->xPos, pause->yPos, pause->zPos);
+    pause->screenDraw(screenWidth, screenHeight);  //draw model obj
+    pause->actions();
+      glEnable(GL_LIGHTING);
+    glPopMatrix();
+
+    }
+    */
 
     return true;
 
@@ -187,27 +327,27 @@ GLvoid GLScene::resizeScene(GLsizei width, GLsizei height)
 }
 
 int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-        {
+{
     switch(uMsg)   // check for inputs
     {
     case WM_KEYDOWN:
         kbMs->wParam = wParam;
-          kbMs->keyPress(load, menu, help, newgame, guide, quit); // Pass screen instance
-         break;
+        kbMs->keyPress(load, menu, help, game, pause, newgame, guide, quit, player); // Pass screen instance
+        break;
 
     case WM_KEYUP:
         kbMs->wParam = wParam;
-        kbMs->keyUP(load, help, menu, newgame, guide, quit);
-         break;
+        kbMs->keyUP(load, help, menu, game, pause, credit, player, newgame, guide, quit);
+        break;
 
     case WM_LBUTTONDOWN:
         kbMs->wParam = wParam;
         kbMs->mouseEventDown(load, menu, help, newgame, guide, quit, T, LOWORD(lParam), HIWORD(lParam));
-         break;
+        break;
 
     case WM_RBUTTONDOWN:
 
-         break;
+        break;
 
     case WM_LBUTTONUP:
         kbMs->mouseEventUp(load, menu, help, newgame, guide, quit, T, LOWORD(lParam), HIWORD(lParam));
@@ -219,10 +359,10 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_MOUSEMOVE:
         kbMs->wParam = wParam;
         kbMs->mouseMove(w, h, screenWidth, screenHeight, newgame, guide, quit, LOWORD(lParam), HIWORD(lParam));
-         break;
+        break;
     case WM_MOUSEWHEEL:
 
 
-       break;
+        break;
     }
 }

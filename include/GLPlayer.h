@@ -19,6 +19,8 @@ class GLPlayer
         void initPlayer(int,int,char* fileName); // number of x, y frames
         void drawPlayer();
         void actions();
+        bool leftBound();
+        bool rightBound();
         bool playeralive;
         vec3 plPosition;
         vec3 plScale;
@@ -26,8 +28,14 @@ class GLPlayer
         vec3 vert[4];
         float xMax,xMin,yMax,yMin;
         int framesX,framesY;
+        float screenWidth;
+        float screenHeight;
         int hp;
         int actionTrigger;  // for load actions
+        float currHealth;
+        int maxHealth;
+        bool playerSpawn;
+
 
     protected:
 

@@ -19,9 +19,12 @@ class Screen
         float xMax,xMin,yMax,yMin,zPos,xPos, yPos;
         float alphaIter, alpha;
 
-        enum{NOTHING, FADEIN, FADEOUT, HELPIN, HELPOUT};
+        enum{NOTHING, FADEIN, FADEOUT, HELPIN, HELPOUT, ON, OFF};
+        bool lScreen;
+
         void actions();
         int screenTrigger;
+        bool current;
         bool menuLock;  //prevents all actions from being done at once.
 
     protected:

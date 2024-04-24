@@ -22,7 +22,13 @@ class GLScene
         float screenWidth;                     // get values from main window
         float screenHeight;                    // get Values from main window
 
+        bool level1;
+        bool level2;
+        bool level3;
+        bool level4;
         bool menuLoopTrigger;
+        bool doneLoading;
+
 
     protected:
 

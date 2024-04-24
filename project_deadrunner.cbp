@@ -49,8 +49,13 @@
 			<Add library="gdi32" />
 			<Add directory="C:/Users/Skele/Desktop/178Games/common/lib" />
 		</Linker>
+		<Unit filename="include/GLCheckCollision.h" />
+		<Unit filename="include/GLEnms.h" />
 		<Unit filename="include/GLInputs.h" />
 		<Unit filename="include/GLLight.h" />
+		<Unit filename="include/GLParallax.h" />
+		<Unit filename="include/GLPlayer.h" />
+		<Unit filename="include/GLProjectile.h" />
 		<Unit filename="include/GLScene.h" />
 		<Unit filename="include/GLSounds.h" />
 		<Unit filename="include/GLTexture.h" />
@@ -59,8 +64,13 @@
 		<Unit filename="include/Screen.h" />
 		<Unit filename="include/common.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/GLCheckCollision.cpp" />
+		<Unit filename="src/GLEnms.cpp" />
 		<Unit filename="src/GLInputs.cpp" />
 		<Unit filename="src/GLLight.cpp" />
+		<Unit filename="src/GLParallax.cpp" />
+		<Unit filename="src/GLPlayer.cpp" />
+		<Unit filename="src/GLProjectile.cpp" />
 		<Unit filename="src/GLScene.cpp" />
 		<Unit filename="src/GLSounds.cpp" />
 		<Unit filename="src/GLTexture.cpp" />

@@ -15,14 +15,24 @@ GLPlayer::~GLPlayer()
 {
     //dtor
 }
+bool GLPlayer::leftBound()        //check if player is hitting left wall
+{
+    return plPosition.x <= -1.35;
+
+}
+bool GLPlayer::rightBound()        // check if player is hitting right wall
+{
+    return plPosition.x >= 1.35;
+}
+
 void GLPlayer::initPlayer(int x, int y, char* fileName)
 {
-    plPosition.x =0.0;         // initialize positions
-    plPosition.y =-0.45;
-    plPosition.z = -1.0;
+    plPosition.x =-1.3;         // initialize positions
+    plPosition.y =-0.475;
+    plPosition.z = -5.0;
 
-    plScale.x = 0.5;           // initialize scale
-    plScale.y = 0.5;
+   plScale.x = 0.3;           // initialize scale
+    plScale.y = 0.3;
     plScale.z = 1.0;
 
     framesX = x;               // record number of frames
@@ -36,6 +46,9 @@ void GLPlayer::initPlayer(int x, int y, char* fileName)
     yMin =yMax-1.0/(float)framesY;
 
     actionTrigger=0;
+    currHealth = 5;
+    maxHealth = 5;
+    playerSpawn = false;
     myTime->startTime = clock();
 }
 
@@ -67,7 +80,7 @@ void GLPlayer::drawPlayer()
 
 void GLPlayer::actions()
 {
-
+if((clock() - myTime->startTime) > 100){
 
    switch(actionTrigger)
    {
@@ -75,78 +88,46 @@ void GLPlayer::actions()
 
        xMin =0;
        xMax = 1.0/(float)framesX;
-       yMax =2.0/(float)framesY;
+
+       yMax =1.0/(float)framesY;
        yMin =yMax-1.0/(float)framesY;
 
        break;
 
-   case WALKLEFT:
+   case WALKLEFT:                   // position moving left & if left wall-> stop
+  if( leftBound()){
+        actionTrigger = STAND;
+       }
+       else{
+       yMax =2.0/(float)framesY;
+       yMin =yMax-1.0/(float)framesY;
 
-    if(clock() - myTime->startTime>30)
-   {
-       if(xMin <1) {
        xMax += 1.0/(float)framesX;
        xMin += 1.0/(float)framesX;
-       }
-       else
-       {
-        xMax = 0;
-        xMin = 1.0/(float)framesX;
-
-         if(yMax <1)
-         {
-             yMax +=1.0/(float)framesY;
-             yMin +=1.0/(float)framesY;
-         }
-         else
-         {
-             yMin =0.0/(float)framesY;
-             yMax =1.0/(float)framesY;
-         }
-
-       }
-       plPosition.y = (plPosition.y - 2);
-        myTime->startTime =clock();
+       plPosition.x -=.06;
    }
        break;
 
-   case WALKRIGHT:
-    if(clock() - myTime->startTime>30)
-   {
-       if(xMax <1) {
-       xMin += 1.0/(float)framesX;
-       xMax += 1.0/(float)framesX;
+   case WALKRIGHT:                 //position moving right & if right wall -> stop
+    if( rightBound()){
+        actionTrigger = STAND;
        }
-       else
-       {
-        xMin = 0;
-        xMax = 1.0/(float)framesX;
+       else{
+        yMax=3.0/(float)framesY;
+        yMin=yMax-1.0/(float)framesY;
 
-         if(yMax <1)
-         {
-             yMax +=1.0/(float)framesY;
-             yMin +=1.0/(float)framesY;
-         }
-         else
-         {
-             yMin =0.0/(float)framesY;
-             yMax =1.0/(float)framesY;
-         }
+        xMin+=1.0/(float)framesX;
+        xMax+=1.0/(float)framesX;
+        plPosition.x +=.06;
 
        }
-       plPosition.x+=2;
-     myTime->startTime =clock();
-   }
-
-       break;
-        case ROLL:
-        plPosition.x+=4;
        break;
 
-
-   case RUN: break;
-   case JUMP: break;
-   case ATTACK: break;
    default: break;
    }
+   myTime->startTime = clock();
+
+
+   }
 }
+
