@@ -11,7 +11,7 @@ class GLPlayer
         GLPlayer();
         virtual ~GLPlayer();
 
-        enum {STAND, WALKLEFT,WALKRIGHT,ROLL, RUN, JUMP, ATTACK};
+        enum {STAND,WALKLEFT,WALKRIGHT, RUN, JUMP, ATTACK};
 
         GLTexture *texture = new GLTexture();
         GLTimer   *myTime = new GLTimer();
@@ -21,24 +21,23 @@ class GLPlayer
         void actions();
         bool leftBound();
         bool rightBound();
-        bool playeralive;
+
         vec3 plPosition;
         vec3 plScale;
 
         vec3 vert[4];
         float xMax,xMin,yMax,yMin;
         int framesX,framesY;
-        float screenWidth;
+        float screenWidth;                     // get values from main window
         float screenHeight;
-        int hp;
         int actionTrigger;  // for load actions
-        float currHealth;
-        int maxHealth;
-        bool playerSpawn;
-
-
+        float currHealth =5;
+        int maxHealth =5;
+        bool playerSpawn=false;
+        float vY;
+        float t;
+        bool jumping = false;
     protected:
-
     private:
 };
 

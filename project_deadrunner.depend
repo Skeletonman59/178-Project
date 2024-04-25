@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1713988908 source:c:\users\skele\desktop\178games\project_deadrunner\main.cpp
+1714031156 source:c:\users\skele\desktop\178games\project_deadrunner\main.cpp
 	<windows.h>
 	<GLScene.h>
 	<GL/glut.h>
@@ -52,11 +52,11 @@
 1710785889 c:\users\skele\desktop\178games\project_deadrunner\include\gltexture.h
 	<common.h>
 
-1713993764 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
+1714042478 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
 	"GLInputs.h"
 	<common.h>
 
-1713992814 c:\users\skele\desktop\178games\project_deadrunner\include\glinputs.h
+1714042315 c:\users\skele\desktop\178games\project_deadrunner\include\glinputs.h
 	<Screen.h>
 	<Object.h>
 	<common.h>
@@ -70,7 +70,7 @@
 	<GLTexture.h>
 	<GLTimer.h>
 
-1713989977 c:\users\skele\desktop\178games\project_deadrunner\include\glplayer.h
+1714022878 c:\users\skele\desktop\178games\project_deadrunner\include\glplayer.h
 	<common.h>
 	<GLTexture.h>
 	<GLTimer.h>
@@ -102,7 +102,7 @@
 1713395376 source:c:\users\skele\desktop\178games\project_deadrunner\src\glparallax.cpp
 	"GLParallax.h"
 
-1713994206 source:c:\users\skele\desktop\178games\project_deadrunner\src\glplayer.cpp
+1714022931 source:c:\users\skele\desktop\178games\project_deadrunner\src\glplayer.cpp
 	"GLPlayer.h"
 
 1711184682 source:c:\users\skele\desktop\178games\project_deadrunner\src\gltexture.cpp
@@ -120,7 +120,7 @@
 1713992091 source:c:\users\skele\desktop\178games\project_deadrunner\src\screen.cpp
 	"Screen.h"
 
-1713995336 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
+1714042315 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
 	<GLScene.h>
 	<GLLight.h>
 	<GLParallax.h>

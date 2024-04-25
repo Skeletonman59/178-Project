@@ -18,8 +18,8 @@ class GLInputs
         void keyBackground(float);    // parallax model & speed
 
 
-        void mouseEventDown(Screen*, Screen*, Screen*,Object*,Object*,Object*, GLTimer*, double, double); // mouse btn pressed
-        void mouseEventUp(Screen*, Screen*,Screen*,Object*,Object*,Object*, GLTimer*, double, double);                                // mouse btn released
+        void mouseEventDown(Screen*, Screen* , Screen* , Screen*, Object*, Object*, Object*, GLTimer*, double, double); // mouse btn pressed
+        void mouseEventUp(Screen*, Screen*,Screen*,Screen*,Screen*, GLPlayer*, Object*,Object*,Object*, GLTimer*, double, double);                                // mouse btn released
         void mouseWheel(double);              // mouse wheel rolled
         void mouseMove(float, float, float, float, Object*, Object*, Object*, double,double);       // mouse moved
 
@@ -29,7 +29,7 @@ class GLInputs
         bool mouse_Translate;    // if mouse moved
         bool mouse_Rotate;       // if mouse moved for rotation
 
-        enum {LOADING, MENUSCREEN, HELPSCREEN, GAMESCREEN, PAUSESCREEN, CREDITSCREEN};  // For inputs, determines if button locations should be interactable
+        enum {LOADING, MENUSCREEN, HELPSCREEN, GAMESCREEN, PAUSESCREEN, PAUSEHELPSCREEN, CREDITSCREEN};  // For inputs, determines if button locations should be interactable
         enum {NEW_BUTTON, HELP_BUTTON, QUIT_BUTTON};
         int buttonToggle;       // Flag for key inputs
         int screenToggle;

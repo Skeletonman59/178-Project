@@ -3,12 +3,12 @@
 GLPlayer::GLPlayer()
 {
     //ctor
+
     vert[0].x =-0.5; vert[0].y = -0.5; vert[0].z =-1.0;
     vert[1].x = 0.5; vert[1].y = -0.5; vert[1].z =-1.0;
     vert[2].x = 0.5; vert[2].y =  0.5; vert[2].z =-1.0;
     vert[3].x =-0.5; vert[3].y =  0.5; vert[3].z =-1.0;
-    hp=20;
-    playeralive=true;
+
 }
 
 GLPlayer::~GLPlayer()
@@ -24,6 +24,7 @@ bool GLPlayer::rightBound()        // check if player is hitting right wall
 {
     return plPosition.x >= 1.35;
 }
+
 
 void GLPlayer::initPlayer(int x, int y, char* fileName)
 {
@@ -46,9 +47,8 @@ void GLPlayer::initPlayer(int x, int y, char* fileName)
     yMin =yMax-1.0/(float)framesY;
 
     actionTrigger=0;
-    currHealth = 5;
-    maxHealth = 5;
-    playerSpawn = false;
+    t = 0;
+    vY = 20;
     myTime->startTime = clock();
 }
 
@@ -58,8 +58,8 @@ void GLPlayer::drawPlayer()
     glTranslatef(plPosition.x,plPosition.y,plPosition.z);
     glScalef(plScale.x,plScale.y,plScale.z);
 
-    glColor3f(1.0,1.0,1.0);    //white rectangle
-    texture->bindTexture();    //binding my background
+   glColor3f(1.0,1.0,1.0);    //white rectangle
+   texture->bindTexture();    //binding my background
 
 
     glBegin(GL_QUADS);
@@ -99,6 +99,7 @@ if((clock() - myTime->startTime) > 100){
         actionTrigger = STAND;
        }
        else{
+		plScale.x = -0.3f;
        yMax =2.0/(float)framesY;
        yMin =yMax-1.0/(float)framesY;
 
@@ -113,6 +114,7 @@ if((clock() - myTime->startTime) > 100){
         actionTrigger = STAND;
        }
        else{
+		plScale.x = 0.3f;
         yMax=3.0/(float)framesY;
         yMin=yMax-1.0/(float)framesY;
 
@@ -123,11 +125,20 @@ if((clock() - myTime->startTime) > 100){
        }
        break;
 
+   case JUMP:
+	   jumping = true;
+	break;
+
    default: break;
+   }
+   if(jumping)
+   {
+	   plPosition.y += (vY * t - 0.5 * GRAVITY * pow(t,2)) / 300;
+       t += 0.4f;
+       if(plPosition.y < -0.475f) {t = 0; actionTrigger = STAND; plPosition.y = -0.475f; jumping = false;}
    }
    myTime->startTime = clock();
 
 
    }
 }
-
