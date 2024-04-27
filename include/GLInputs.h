@@ -4,6 +4,7 @@
 #include<Object.h>
 #include<common.h>
 #include<GLPlayer.h>
+#include<GLSounds.h>
 
 class GLInputs
 {
@@ -14,6 +15,7 @@ class GLInputs
 
         void keyPress(Screen*, Screen*, Screen*, Screen*, Screen*, Object*, Object*, Object*, GLPlayer*);            // when key pressed
         void keyPress2(GLPlayer*);
+        void keySoundChange(GLSounds*); enum {EMPTY, ACTIVE, MAIN}; int soundToggle;//TODO: DELETE WHEN DONE TESTING
         void keyUP(Screen*, Screen*, Screen*, Screen*, Screen*, Screen*, GLPlayer* player , Object*, Object*, Object*);                               // when key released
         void keyBackground(float);    // parallax model & speed
 

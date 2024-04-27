@@ -11,7 +11,7 @@ GLInputs::GLInputs()
     mouse_Translate =0;
     mouse_Rotate =0;
 
-
+    soundToggle = 0;
     screenToggle = LOADING;
     myTime->startTime = clock();
 }
@@ -605,3 +605,81 @@ void GLInputs::keyBackground(float speed)
         //    myTime->startTime =clock();
     }
 }
+void GLInputs::keySoundChange(GLSounds* snds)
+{
+    //cycle between the three themes
+    //we want the audios to start at the same time
+    snds->Empty_1->setIsPaused(false);
+    snds->Active_1->setIsPaused(false);
+    snds->Main_1->setIsPaused(false);
+    snds->TITT_2->setIsPaused(false);
+    snds->Second_2->setIsPaused(false);
+    snds->Main_1->setIsPaused(false);
+
+    switch (wParam)
+    {
+    case VK_TAB:
+        soundToggle %= 3;
+        switch (soundToggle)
+        {
+        case EMPTY:
+            snds->Empty_1->setVolume(1);
+            snds->Active_1->setVolume(0);
+            snds->Main_1->setVolume(0);
+            break;
+        case ACTIVE:
+            if(clock() - snds->myTime->startTime>60)
+            {
+                //snds->ActVol += 0.01;
+                snds->ActVol += 1;
+                snds->Active_1->setVolume(snds->ActVol);
+                snds->myTime->startTime =clock();
+            }
+            break;
+        case MAIN:
+            if(clock() - myTime->startTime>60)
+            {
+                //snds->MenuVol += 0.01;
+                snds->MenuVol += 1;
+                snds->Main_1->setVolume(snds->MenuVol);
+                snds->myTime->startTime =clock();
+            }
+            break;
+        }
+        soundToggle++;
+        break;
+
+    case VK_SPACE:
+        soundToggle %= 3;
+        switch (soundToggle)
+        {
+        case EMPTY:
+            snds->TITT_2->setVolume(1);
+            snds->Second_2->setVolume(0);
+            snds->Full_2->setVolume(0);
+            break;
+        case ACTIVE:
+            if(clock() - snds->myTime->startTime>60)
+            {
+                //snds->ActVol += 0.01;
+                snds->ActVol += 1;
+                snds->Second_2->setVolume(snds->ActVol);
+                snds->myTime->startTime =clock();
+            }
+            break;
+        case MAIN:
+            if(clock() - myTime->startTime>60)
+            {
+                //snds->MenuVol += 0.01;
+                snds->MenuVol += 1;
+                snds->Full_2->setVolume(snds->MenuVol);
+                snds->myTime->startTime =clock();
+            }
+            break;
+        }
+        soundToggle++;
+        break;
+    }
+}
+
+

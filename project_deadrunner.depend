@@ -52,15 +52,16 @@
 1710785889 c:\users\skele\desktop\178games\project_deadrunner\include\gltexture.h
 	<common.h>
 
-1714042478 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
+1714196912 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
 	"GLInputs.h"
 	<common.h>
 
-1714042315 c:\users\skele\desktop\178games\project_deadrunner\include\glinputs.h
+1714189528 c:\users\skele\desktop\178games\project_deadrunner\include\glinputs.h
 	<Screen.h>
 	<Object.h>
 	<common.h>
 	<GLPlayer.h>
+	<GLSounds.h>
 
 1710785888 c:\users\skele\desktop\178games\project_deadrunner\include\glmodel.h
 	<common.h>
@@ -120,7 +121,7 @@
 1713992091 source:c:\users\skele\desktop\178games\project_deadrunner\src\screen.cpp
 	"Screen.h"
 
-1714177520 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
+1714191041 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
 	<GLScene.h>
 	<GLLight.h>
 	<GLParallax.h>
@@ -231,10 +232,10 @@
 	"ik_IRefCounted.h"
 	"ik_ISoundSource.h"
 
-1714177383 c:\users\skele\desktop\178games\project_deadrunner\include\glsounds.h
+1714194262 c:\users\skele\desktop\178games\project_deadrunner\include\glsounds.h
 	<common.h>
 
-1714177383 source:c:\users\skele\desktop\178games\project_deadrunner\src\glsounds.cpp
+1714195288 source:c:\users\skele\desktop\178games\project_deadrunner\src\glsounds.cpp
 	"GLSounds.h"
 
 1713814119 source:c:\users\skele\desktop\178games\project_deadrunner\src\alsounds.cpp

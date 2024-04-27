@@ -209,6 +209,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
         glPopMatrix();
 
         snds->stopMenu();
+        //snds->playGameSound();
 
     }
     if(pause->current)
@@ -319,6 +320,7 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_KEYUP:
         kbMs->wParam = wParam;
         kbMs->keyUP(load, help, menu, game, pause, credit, player, newgame, guide, quit);
+        kbMs->keySoundChange(snds);
         break;
 
     case WM_LBUTTONDOWN:
