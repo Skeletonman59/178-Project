@@ -10,20 +10,29 @@ GLSounds::GLSounds()
 GLSounds::~GLSounds()
 {
     //dtor
+    introMenu->drop();
     engine->drop();
 }
-
-void GLSounds::playMusic(char* File)
+void GLSounds::playMenu()
 {
-    engine->play2D(File, false);
+    if(introMenu->getIsPaused()) introMenu->setIsPaused(false);
+    if(introMenu->isFinished()) mainMenu->setIsPaused(false);
 }
-void GLSounds::playMenuLoop(char* File, bool menuLoop)
+void GLSounds::stopMenu()
 {
-    //wait 15 seconds
-    if(menuLoop && menuLoopTriggerSwitch) {
-        engine->play2D(File, true);
+    //I need to reset introMenu and mainMenu back to the beginning as if i never played them
+    //TODO: fix stop
+    if (introMenu)
+    {
+        introMenu->setIsPaused(true);
+        introMenu->setPlayPosition(0);
     }
-    menuLoopTriggerSwitch = false; //nothing can change this now
+    if (mainMenu)
+    {
+        mainMenu->setIsPaused(true);
+        mainMenu->setPlayPosition(0);
+    }
+
 }
 
 void GLSounds::playSound(char* File)
@@ -39,8 +48,15 @@ void GLSounds::pauseSound(char* File)
 
 int GLSounds::initSounds()
 {
-    menuLoopTriggerSwitch = true;
-    if(!engine){cout<<" ERROR: *** The Sound Engine Could Not Start"<<endl;
-    return 0;}
+    if(!engine)
+    {
+        cout<<" ERROR: *** The Sound Engine Could Not Start"<<endl;
+        return 0;
+    }
+    introMenu = engine->play2D("sounds/Menu/BeginningIntro.wav", false, true, true);
+    if(introMenu) introMenu->setVolume(1);
+    mainMenu = engine->play2D("sounds/Menu/MenuLoop.wav", true, true, true);
+    if(mainMenu) mainMenu->setVolume(1);
+
     return 1;
 }

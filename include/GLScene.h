@@ -26,7 +26,6 @@ class GLScene
         bool level2;
         bool level3;
         bool level4;
-        bool menuLoopTrigger;
         bool doneLoading;
 
 

@@ -7,7 +7,7 @@
 	<iostream>
 	<windows.h>
 
-1713990230 c:\users\skele\desktop\178games\project_deadrunner\include\glscene.h
+1714174852 c:\users\skele\desktop\178games\project_deadrunner\include\glscene.h
 	<common.h>
 
 1713944846 c:\users\skele\desktop\178games\project_deadrunner\include\common.h
@@ -120,7 +120,7 @@
 1713992091 source:c:\users\skele\desktop\178games\project_deadrunner\src\screen.cpp
 	"Screen.h"
 
-1714042315 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
+1714177520 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
 	<GLScene.h>
 	<GLLight.h>
 	<GLParallax.h>
@@ -231,10 +231,10 @@
 	"ik_IRefCounted.h"
 	"ik_ISoundSource.h"
 
-1713836069 c:\users\skele\desktop\178games\project_deadrunner\include\glsounds.h
+1714177383 c:\users\skele\desktop\178games\project_deadrunner\include\glsounds.h
 	<common.h>
 
-1713836191 source:c:\users\skele\desktop\178games\project_deadrunner\src\glsounds.cpp
+1714177383 source:c:\users\skele\desktop\178games\project_deadrunner\src\glsounds.cpp
 	"GLSounds.h"
 
 1713814119 source:c:\users\skele\desktop\178games\project_deadrunner\src\alsounds.cpp

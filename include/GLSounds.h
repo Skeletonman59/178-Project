@@ -11,9 +11,10 @@ class GLSounds
         virtual ~GLSounds();
 
         ISoundEngine *engine = createIrrKlangDevice();
-        void playMusic(char *);
-        void playMenuLoop(char*, bool);
-        bool menuLoopTriggerSwitch;
+        ISound* introMenu;
+        ISound* mainMenu;
+        void playMenu();
+        void stopMenu();
         void playSound(char *);
         void pauseSound(char *);
         int initSounds();

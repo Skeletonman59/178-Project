@@ -83,9 +83,7 @@ GLint GLScene::initGL()
     quit->quit_button(w,h, screenWidth, screenHeight);
 
     snds->initSounds();
-    snds->playMusic("sounds/Menu/BeginningIntro.wav");
     snds->myTime->startTime = clock();
-    menuLoopTrigger = true;
 
     T->startTime = clock();
 
@@ -137,11 +135,10 @@ GLint GLScene::drawScene()    // this function runs on a loop
         glTranslatef(load->xPos, load->yPos, load->zPos);
         load->screenDraw(screenWidth, screenHeight);  //draw model obj
         load->actions();
-        if(clock() - snds->myTime->startTime > 14500) snds->playMenuLoop("sounds/Menu/MenuLoop.wav", menuLoopTrigger);
-        //TODO: TWO BOOLS? one bool that flicks the above on, another that is always on, that gets flicked off after function
-        //ends, music line starts only if both bools are on.
         glEnable(GL_LIGHTING);
         glPopMatrix();
+
+        snds->playMenu();
     }
     if(menu->current)
     {
@@ -153,6 +150,8 @@ GLint GLScene::drawScene()    // this function runs on a loop
         menu->actions();
         glEnable(GL_LIGHTING);
         glPopMatrix();
+
+        snds->playMenu();
     }
 
     if(credit->current)
@@ -179,8 +178,6 @@ GLint GLScene::drawScene()    // this function runs on a loop
     }
     if(game->current)
     {
-
-        //snds->engine->stopAllSounds();
         glPushMatrix();     //group object
         glScalef(3.33,3.33,1.0);
         glDisable(GL_LIGHTING);
@@ -210,6 +207,8 @@ GLint GLScene::drawScene()    // this function runs on a loop
         }
         glEnable(GL_LIGHTING);
         glPopMatrix();
+
+        snds->stopMenu();
 
     }
     if(pause->current)
@@ -246,10 +245,6 @@ GLint GLScene::drawScene()    // this function runs on a loop
     quit->actions();
     glEnable(GL_LIGHTING);
     glPopMatrix();      //exit group
-
-    if(clock() - snds->myTime->startTime > 14500) snds->playMenuLoop("sounds/Menu/MenuLoop.wav", menuLoopTrigger);
-    //TODO: TWO BOOLS? one bool that flicks the above on, another that is always on, that gets flicked off after function
-    //ends, music line starts only if both bools are on.
 /*
     for(int i=0; i<20; i++)
     {
