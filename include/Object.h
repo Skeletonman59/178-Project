@@ -21,6 +21,7 @@ class Object
         void new_button(float, float, float, float);
         void guide_button(float, float, float, float);
         void quit_button(float, float, float, float);
+        void continue_button(float, float, float, float); //same as new_button except texture
 
         vec3 objPosition;
         vec3 objScale;

@@ -11,7 +11,6 @@ GLInputs::GLInputs()
     mouse_Translate =0;
     mouse_Rotate =0;
 
-    soundToggle = 0;
     screenToggle = LOADING;
     myTime->startTime = clock();
 }
@@ -21,7 +20,7 @@ GLInputs::~GLInputs()
     //dtor
 }
 
-void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Screen*pause, Object* newgame, Object* guide, Object* quit,GLPlayer* player)
+void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, Screen*pause, Object* newgame, Object* guide, Object* quit, GLPlayer* player, GLSounds* snds)
 {
     switch(wParam)
     {
@@ -39,6 +38,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
             {
 // TODO (Skele#1#): Possibly change this button to a "Resume/Continue" Button?
             case NEW_BUTTON:
+                snds->playSelectSoundOne();
                 newgame->moveTrigger = newgame->RETREAT;
                 guide->moveTrigger = guide->POP;
                 quit->moveTrigger = guide->RETREAT;
@@ -46,6 +46,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
                 //cout << "new goes to help" << endl;
                 break;
             case HELP_BUTTON:
+                snds->playSelectSoundOne();
                 newgame->moveTrigger = newgame->RETREAT;
                 guide->moveTrigger = guide->RETREAT;
                 quit->moveTrigger = guide->POP;
@@ -53,6 +54,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
                 //cout << "help goes to quit" << endl;
                 break;
             case QUIT_BUTTON:
+                snds->playSelectSoundOne();
                 newgame->moveTrigger = newgame->POP;
                 guide->moveTrigger = guide->RETREAT;
                 quit->moveTrigger = guide->RETREAT;
@@ -71,6 +73,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
             switch(buttonToggle)
             {
             case NEW_BUTTON:
+                snds->playSelectSoundOne();
                 newgame->moveTrigger = newgame->RETREAT;
                 guide->moveTrigger = guide->POP;
                 quit->moveTrigger = guide->RETREAT;
@@ -78,6 +81,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
                 //cout << "new goes to help" << endl;
                 break;
             case HELP_BUTTON:
+                snds->playSelectSoundOne();
                 newgame->moveTrigger = newgame->RETREAT;
                 guide->moveTrigger = guide->RETREAT;
                 quit->moveTrigger = guide->POP;
@@ -85,6 +89,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
                 //cout << "help goes to quit" << endl;
                 break;
             case QUIT_BUTTON:
+                snds->playSelectSoundOne();
                 newgame->moveTrigger = newgame->POP;
                 guide->moveTrigger = guide->RETREAT;
                 quit->moveTrigger = guide->RETREAT;
@@ -109,6 +114,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
             switch(buttonToggle)
             {
             case NEW_BUTTON:
+                snds->playSelectSoundOne();
                 newgame->moveTrigger = newgame->RETREAT;
                 guide->moveTrigger = guide->RETREAT;
                 quit->moveTrigger = guide->POP;
@@ -116,6 +122,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
                 //cout << "new goes to quit" << endl;
                 break;
             case HELP_BUTTON:
+                snds->playSelectSoundOne();
                 newgame->moveTrigger = newgame->POP;
                 guide->moveTrigger = guide->RETREAT;
                 quit->moveTrigger = guide->RETREAT;
@@ -123,6 +130,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
                 //cout << "help goes to new" << endl;
                 break;
             case QUIT_BUTTON:
+                snds->playSelectSoundOne();
                 newgame->moveTrigger = newgame->RETREAT;
                 guide->moveTrigger = guide->POP;
                 quit->moveTrigger = guide->RETREAT;
@@ -141,6 +149,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
             switch(buttonToggle)
             {
             case NEW_BUTTON:
+                snds->playSelectSoundOne();
                 newgame->moveTrigger = newgame->RETREAT;
                 guide->moveTrigger = guide->RETREAT;
                 quit->moveTrigger = guide->POP;
@@ -148,6 +157,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
                 //cout << "new goes to quit" << endl;
                 break;
             case HELP_BUTTON:
+                snds->playSelectSoundOne();
                 newgame->moveTrigger = newgame->POP;
                 guide->moveTrigger = guide->RETREAT;
                 quit->moveTrigger = guide->RETREAT;
@@ -155,6 +165,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
                 //cout << "help goes to new" << endl;
                 break;
             case QUIT_BUTTON:
+                snds->playSelectSoundOne();
                 newgame->moveTrigger = newgame->RETREAT;
                 guide->moveTrigger = guide->POP;
                 quit->moveTrigger = guide->RETREAT;
@@ -202,6 +213,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
             help->screenTrigger = help->HELPOUT;
             break;
         case GAMESCREEN:
+            //secretly turn the newgame button into a continue texture
             break;
         }
         break;
@@ -209,7 +221,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help,Screen*game,Scr
 }
 
 
-void GLInputs::keyUP(Screen* load, Screen* help, Screen* menu,Screen* game,Screen* pause,Screen* credit,GLPlayer* player,Object* newgame, Object* guide, Object* quit)
+void GLInputs::keyUP(Screen* load, Screen* help, Screen* menu,Screen* game,Screen* pause,Screen* credit,GLPlayer* player,Object* newgame, Object* guide, Object* quit, GLSounds* snds)
 {
     switch(wParam)
     {
@@ -248,6 +260,7 @@ void GLInputs::keyUP(Screen* load, Screen* help, Screen* menu,Screen* game,Scree
             {
             case NEW_BUTTON:
                 //TODO: activate game stuff
+                snds->playSelectSoundTwo();
                 pause->current=false;
                 newgame->moveTrigger = newgame->DISAPPEAR;
                 guide->moveTrigger = guide->DISAPPEAR;
@@ -605,81 +618,17 @@ void GLInputs::keyBackground(float speed)
         //    myTime->startTime =clock();
     }
 }
-void GLInputs::keySoundChange(GLSounds* snds)
+void GLInputs::soundIterator(int &iter)
 {
-    //cycle between the three themes
-    //we want the audios to start at the same time
-    snds->Empty_1->setIsPaused(false);
-    snds->Active_1->setIsPaused(false);
-    snds->Main_1->setIsPaused(false);
-    snds->TITT_2->setIsPaused(false);
-    snds->Second_2->setIsPaused(false);
-    snds->Main_1->setIsPaused(false);
-
-    switch (wParam)
+    cout << iter << endl;
+    switch(wParam)
     {
-    case VK_TAB:
-        soundToggle %= 3;
-        switch (soundToggle)
-        {
-        case EMPTY:
-            snds->Empty_1->setVolume(1);
-            snds->Active_1->setVolume(0);
-            snds->Main_1->setVolume(0);
-            break;
-        case ACTIVE:
-            if(clock() - snds->myTime->startTime>60)
-            {
-                //snds->ActVol += 0.01;
-                snds->ActVol += 1;
-                snds->Active_1->setVolume(snds->ActVol);
-                snds->myTime->startTime =clock();
-            }
-            break;
-        case MAIN:
-            if(clock() - myTime->startTime>60)
-            {
-                //snds->MenuVol += 0.01;
-                snds->MenuVol += 1;
-                snds->Main_1->setVolume(snds->MenuVol);
-                snds->myTime->startTime =clock();
-            }
-            break;
-        }
-        soundToggle++;
-        break;
-
     case VK_SPACE:
-        soundToggle %= 3;
-        switch (soundToggle)
-        {
-        case EMPTY:
-            snds->TITT_2->setVolume(1);
-            snds->Second_2->setVolume(0);
-            snds->Full_2->setVolume(0);
-            break;
-        case ACTIVE:
-            if(clock() - snds->myTime->startTime>60)
-            {
-                //snds->ActVol += 0.01;
-                snds->ActVol += 1;
-                snds->Second_2->setVolume(snds->ActVol);
-                snds->myTime->startTime =clock();
-            }
-            break;
-        case MAIN:
-            if(clock() - myTime->startTime>60)
-            {
-                //snds->MenuVol += 0.01;
-                snds->MenuVol += 1;
-                snds->Full_2->setVolume(snds->MenuVol);
-                snds->myTime->startTime =clock();
-            }
-            break;
-        }
-        soundToggle++;
+        iter++;
+        break;
+    case VK_TAB:
+        iter--;
         break;
     }
 }
-
 

@@ -70,6 +70,22 @@ void Object::new_button(float w, float h, float screenWidth, float screenHeight)
     normalizedBTL = (BUTTON_TOP_LIMIT / screenHeight)*h;
     normalizedBBL = (BUTTON_BOTTOM_LIMIT / screenHeight)*h;
 }
+void Object::continue_button(float w, float h, float screenWidth, float screenHeight)
+{
+    xMin = 0;
+    xMax = 1.0/(float)framesX;
+    yMax = 4.0/(float)framesY;
+    yMin = yMax-1.0/(float)framesY;
+
+    BUTTON_RIGHT_LIMIT = 500;
+    BUTTON_TOP_LIMIT = 265;
+    BUTTON_BOTTOM_LIMIT = 365;
+
+    normalizedBRL = (BUTTON_RIGHT_LIMIT / screenWidth)*w;
+    normalizedBTL = (BUTTON_TOP_LIMIT / screenHeight)*h;
+    normalizedBBL = (BUTTON_BOTTOM_LIMIT / screenHeight)*h;
+}
+
 
 void Object::guide_button(float w, float h, float screenWidth, float screenHeight)
 {

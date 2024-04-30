@@ -28,6 +28,8 @@ class GLScene
         bool level4;
         bool doneLoading;
 
+        int sndsIterator;
+
 
     protected:
 

@@ -13,10 +13,10 @@ class GLInputs
         GLTimer *myTime = new GLTimer();
         virtual ~GLInputs();
 
-        void keyPress(Screen*, Screen*, Screen*, Screen*, Screen*, Object*, Object*, Object*, GLPlayer*);            // when key pressed
+        void keyPress(Screen*, Screen*, Screen*, Screen*, Screen*, Object*, Object*, Object*, GLPlayer*, GLSounds*);            // when key pressed
         void keyPress2(GLPlayer*);
-        void keySoundChange(GLSounds*); enum {EMPTY, ACTIVE, MAIN}; int soundToggle;//TODO: DELETE WHEN DONE TESTING
-        void keyUP(Screen*, Screen*, Screen*, Screen*, Screen*, Screen*, GLPlayer* player , Object*, Object*, Object*);                               // when key released
+        void soundIterator(int&); //DEBUGGING: DELETE WHEN DONE
+        void keyUP(Screen*, Screen*, Screen*, Screen*, Screen*, Screen*, GLPlayer* player , Object*, Object*, Object*, GLSounds*);                               // when key released
         void keyBackground(float);    // parallax model & speed
 
 

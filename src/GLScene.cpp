@@ -42,6 +42,7 @@ GLScene::GLScene()
     level2= false;
     level3=false;
     level4=false;
+    sndsIterator = 0;
     doneLoading= false;
 
 }
@@ -76,7 +77,7 @@ GLint GLScene::initGL()
     //                x  y   z  a
 
     newgame->initObject(-2,0.11,0,2,5, "images/menu/buttons.png");
-    newgame->new_button(w,h, screenWidth, screenHeight);
+    //newgame->new_button(w,h, screenWidth, screenHeight);
     guide->initObject(-2,-0.08,0,2,5, "images/menu/buttons.png");
     guide->guide_button(w,h, screenWidth, screenHeight);
     quit->initObject(-2,-0.27,0,2,5, "images/menu/buttons.png");
@@ -99,6 +100,7 @@ GLint GLScene::initGL()
     {
         p->parallaxInit("images/game/stage1.png");
         doneLoading=true;
+
     }
     if(level2)
     {
@@ -142,6 +144,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
     }
     if(menu->current)
     {
+        newgame->new_button(w,h, screenWidth, screenHeight);
         glPushMatrix();
         glScalef(3.33,3.33,1.0);
         glDisable(GL_LIGHTING);
@@ -151,6 +154,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
         glEnable(GL_LIGHTING);
         glPopMatrix();
 
+        snds->stopGameSound();
         snds->playMenu();
     }
 
@@ -191,6 +195,17 @@ GLint GLScene::drawScene()    // this function runs on a loop
             glEnable(GL_LIGHTING);
             glPopMatrix();
 
+// NOTE (Skele#1#): Comment out one of these at once to test different level music.
+//Only works if done one at a time per compile. WILL switch when different levels are reached.
+
+//HOW IT WORKS: spam spacebar to increase sndsIterator. When it reaches >3 different loop plays, when > 6 different loop plays.
+//              spam tab to decrease sndsIterator. Do note that it's a bit slow when reducing.
+
+//"It's not a bug, it's a feature" ~ someone at some point
+
+            snds->firstGameSound(sndsIterator);
+            //snds->secondGameSound(sndsIterator);
+            //snds->thirdGameSound(sndsIterator);
         }
         if(player->playerSpawn)
         {
@@ -214,6 +229,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
     }
     if(pause->current)
     {
+        newgame->continue_button(w,h, screenWidth, screenHeight);
         glPushMatrix();     //group object
         glScalef(3.33,3.33,1.0);
         glDisable(GL_LIGHTING);
@@ -314,13 +330,14 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
     case WM_KEYDOWN:
         kbMs->wParam = wParam;
-        kbMs->keyPress(load, menu, help, game, pause, newgame, guide, quit, player); // Pass screen instance
+        kbMs->keyPress(load, menu, help, game, pause, newgame, guide, quit, player, snds); // Pass screen instance
+
+        kbMs->soundIterator(sndsIterator);
         break;
 
     case WM_KEYUP:
         kbMs->wParam = wParam;
-        kbMs->keyUP(load, help, menu, game, pause, credit, player, newgame, guide, quit);
-        kbMs->keySoundChange(snds);
+        kbMs->keyUP(load, help, menu, game, pause, credit, player, newgame, guide, quit, snds);
         break;
 
     case WM_LBUTTONDOWN:
