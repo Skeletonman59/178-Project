@@ -31,6 +31,8 @@ GLPlayer *player = new GLPlayer();
 GLEnms E[20];
 GLCheckCollision *hit = new GLCheckCollision();
 
+Object* health = new Object();
+
 
 GLScene::GLScene()
 {
@@ -82,6 +84,9 @@ GLint GLScene::initGL()
     guide->guide_button(w,h, screenWidth, screenHeight);
     quit->initObject(-2,-0.27,0,2,5, "images/menu/buttons.png");
     quit->quit_button(w,h, screenWidth, screenHeight);
+    health->initObject(-0.6,0.5,0,5,9, "images/game/healthBarSprite.png");
+    health->health_bar(w, h, screenWidth, screenHeight);
+
 
     snds->initSounds();
     snds->myTime->startTime = clock();
@@ -182,6 +187,15 @@ GLint GLScene::drawScene()    // this function runs on a loop
     }
     if(game->current)
     {
+        glPushMatrix();
+        glDisable(GL_LIGHTING);
+        glEnable(GL_BLEND);
+        health->drawObject();
+        health->barActions();
+        glEnable(GL_LIGHTING);
+        glDisable(GL_BLEND);
+        glPopMatrix();
+
         glPushMatrix();     //group object
         glScalef(3.33,3.33,1.0);
         glDisable(GL_LIGHTING);
@@ -203,9 +217,9 @@ GLint GLScene::drawScene()    // this function runs on a loop
 
 //"It's not a bug, it's a feature" ~ someone at some point
 
-            snds->firstGameSound(sndsIterator);
+            //snds->firstGameSound(sndsIterator);
             //snds->secondGameSound(sndsIterator);
-            //snds->thirdGameSound(sndsIterator);
+            snds->thirdGameSound(sndsIterator);
         }
         if(player->playerSpawn)
         {
@@ -245,6 +259,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
     newgame->drawObject();
     newgame->actions();
     glEnable(GL_LIGHTING);
+    glDisable(GL_BLEND);
     glPopMatrix();      //exit group
 
     glPushMatrix();
@@ -253,6 +268,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
     guide->drawObject();
     guide->actions();
     glEnable(GL_LIGHTING);
+    glDisable(GL_BLEND);
     glPopMatrix();      //exit group
 
     glPushMatrix();
@@ -261,6 +277,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
     quit->drawObject();
     quit->actions();
     glEnable(GL_LIGHTING);
+    glDisable(GL_BLEND);
     glPopMatrix();      //exit group
 /*
     for(int i=0; i<20; i++)
@@ -332,12 +349,13 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         kbMs->wParam = wParam;
         kbMs->keyPress(load, menu, help, game, pause, newgame, guide, quit, player, snds); // Pass screen instance
 
+        kbMs->keyTest(health);
         kbMs->soundIterator(sndsIterator);
         break;
 
     case WM_KEYUP:
         kbMs->wParam = wParam;
-        kbMs->keyUP(load, help, menu, game, pause, credit, player, newgame, guide, quit, snds);
+        kbMs->keyUP(load, help, menu, game, pause, credit, player, newgame, guide, quit, health, snds);
         break;
 
     case WM_LBUTTONDOWN:
