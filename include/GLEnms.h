@@ -35,6 +35,9 @@ class GLEnms
         float t; // projectile timer
         float theta;// angle of projectile
 
+        float spawnTimer;	// Timer for spawns
+        GLTexture *tex = new GLTexture();
+
 
     protected:
 
