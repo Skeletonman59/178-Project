@@ -22,6 +22,7 @@ class Object
         void guide_button(float, float, float, float);
         void quit_button(float, float, float, float);
         void continue_button(float, float, float, float); //same as new_button except texture
+        void health_bar(float, float, float, float);
 
         vec3 objPosition;
         vec3 objScale;
@@ -42,6 +43,10 @@ class Object
         void actions();
         int moveTrigger;
         enum{APPEAR, POP, RETREAT, DISAPPEAR};
+
+        void barActions();
+        int barTrigger;
+        enum {FULL, QUARTER, THIRD, DOUBLE, SINGLE, EMPTY};
 
 
     protected:

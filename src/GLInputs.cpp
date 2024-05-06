@@ -221,7 +221,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, S
 }
 
 
-void GLInputs::keyUP(Screen* load, Screen* help, Screen* menu,Screen* game,Screen* pause,Screen* credit,GLPlayer* player,Object* newgame, Object* guide, Object* quit, GLSounds* snds)
+void GLInputs::keyUP(Screen* load, Screen* help, Screen* menu,Screen* game,Screen* pause,Screen* credit,GLPlayer* player,Object* newgame, Object* guide, Object* quit, Object* health, GLSounds* snds)
 {
     switch(wParam)
     {
@@ -254,17 +254,17 @@ void GLInputs::keyUP(Screen* load, Screen* help, Screen* menu,Screen* game,Scree
             screenToggle = MENUSCREEN;
 
             break;
-
         case MENUSCREEN:
             switch(buttonToggle)
             {
             case NEW_BUTTON:
-                //TODO: activate game stuff
                 snds->playSelectSoundTwo();
                 pause->current=false;
                 newgame->moveTrigger = newgame->DISAPPEAR;
                 guide->moveTrigger = guide->DISAPPEAR;
                 quit->moveTrigger = quit->DISAPPEAR;
+                //Spawn the health bar
+                //health->t
 
                 game->current= true;
                 player->playerSpawn = true;
@@ -620,14 +620,44 @@ void GLInputs::keyBackground(float speed)
 }
 void GLInputs::soundIterator(int &iter)
 {
+// NOTE (Skele#1#): This is to see what soundIter is, delete when done testing
     cout << iter << endl;
     switch(wParam)
     {
     case VK_SPACE:
         iter++;
+
         break;
     case VK_TAB:
         iter--;
+        break;
+    }
+}
+void GLInputs::keyTest(Object* health)
+{
+    switch(wParam)
+    {
+    case VK_NUMPAD8:
+        switch (health->barTrigger)
+        {
+        case health->FULL: break;
+        case health->QUARTER: health->barTrigger = health->FULL; break;
+        case health->THIRD: health->barTrigger = health->QUARTER; break;
+        case health->DOUBLE: health->barTrigger = health->THIRD; break;
+        case health->SINGLE: health->barTrigger = health->DOUBLE; break;
+        case health->EMPTY: break; //buddy's dead, yo
+        }
+        break;
+    case VK_NUMPAD2:
+        switch (health->barTrigger)
+        {
+        case health->FULL: health->barTrigger = health->QUARTER; break;
+        case health->QUARTER: health->barTrigger = health->THIRD; break;
+        case health->THIRD: health->barTrigger = health->DOUBLE; break;
+        case health->DOUBLE: health->barTrigger = health->SINGLE; break;
+        case health->SINGLE: health->barTrigger = health->EMPTY; break;
+        case health->EMPTY: break; //STOP! HE'S ALREADY DEAD!!
+        }
         break;
     }
 }

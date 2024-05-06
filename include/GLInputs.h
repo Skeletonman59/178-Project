@@ -16,7 +16,8 @@ class GLInputs
         void keyPress(Screen*, Screen*, Screen*, Screen*, Screen*, Object*, Object*, Object*, GLPlayer*, GLSounds*);            // when key pressed
         void keyPress2(GLPlayer*);
         void soundIterator(int&); //DEBUGGING: DELETE WHEN DONE
-        void keyUP(Screen*, Screen*, Screen*, Screen*, Screen*, Screen*, GLPlayer* player , Object*, Object*, Object*, GLSounds*);                               // when key released
+        void keyTest(Object*);   //keyPress/KeyUP cluttered, delete this when done
+        void keyUP(Screen*, Screen*, Screen*, Screen*, Screen*, Screen*, GLPlayer*, Object*, Object*, Object*, Object*, GLSounds*);                               // when key released
         void keyBackground(float);    // parallax model & speed
 
 

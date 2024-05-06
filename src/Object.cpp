@@ -118,6 +118,13 @@ void Object::quit_button(float w, float h, float screenWidth, float screenHeight
     normalizedBTL = (BUTTON_TOP_LIMIT / screenHeight)*h;
     normalizedBBL = (BUTTON_BOTTOM_LIMIT / screenHeight)*h;
 }
+void Object::health_bar(float w, float h, float screenWidth, float screenHeight)
+{
+    xMin = 0;
+    xMax = 1.0/(float)framesX;
+    yMax = 1.0/(float)framesY;
+    yMin = yMax-1.0/(float)framesY;
+}
 void Object::actions()
 {
     //cout << objPosition.x << endl;
@@ -155,3 +162,50 @@ void Object::actions()
         break;
     }
 }
+// TODO (Skele#5#): ADD HEALTH BAR SPRITE LOGIC, instead of pos changes, do position changes (xMax and all that)
+void Object::barActions()
+{
+    switch (barTrigger)
+    {
+    case FULL:
+        xMin = 0;
+        xMax = 1.0/(float)framesX;
+        yMax = 1.0/(float)framesY;
+        yMin = yMax-1.0/(float)framesY;
+        break;
+    case QUARTER:
+        xMin = 0;
+    xMax = 1.0/(float)framesX;
+    yMax = 2.0/(float)framesY;
+    yMin = yMax-1.0/(float)framesY;
+        break;
+    case THIRD:
+        xMin = 0;
+    xMax = 1.0/(float)framesX;
+    yMax = 3.0/(float)framesY;
+    yMin = yMax-1.0/(float)framesY;
+        break;
+    case DOUBLE:
+        xMin = 0;
+    xMax = 1.0/(float)framesX;
+    yMax = 4.0/(float)framesY;
+    yMin = yMax-1.0/(float)framesY;
+        break;
+    case SINGLE:
+        xMin = 0;
+    xMax = 1.0/(float)framesX;
+    yMax = 5.0/(float)framesY;
+    yMin = yMax-1.0/(float)framesY;
+        break;
+    case EMPTY:
+        xMin = 0;
+    xMax = 1.0/(float)framesX;
+    yMax = 6.0/(float)framesY;
+    yMin = yMax-1.0/(float)framesY;
+        break;
+
+    default:
+        break;
+    }
+}
+
