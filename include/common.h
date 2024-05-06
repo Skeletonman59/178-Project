@@ -12,7 +12,7 @@
 #include<math.h>
 #include <GLTimer.h>
 #include<SOIL.h>
-#include<sounds/irrKlang.h>
+#include<irrKlang/irrKlang.h>
 #define PI 3.14
 #define GRAVITY 9.81
 

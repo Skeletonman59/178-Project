@@ -99,7 +99,7 @@ if((clock() - myTime->startTime) > 100){
         actionTrigger = STAND;
        }
        else{
-		plScale.x = -0.3f;
+		//plScale.x = -0.3f;
        yMax =2.0/(float)framesY;
        yMin =yMax-1.0/(float)framesY;
 

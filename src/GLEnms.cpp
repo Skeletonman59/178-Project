@@ -15,7 +15,7 @@ GLEnms::GLEnms()
     eRotate.y =0;
     eRotate.z =0;
 
-    framesX =7;   // number of columns in the sprite sheet
+    framesX =5;   // number of columns in the sprite sheet
     framesY =2;   // number of rows in the spritesheet
 
     xMax =1.0/framesX;  // default image
@@ -29,6 +29,11 @@ GLEnms::GLEnms()
      v =35;
      t=0;
 
+     char* spriteFile;
+     //spriteFile += "Enemy0" + (rand()%3 + 1) + ".png";
+
+     //tex->loadTexture("images/game/poke.png");
+
     myTime->startTime = clock();
 }
 
@@ -40,30 +45,34 @@ GLEnms::~GLEnms()
 
 void GLEnms::drawEnemy()
 {
-    glPushMatrix();
-    glTranslatef(pos.x,pos.y,pos.z);
-    glRotatef(eRotate.x,1,0,0);
-    glRotatef(eRotate.y,0,1,0);
-    glRotatef(eRotate.z,0,0,1);
+	if(isEnemyLive)
+	{
+		glPushMatrix();
+		glTranslatef(pos.x,pos.y,pos.z);
+		glRotatef(eRotate.x,1,0,0);
+		glRotatef(eRotate.y,0,1,0);
+		glRotatef(eRotate.z,0,0,1);
 
-    glScalef(eScale.x,eScale.y,1.0);
+		glScalef(eScale.x,eScale.y,1.0);
 
-     glBegin(GL_QUADS);
-      glTexCoord2f(xMin,yMax);
-      glVertex3f(-1,-1,0);
+		tex->bindTexture();
 
-      glTexCoord2f(xMax,yMax);
-      glVertex3f(1,-1,0);
+		glBegin(GL_QUADS);
+		glTexCoord2f(xMin,yMax);
+		glVertex3f(-1,-1,0);
 
-      glTexCoord2f(xMax,yMin);
-      glVertex3f(1,1,0);
+		glTexCoord2f(xMax,yMax);
+		glVertex3f(1,-1,0);
 
-      glTexCoord2f(xMin,yMin);
-      glVertex3f(-1,1,0);
+		glTexCoord2f(xMax,yMin);
+		glVertex3f(1,1,0);
 
-   glEnd();
-   glPopMatrix();
+		glTexCoord2f(xMin,yMin);
+		glVertex3f(-1,1,0);
 
+		glEnd();
+		glPopMatrix();
+	}
 }
 
 void GLEnms::PlaceEnemy(vec3 p)
@@ -75,6 +84,8 @@ void GLEnms::PlaceEnemy(vec3 p)
 
 void GLEnms::actions()
 {
+	if(isEnemyLive)
+	{
     switch(action)
     {
     case STAND:
@@ -87,26 +98,39 @@ void GLEnms::actions()
 
 
     case WALKLEFT:
-        if(clock() - myTime->startTime>30){
+    	eScale.x = -0.5f;
+        if(clock() - myTime->startTime>100){
+		if(xMax >= 1.0)
+		{
+			yMin += 0.5;
+			yMax += 0.5;
+			xMin = 0.0f;
+			xMax = 1.0f/framesX;
+		}
         xMin +=1.0/framesX;
         xMax +=1.0/framesX;
 
-        yMin= 0.5;
-        yMax=1.0;
+        //yMin= 0.5;
+        //yMax=1.0;
 
-         pos.x +=speed;
+         pos.x -=speed;
 
         myTime->startTime =clock();
         }
         break;
 
     case WALKRIGHT:
-        if(clock() - myTime->startTime>30){
+    	eScale.x = 0.5f;
+        if(clock() - myTime->startTime>100){
+		if(xMax >= 1.0)
+		{
+			yMin += 0.5;
+			yMax += 0.5;
+			xMin = 0.0f;
+			xMax = 1.0f/framesX;
+		}
         xMin +=1.0/framesX;
         xMax +=1.0/framesX;
-
-        yMin= 0.0;
-        yMax=0.5;
 
         pos.x +=speed;
         myTime->startTime =clock();
@@ -154,5 +178,5 @@ void GLEnms::actions()
 
         break;
     }
-
+	}
 }

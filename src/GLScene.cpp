@@ -29,7 +29,13 @@ GLSounds *snds = new GLSounds();
 
 GLPlayer *player = new GLPlayer();
 GLEnms E[20];
+GLTexture enmTexture[3];
 GLCheckCollision *hit = new GLCheckCollision();
+
+float enmT;
+float enmSpawnRate;
+int enmN;
+int maxEnms;
 
 
 GLScene::GLScene()
@@ -88,34 +94,44 @@ GLint GLScene::initGL()
 
     T->startTime = clock();
 
-    player->initPlayer(4,4,"images/game/poke.png");
+    player->initPlayer(1,1,"images/sprites/Player.png");
+    enmTexture[0].loadTexture("images/sprites/Enemy01.png");
+    enmTexture[1].loadTexture("images/sprites/Enemy02.png");
+    enmTexture[2].loadTexture("images/sprites/Enemy03.png");
     for(int i=0; i<20; i++)
     {
-        E[i].pos.x = (float)rand()/(float)RAND_MAX*5-2.5;
+    	E[i].isEnemyLive = false;
+    	E[i].tex = &enmTexture[(rand() % 3)];
+        E[i].pos.x = 3.5f;
         E[i].pos.y =-1.2;
-        E[i].pos.x<player->plPosition.x?E[i].action =E[i].WALKRIGHT:E[i].action =E[i].WALKLEFT;
-        E[i].eScale.x = E[i].eScale.y = (float)(rand()%12)/30.0;
+        E[i].action = E[i].WALKLEFT;
+        E[i].eScale.x = E[i].eScale.y = 0.5;
     }
+    enmSpawnRate = (float)rand()/(float)RAND_MAX*100 + 150;
+    enmN = 0;
     if(level1)
     {
         p->parallaxInit("images/game/stage1.png");
         doneLoading=true;
-
+        maxEnms = 5;
     }
     if(level2)
     {
         p->parallaxInit("images/game/stage2.png");
         doneLoading=true;
+        maxEnms = 10;
     }
     if(level3)
     {
         p->parallaxInit("images/game/stage3.png");
         doneLoading=true;
+        maxEnms = 15;
     }
     if(level4)
     {
         p->parallaxInit("images/game/stage4.png");
         doneLoading=true;
+        maxEnms = 20;
     }
 
 
@@ -222,6 +238,23 @@ GLint GLScene::drawScene()    // this function runs on a loop
         }
         glEnable(GL_LIGHTING);
         glPopMatrix();
+
+        enmSpawnRate--;
+        if(enmSpawnRate <= 0)
+		{
+			E[enmN++].isEnemyLive = true;
+			if(enmN >= maxEnms); enmN %= maxEnms;
+			enmSpawnRate = (float)rand()/(float)RAND_MAX*500 + 1350;
+		}
+
+		for(int i = 0; i < maxEnms; i++)
+		{
+			glEnable(GL_BLEND);
+			//enmTexture[2].bindTexture();
+			if(E[i].isEnemyLive) E[i].pos.x < player->plPosition.x ? E[i].action = E[i].WALKRIGHT : E[i].action = E[i].WALKLEFT;
+			E[i].drawEnemy();
+			E[i].actions();
+		}
 
         snds->stopMenu();
         //snds->playGameSound();
