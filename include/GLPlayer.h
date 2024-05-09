@@ -11,7 +11,7 @@ class GLPlayer
         GLPlayer();
         virtual ~GLPlayer();
 
-        enum {STAND,WALKLEFT,WALKRIGHT, RUN, JUMP, ATTACK};
+        enum {STAND,WALKLEFT,WALKRIGHT, RUN, JUMP,ROLL, SHOOT};
 
         GLTexture *texture = new GLTexture();
         GLTimer   *myTime = new GLTimer();
@@ -33,10 +33,14 @@ class GLPlayer
         int actionTrigger;  // for load actions
         float currHealth =5;
         int maxHealth =5;
-        bool playerSpawn=false;
+        bool playerSpawn=true;
         float vY;
         float t;
         bool jumping = false;
+        int hp;
+        bool playeralive = true;
+        bool shooting = false;
+
     protected:
     private:
 };

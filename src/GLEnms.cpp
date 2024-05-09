@@ -6,7 +6,7 @@ GLEnms::GLEnms()
 
     pos.x =0;    // Default position settings
     pos.y =0;
-    pos.z =-5;
+    pos.z =-7;
 
     eScale.x =1.0; // default scaling
     eScale.y =1.0;
@@ -23,7 +23,7 @@ GLEnms::GLEnms()
     yMax=1.0/framesY;
     yMin=0;
 
-    speed =0.01;  // moving speed
+    speed =0.05;  // moving speed
     action= STAND;     // set actions
     theta = 30*PI/180.0;
      v =35;

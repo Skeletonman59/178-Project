@@ -407,7 +407,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 					return 0;						// Quit If Window Was Not Created
 				}
 			}
-/*
+
 			if(scene->player->rightBound() && scene->level1){
                 scene->level2 = !scene->level2;
                 scene->level1 = !scene->level1;
@@ -425,9 +425,6 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
                 scene->level3 = !scene->level3;
                 scene->doneLoading = false;
 			}
-*/
-
-
 		}
 	}
 

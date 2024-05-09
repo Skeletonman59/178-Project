@@ -42,6 +42,7 @@
 		</Compiler>
 		<Linker>
 			<Add library="../common/lib/libSOIL.a" />
+			<Add library="../common/lib/libirrKlang.a" />
 			<Add library="glut32" />
 			<Add library="opengl32" />
 			<Add library="glu32" />

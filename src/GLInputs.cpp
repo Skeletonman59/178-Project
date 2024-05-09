@@ -25,10 +25,10 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, S
     switch(wParam)
     {
     case VK_LEFT:
-        if(screenToggle== GAMESCREEN)player->actionTrigger= player->WALKLEFT;
+        if(screenToggle== GAMESCREEN)  player->actionTrigger= player->WALKLEFT;
         break;
     case VK_RIGHT:
-        if(screenToggle== GAMESCREEN)player->actionTrigger= player->WALKRIGHT;
+        if(screenToggle== GAMESCREEN) player->actionTrigger= player->WALKRIGHT;
         break;
     case VK_DOWN:
         switch(screenToggle) //WHERE ARE WE?
@@ -621,7 +621,7 @@ void GLInputs::keyBackground(float speed)
 void GLInputs::soundIterator(int &iter)
 {
 // NOTE (Skele#1#): This is to see what soundIter is, delete when done testing
-    cout << iter << endl;
+    //cout << iter << endl;
     switch(wParam)
     {
     case VK_SPACE:
@@ -658,6 +658,35 @@ void GLInputs::keyTest(Object* health)
         case health->SINGLE: health->barTrigger = health->EMPTY; break;
         case health->EMPTY: break; //STOP! HE'S ALREADY DEAD!!
         }
+        break;
+    }
+}
+void GLInputs::keyPress2(GLPlayer* player, Object* bullet)
+{
+    //cout << player->plPosition << endl;
+    switch(wParam)
+    {
+    case VK_NUMPAD9: //+Z
+        player->plPosition.z = player->plPosition.z + 0.1;
+        break;
+    case VK_NUMPAD3: //-Z
+        player->plPosition.z = player->plPosition.z - 0.1;
+        break;
+    case VK_NUMPAD7: //+X
+        player->plPosition.x = player->plPosition.x + 0.1;
+        break;
+    case VK_NUMPAD1: //-X
+        player->plPosition.x = player->plPosition.x + 0.1;
+        break;
+    case VK_NUMPAD8: //+Y
+        player->plPosition.y = player->plPosition.y + 0.1;
+        break;
+    case VK_NUMPAD2: //-Y
+        player->plPosition.y = player->plPosition.y - 0.1;
+        break;
+    case VK_SPACE:
+        //cout<< "bruh" << endl;
+        bullet->objPosition.x = player->plPosition.x;
         break;
     }
 }

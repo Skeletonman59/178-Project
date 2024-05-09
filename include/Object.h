@@ -18,6 +18,7 @@ class Object
         void initObject(float, float, float, int,int,char* fileName); // number of x, y frames, MOST LIKELY AT TOP OF FILE
         void drawObject();
 
+        void default_obj();
         void new_button(float, float, float, float);
         void guide_button(float, float, float, float);
         void quit_button(float, float, float, float);

@@ -10,34 +10,7 @@
 #include <GLEnms.h>
 #include <GLCheckCollision.h>
 #include<GLSounds.h>
-
-GLInputs *kbMs = new GLInputs();    //keyboard and mouse
-GLTimer *T = new GLTimer();
-Screen *load = new Screen();         //static screen object
-Screen *help = new Screen();         //much like a second parallax, this is a separate screen object
-Screen *menu = new Screen();         //screen with button locations
-Screen *pause = new Screen();
-Screen *game = new Screen();
-Screen *credit = new Screen();
-
-Object *newgame = new Object();
-Object *guide = new Object();
-Object *quit = new Object();
-GLParallax *p = new GLParallax();
-
-GLSounds *snds = new GLSounds();
-
-GLPlayer *player = new GLPlayer();
-GLEnms E[20];
-GLTexture enmTexture[3];
-GLCheckCollision *hit = new GLCheckCollision();
-
-Object* health = new Object();
-
-float enmT;
-float enmSpawnRate;
-int enmN;
-int maxEnms;
+#include<GLProjectile.h>
 
 GLScene::GLScene()
 {
@@ -73,12 +46,19 @@ GLint GLScene::initGL()
     glEnable(GL_BLEND);             // Transparent effect of pngs
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    deleted.x =999.0; // use dest to shoot right
+    deleted.y =999.0;
+    deleted.z = 999.0;
+
     glEnable(GL_TEXTURE_2D);  //enable textures
     load->screenInit( 0, 0,  0, 0, "images/menu/loadmenu.png");
     menu->screenInit( 0, 0, -1, 1, "images/menu/2.png");
     help->screenInit(-4, 0, 0.01, 0, "images/menu/helpmenu.png"); //seriously, who's gonna tell the help menu is 0.01 units closer?
     pause->screenInit(0, 0, 0, 0, "images/menu/pause.png");
     credit->screenInit(0,0,0,0,"images/menu/creators.png");
+    BulletTex->loadTexture("images/game/princess.png");
+    CoinTex->loadTexture("images/game/crab.png");
+
     load->current = true;
 
     //                x  y   z  a
@@ -91,6 +71,9 @@ GLint GLScene::initGL()
     quit->quit_button(w,h, screenWidth, screenHeight);
     health->initObject(-0.6,0.5,0,5,9, "images/game/healthBarSprite.png");
     health->health_bar(w, h, screenWidth, screenHeight);
+    bullet->initObject(0, 0, -6, 1,2, "images/game/bullet.png");
+    bullet->default_obj();
+
 
 
     snds->initSounds();
@@ -99,15 +82,16 @@ GLint GLScene::initGL()
     T->startTime = clock();
 
     player->initPlayer(1,1,"images/sprites/Player.png");
+    Iframe->startTime = clock();
     enmTexture[0].loadTexture("images/sprites/Enemy01.png");
     enmTexture[1].loadTexture("images/sprites/Enemy02.png");
     enmTexture[2].loadTexture("images/sprites/Enemy03.png");
     for(int i=0; i<20; i++)
     {
-    	E[i].isEnemyLive = false;
-    	E[i].tex = &enmTexture[(rand() % 3)];
+        E[i].isEnemyLive = false;
+        E[i].tex = &enmTexture[(rand() % 3)];
         E[i].pos.x = 3.5f;
-        E[i].pos.y =-1.2;
+        E[i].pos.y =-1.5;
         E[i].action = E[i].WALKLEFT;
         E[i].eScale.x = E[i].eScale.y = 0.5;
     }
@@ -137,8 +121,6 @@ GLint GLScene::initGL()
         doneLoading=true;
         maxEnms = 20;
     }
-
-
     return true;
 }
 
@@ -202,14 +184,16 @@ GLint GLScene::drawScene()    // this function runs on a loop
     }
     if(game->current)
     {
+        //object tester
+        /*
         glPushMatrix();
         glDisable(GL_LIGHTING);
         glEnable(GL_BLEND);
-        health->drawObject();
-        health->barActions();
+        bullet->drawObject();
         glEnable(GL_LIGHTING);
         glDisable(GL_BLEND);
         glPopMatrix();
+        */
 
         glPushMatrix();     //group object
         glScalef(3.33,3.33,1.0);
@@ -224,53 +208,71 @@ GLint GLScene::drawScene()    // this function runs on a loop
             glEnable(GL_LIGHTING);
             glPopMatrix();
 
-// NOTE (Skele#1#): Comment out one of these at once to test different level music.
-//Only works if done one at a time per compile. WILL switch when different levels are reached.
-
-//HOW IT WORKS: spam spacebar to increase sndsIterator. When it reaches >3 different loop plays, when > 6 different loop plays.
-//              spam tab to decrease sndsIterator. Do note that it's a bit slow when reducing.
-
-//"It's not a bug, it's a feature" ~ someone at some point
-
             //snds->firstGameSound(sndsIterator);
             //snds->secondGameSound(sndsIterator);
             snds->thirdGameSound(sndsIterator);
         }
+        glEnable(GL_LIGHTING);
+        glPopMatrix();
+
         if(player->playerSpawn)
         {
-
             glPushMatrix();
-
             glDisable(GL_LIGHTING);
             glEnable(GL_BLEND);
             player->drawPlayer();
             player->actions();
             glEnable(GL_LIGHTING);
             glPopMatrix();
-
         }
-        glEnable(GL_LIGHTING);
-        glPopMatrix();
 
         enmSpawnRate--;
         if(enmSpawnRate <= 0)
-		{
-			E[enmN++].isEnemyLive = true;
-			if(enmN >= maxEnms); enmN %= maxEnms;
-			enmSpawnRate = (float)rand()/(float)RAND_MAX*500 + 1350;
-		}
+        {
+            E[enmN++].isEnemyLive = true;
+            if(enmN >= maxEnms);
+            enmN %= maxEnms;
+            enmSpawnRate = (float)rand()/(float)RAND_MAX*500 + 1350;
+        }
 
-		for(int i = 0; i < maxEnms; i++)
-		{
-			glEnable(GL_BLEND);
-			//enmTexture[2].bindTexture();
-			if(E[i].isEnemyLive) E[i].pos.x < player->plPosition.x ? E[i].action = E[i].WALKRIGHT : E[i].action = E[i].WALKLEFT;
-			E[i].drawEnemy();
-			E[i].actions();
-		}
+        for(int i = 0; i < maxEnms; i++)
+        {
+            glEnable(GL_BLEND);
+            //enmTexture[2].bindTexture();
+            if (player->actionTrigger == player->ROLL) {}
+            if(E[i].isEnemyLive)
+            {
+                E[i].pos.x < player->plPosition.x ? E[i].action = E[i].WALKRIGHT : E[i].action = E[i].WALKLEFT;
+            }
+            if(hit->isRadialCollision(E[i].pos, player->plPosition,0.2,0.2,0.02))
+            {
+                if((clock() - Iframe->startTime) > 2000 && player->actionTrigger != player->ROLL )
+                {
+                    player->hp =  player->hp-1;
+                    if(health->barTrigger != health->EMPTY )health->barTrigger = health->barTrigger + 1;
+                    //cout << health->barTrigger << endl;
+                    if (player->hp <= 0) player->playeralive = false;
+                    //cout<<"player current hp is " << player-> hp <<endl;
+
+                    Iframe->startTime = clock();
+                }
+            }
+            E[i].drawEnemy();
+            E[i].actions();
+
+        }
 
         snds->stopMenu();
         //snds->playGameSound();
+
+        glPushMatrix();
+        glDisable(GL_LIGHTING);
+        glEnable(GL_BLEND);
+        health->drawObject();
+        health->barActions();
+        glEnable(GL_LIGHTING);
+        glDisable(GL_BLEND);
+        glPopMatrix();
 
     }
     if(pause->current)
@@ -311,51 +313,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
     glEnable(GL_LIGHTING);
     glDisable(GL_BLEND);
     glPopMatrix();      //exit group
-/*
-    for(int i=0; i<20; i++)
-    {
-        if(E[i].pos.x >3.5)
-        {
-            E[i].action =E[i].WALKLEFT;
-            E[i].speed =-0.01;
-            E[i].pos.y =-1.2;
-            E[i].eRotate.z =0;
-        }
-        if(E[i].pos.x<-3.5)
-        {
-            E[i].action =E[i].WALKRIGHT;
-            E[i].speed =0.01;
-            E[i].pos.y =-1.2;
-            E[i].eRotate.z =0;
-        }
-        //if (player->actionTrigger= player->ROLL) {}
-        else if(hit->isRadialCollision(E[i].pos, player->plPosition,0.5,0.5,0.02))
-        {
-            {
-                if(E[i].pos.x >3.5)
-                {
-                    E[i].action =E[i].WALKRIGHT;
-                    E[i].speed =-0.01;
-                }
-                if(E[i].pos.x<-3.5)
-                {
-                    E[i].action =E[i].WALKLEFT;
-                    E[i].speed =0.01;
-                }
-                /*
-                player->hp =  player->hp-1;
-                if (player->hp <= 0)
-                {
-                    player->playeralive = false; //optional player death
-                    break;
-                }
 
-            }
-            E[i].drawEnemy();
-            E[i].actions();
-        }
-    }
-    */
     return true;
 
 }
@@ -381,6 +339,7 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         kbMs->wParam = wParam;
         kbMs->keyPress(load, menu, help, game, pause, newgame, guide, quit, player, snds); // Pass screen instance
 
+        kbMs->keyPress2(player, bullet);
         kbMs->keyTest(health);
         kbMs->soundIterator(sndsIterator);
         break;

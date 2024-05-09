@@ -4,7 +4,7 @@
 #include<GLScene.h>
 
 
-class GLLight:GLScene  // inheritance derived class and base class
+class GLLight  // inheritance derived class and base class
 {
     public:
         GLLight();             // default constructor

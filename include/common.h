@@ -38,5 +38,10 @@ typedef struct{  //  positions in 3D graphics
     float y;
 }vec2;
 
+inline std::ostream& operator<<(std::ostream& os, const vec3& v) {
+    os << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+    return os;
+}
+
 
 #endif // COMMON_H_INCLUDED

@@ -198,6 +198,10 @@ void GLSounds::stopGameSound()
     Exposure_1->setIsPaused(true);
     Exposure_2->setIsPaused(true);
     Exposure_3->setIsPaused(true);
+    Stubborn_1->setIsPaused(true);
+    Stubborn_2->setIsPaused(true);
+    Stubborn_3->setIsPaused(true);
+
 
     Genesis_1->setPlayPosition(0);
     Genesis_2->setPlayPosition(0);
@@ -205,6 +209,9 @@ void GLSounds::stopGameSound()
     Exposure_1->setPlayPosition(0);
     Exposure_2->setPlayPosition(0);
     Exposure_3->setPlayPosition(0);
+    Stubborn_1->setPlayPosition(0);
+    Stubborn_2->setPlayPosition(0);
+    Stubborn_3->setPlayPosition(0);
 }
 void GLSounds::playSelectSoundOne()
 {

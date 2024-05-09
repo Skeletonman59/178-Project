@@ -26,6 +26,7 @@ void Object::initObject(float x, float y, float z, int fX, int fY, char* fileNam
     framesX = fX;               // record number of frames
     framesY = fY;
 
+    barTrigger = FULL;
     texture->loadTexture(fileName); //loading my background
 
     myTime->startTime = clock();
@@ -55,6 +56,14 @@ void Object::drawObject()
 
     glEnd();
 }
+void Object::default_obj()
+{
+    xMin = 0.0;
+    xMax = 1.0;
+    yMax = 1.0;
+    yMin = 0.0;
+}
+
 void Object::new_button(float w, float h, float screenWidth, float screenHeight)
 {
     xMin = 0;

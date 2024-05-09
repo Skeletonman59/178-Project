@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1714031156 source:c:\users\skele\desktop\178games\project_deadrunner\main.cpp
+1715212834 source:c:\users\skele\desktop\178games\project_deadrunner\main.cpp
 	<windows.h>
 	<GLScene.h>
 	<GL/glut.h>
@@ -7,10 +7,23 @@
 	<iostream>
 	<windows.h>
 
-1714446411 c:\users\skele\desktop\178games\project_deadrunner\include\glscene.h
+1715227350 c:\users\skele\desktop\178games\project_deadrunner\include\glscene.h
 	<common.h>
+	<GLTimer.h>
+	<GLScene.h>
+	<GLLight.h>
+	<GLParallax.h>
+	<GLTexture.h>
+	<GLInputs.h>
+	<Screen.h>
+	<Object.h>
+	<GLPlayer.h>
+	<GLEnms.h>
+	<GLCheckCollision.h>
+	<GLSounds.h>
+	<GLProjectile.h>
 
-1715039405 c:\users\skele\desktop\178games\project_deadrunner\include\common.h
+1715224682 c:\users\skele\desktop\178games\project_deadrunner\include\common.h
 	<windows.h>
 	<unistd.h>
 	<iostream>
@@ -34,13 +47,13 @@
 
 1707358440 c:\users\skele\desktop\178games\common\include\soil.h
 
-1713940477 source:c:\users\skele\desktop\178games\project_deadrunner\src\glcheckcollision.cpp
+1715226358 source:c:\users\skele\desktop\178games\project_deadrunner\src\glcheckcollision.cpp
 	"GLCheckCollision.h"
 
 1713940475 c:\users\skele\desktop\178games\project_deadrunner\include\glcheckcollision.h
 	<common.h>
 
-1715038729 source:c:\users\skele\desktop\178games\project_deadrunner\src\glenms.cpp
+1715226834 source:c:\users\skele\desktop\178games\project_deadrunner\src\glenms.cpp
 	"GLEnms.h"
 	<common.h>
 
@@ -52,11 +65,11 @@
 1710785889 c:\users\skele\desktop\178games\project_deadrunner\include\gltexture.h
 	<common.h>
 
-1715037755 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
+1715232948 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
 	"GLInputs.h"
 	<common.h>
 
-1715037173 c:\users\skele\desktop\178games\project_deadrunner\include\glinputs.h
+1715228099 c:\users\skele\desktop\178games\project_deadrunner\include\glinputs.h
 	<Screen.h>
 	<Object.h>
 	<common.h>
@@ -71,7 +84,7 @@
 	<GLTexture.h>
 	<GLTimer.h>
 
-1714022878 c:\users\skele\desktop\178games\project_deadrunner\include\glplayer.h
+1715202200 c:\users\skele\desktop\178games\project_deadrunner\include\glplayer.h
 	<common.h>
 	<GLTexture.h>
 	<GLTimer.h>
@@ -86,7 +99,7 @@
 	<GLTexture.h>
 	<GLTimer.h>
 
-1715035827 c:\users\skele\desktop\178games\project_deadrunner\include\object.h
+1715227770 c:\users\skele\desktop\178games\project_deadrunner\include\object.h
 	<common.h>
 	<GLTexture.h>
 	<GLTimer.h>
@@ -94,7 +107,7 @@
 1710785890 source:c:\users\skele\desktop\178games\project_deadrunner\src\gllight.cpp
 	"GLLight.h"
 
-1710785888 c:\users\skele\desktop\178games\project_deadrunner\include\gllight.h
+1715212892 c:\users\skele\desktop\178games\project_deadrunner\include\gllight.h
 	<GLScene.h>
 
 1710785890 source:c:\users\skele\desktop\178games\project_deadrunner\src\glmodel.cpp
@@ -103,7 +116,7 @@
 1713395376 source:c:\users\skele\desktop\178games\project_deadrunner\src\glparallax.cpp
 	"GLParallax.h"
 
-1715038729 source:c:\users\skele\desktop\178games\project_deadrunner\src\glplayer.cpp
+1715237626 source:c:\users\skele\desktop\178games\project_deadrunner\src\glplayer.cpp
 	"GLPlayer.h"
 
 1711184682 source:c:\users\skele\desktop\178games\project_deadrunner\src\gltexture.cpp
@@ -115,13 +128,13 @@
 1712173640 source:c:\users\skele\desktop\178games\project_deadrunner\src\menu.cpp
 	"Menu.h"
 
-1715036915 source:c:\users\skele\desktop\178games\project_deadrunner\src\object.cpp
+1715227770 source:c:\users\skele\desktop\178games\project_deadrunner\src\object.cpp
 	"Object.h"
 
 1713992091 source:c:\users\skele\desktop\178games\project_deadrunner\src\screen.cpp
 	"Screen.h"
 
-1715037588 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
+1715237668 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
 	<GLScene.h>
 	<GLLight.h>
 	<GLParallax.h>
@@ -134,6 +147,7 @@
 	<GLEnms.h>
 	<GLCheckCollision.h>
 	<GLSounds.h>
+	<GLProjectile.h>
 
 1710977030 c:\users\skele\desktop\178games\common\include\sounds\irrklang.h
 	"ik_irrKlangTypes.h"
@@ -235,7 +249,7 @@
 1714464654 c:\users\skele\desktop\178games\project_deadrunner\include\glsounds.h
 	<common.h>
 
-1714464934 source:c:\users\skele\desktop\178games\project_deadrunner\src\glsounds.cpp
+1715211649 source:c:\users\skele\desktop\178games\project_deadrunner\src\glsounds.cpp
 	"GLSounds.h"
 
 1713814119 source:c:\users\skele\desktop\178games\project_deadrunner\src\alsounds.cpp
@@ -250,10 +264,10 @@
 
 1713809704 c:\users\skele\desktop\178games\project_deadrunner\include\al\alc.h
 
-1713940478 source:c:\users\skele\desktop\178games\project_deadrunner\src\glprojectile.cpp
+1715202835 source:c:\users\skele\desktop\178games\project_deadrunner\src\glprojectile.cpp
 	"GLProjectile.h"
 
-1713940476 c:\users\skele\desktop\178games\project_deadrunner\include\glprojectile.h
+1715202835 c:\users\skele\desktop\178games\project_deadrunner\include\glprojectile.h
 	<common.h>
 	<GLTexture.h>
 	<GLTimer.h>
