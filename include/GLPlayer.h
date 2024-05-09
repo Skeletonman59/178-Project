@@ -12,6 +12,7 @@ class GLPlayer
         virtual ~GLPlayer();
 
         enum {STAND,WALKLEFT,WALKRIGHT, RUN, JUMP,ROLL, SHOOT};
+        int direction;
 
         GLTexture *texture = new GLTexture();
         GLTimer   *myTime = new GLTimer();

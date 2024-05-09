@@ -63,6 +63,7 @@ public:
     float w, h;
     int Ammo=6;
     int Gold=0;
+    int coinIter=0;
 
     int windMsg(HWND,UINT,WPARAM,LPARAM);  // take windows inputs
 

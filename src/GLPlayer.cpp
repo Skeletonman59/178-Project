@@ -114,6 +114,7 @@ void GLPlayer::actions()
                 xMax += 1.0/(float)framesX;
                 xMin += 1.0/(float)framesX;
                 plPosition.x -=.1;
+                direction = -1;
             }
             break;
 
@@ -131,6 +132,7 @@ void GLPlayer::actions()
                 xMin+=1.0/(float)framesX;
                 xMax+=1.0/(float)framesX;
                 plPosition.x +=0.1;
+                direction = 1;
 
             }
             break;

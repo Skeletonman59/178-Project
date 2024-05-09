@@ -10,10 +10,13 @@ GLProjectile::~GLProjectile()
     //dtor
 }
 
-void GLProjectile::drawProjectile()
+void GLProjectile::drawProjectile(vec3 pl)
 {
+    pos.x = pl.x;
+    pos.y = pl.y+0.20;
+    pos.z = pl.z;
 
-        glPushMatrix();
+    glPushMatrix();
     glTranslatef(pos.x,pos.y,pos.z);
     glRotatef(pRotate.x,1,0,0);
     glRotatef(pRotate.y,0,1,0);
@@ -21,26 +24,52 @@ void GLProjectile::drawProjectile()
 
     glScalef(pScale.x,pScale.y,1.0);
 
-     glBegin(GL_QUADS);
-      glTexCoord2f(xMin,yMax);
-      glVertex3f(-1,-1,0);
+    glBegin(GL_QUADS);
+    glTexCoord2f(xMin,yMax);
+    glVertex3f(-1,-1,0);
 
-      glTexCoord2f(xMax,yMax);
-      glVertex3f(1,-1,0);
+    glTexCoord2f(xMax,yMax);
+    glVertex3f(1,-1,0);
 
-      glTexCoord2f(xMax,yMin);
-      glVertex3f(1,1,0);
+    glTexCoord2f(xMax,yMin);
+    glVertex3f(1,1,0);
 
-      glTexCoord2f(xMin,yMin);
-      glVertex3f(-1,1,0);
+    glTexCoord2f(xMin,yMin);
+    glVertex3f(-1,1,0);
 
-   glEnd();
-   glPopMatrix();
+    glEnd();
+    glPopMatrix();
+}
+void GLProjectile::drawProjectileStatic()
+{
+    glPushMatrix();
+    glTranslatef(pos.x,pos.y,pos.z);
+    glRotatef(pRotate.x,1,0,0);
+    glRotatef(pRotate.y,0,1,0);
+    glRotatef(pRotate.z,0,0,1);
+
+    glScalef(pScale.x,pScale.y,1.0);
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(xMin,yMax);
+    glVertex3f(-1,-1,0);
+
+    glTexCoord2f(xMax,yMax);
+    glVertex3f(1,-1,0);
+
+    glTexCoord2f(xMax,yMin);
+    glVertex3f(1,1,0);
+
+    glTexCoord2f(xMin,yMin);
+    glVertex3f(-1,1,0);
+
+    glEnd();
+    glPopMatrix();
 }
 
 void GLProjectile::drawItem()
 {
-            glPushMatrix();
+    glPushMatrix();
     glTranslatef(pos.x,pos.y,pos.z);
     glRotatef(pRotate.x,1,0,0);
     glRotatef(pRotate.y,0,1,0);
@@ -48,21 +77,21 @@ void GLProjectile::drawItem()
 
     glScalef(pScale.x,pScale.y,1.0);
 
-     glBegin(GL_QUADS);
-      glTexCoord2f(xMin,yMax);
-      glVertex3f(-1,-1,0);
+    glBegin(GL_QUADS);
+    glTexCoord2f(xMin,yMax);
+    glVertex3f(-1,-1,0);
 
-      glTexCoord2f(xMax,yMax);
-      glVertex3f(1,-1,0);
+    glTexCoord2f(xMax,yMax);
+    glVertex3f(1,-1,0);
 
-      glTexCoord2f(xMax,yMin);
-      glVertex3f(1,1,0);
+    glTexCoord2f(xMax,yMin);
+    glVertex3f(1,1,0);
 
-      glTexCoord2f(xMin,yMin);
-      glVertex3f(-1,1,0);
+    glTexCoord2f(xMin,yMin);
+    glVertex3f(-1,1,0);
 
-   glEnd();
-   glPopMatrix();
+    glEnd();
+    glPopMatrix();
 }
 
 void GLProjectile::PlaceItem(vec3 p) //places an item at any vec3 location
@@ -71,7 +100,7 @@ void GLProjectile::PlaceItem(vec3 p) //places an item at any vec3 location
     pos.y =p.y;
     pos.z =p.z;
 }
-
+/*
 void GLProjectile::ThrowProjectile(vec3 p,vec3 d,float speed) // general code for shooting; could work for both player and enemy
 {
 
@@ -119,7 +148,7 @@ if (direction == 3)//up @ down
 if (direction == 4)
 {
     pos.y -= speed;
-}*/
+}
  if( pos.x == d.x && pos.y == d.y){
     isLive=false;
 }
@@ -135,29 +164,60 @@ if (direction == 4)
 
 
 }
+*/
+void GLProjectile::ThrowProjectile(vec3 p, vec3 d, float speed)
+{
+
+}
+void GLProjectile::playerShootSet(vec3 plPosition) //TO BE USED IN KeyPress
+{
+    pos = plPosition;
+}
+void GLProjectile::bulletMove(int direction, vec3 deleted)
+{
+
+    if(clock()-myTimer->startTime>30)
+   {
+       if(direction == -1)
+        {
+            pos.x -=0.5;       // you may apply parametric eq with t
+            pRotate.z = 0;
+        }
+       else if(direction == 1)
+        {
+            pos.x +=0.5;        // you may apply parametric eq with t
+            pRotate.z = 180;
+        }
+
+        myTimer->startTime =clock();
+   }
+   if (pos.x >= 5)  pos = deleted;
+   if (pos.x <= -5) pos = deleted;
+}
+
 
 void GLProjectile::isExpire()
 {
-if(clock() - myTime->startTime>300)
-{
+    if(clock() - myTime->startTime>300)
+    {
 
-    pScale.x =0.0; // scale it to 0 to remove it
-    pScale.y =0.0;// only here because I'm not certain how to delete items
+        pScale.x =0.0; // scale it to 0 to remove it
+        pScale.y =0.0;// only here because I'm not certain how to delete items
 
-    myTime->startTime =clock();
+        myTime->startTime =clock();
+    }
 }
-}
 
-void GLProjectile::initItem(vec3 plPos)
+void GLProjectile::initBullet()
 {
-    pos = plPos;
+    pos = {0,0,0};
 
-    pScale.x = 0.2;
-    pScale.y = 0.2;
+    pScale.x = 0.04;
+    pScale.y = 0.02;
 
     pRotate.x =0;
     pRotate.y =0;
-    pRotate.z =90;
+    pRotate.z =0;
 
     xMin =0;
     yMin =0;
@@ -174,5 +234,24 @@ void GLProjectile::initItem(vec3 plPos)
     dest2.x =-5.0; // use dest2 to shoot left
     dest2.y =0;
     dest2.z = -4;
+}
+void GLProjectile::initCoin()
+{
+    pos = {0,0,0};
+
+    pScale.x = 0.1;
+    pScale.y = 0.1;
+
+    pRotate.x =0;
+    pRotate.y =0;
+    pRotate.z =0;
+
+    xMin =0;
+    yMin =0;
+    xMax =1;
+    yMax =1;
+
+    isLive= false;
+    myTime->startTime = clock();
 }
 

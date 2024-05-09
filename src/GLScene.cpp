@@ -56,8 +56,8 @@ GLint GLScene::initGL()
     help->screenInit(-4, 0, 0.01, 0, "images/menu/helpmenu.png"); //seriously, who's gonna tell the help menu is 0.01 units closer?
     pause->screenInit(0, 0, 0, 0, "images/menu/pause.png");
     credit->screenInit(0,0,0,0,"images/menu/creators.png");
-    BulletTex->loadTexture("images/game/princess.png");
-    CoinTex->loadTexture("images/game/crab.png");
+    BulletTex->loadTexture("images/game/bullet.png");
+    CoinTex->loadTexture("images/game/coin.png");
 
     load->current = true;
 
@@ -73,8 +73,6 @@ GLint GLScene::initGL()
     health->health_bar(w, h, screenWidth, screenHeight);
     bullet->initObject(0, 0, -6, 1,2, "images/game/bullet.png");
     bullet->default_obj();
-
-
 
     snds->initSounds();
     snds->myTime->startTime = clock();
@@ -97,26 +95,40 @@ GLint GLScene::initGL()
     }
     enmSpawnRate = (float)rand()/(float)RAND_MAX*100 + 150;
     enmN = 0;
+
+    for(int i = 0; i < 6; i++)
+    {
+        P[i].initBullet();
+    }
+    for(int i = 0; i < 100; i++)
+    {
+        coin[i].initCoin();
+    }
+
     if(level1)
     {
         p->parallaxInit("images/game/stage1.png");
         doneLoading=true;
         maxEnms = 5;
+
     }
     if(level2)
     {
+        snds->stopGameSound();
         p->parallaxInit("images/game/stage2.png");
         doneLoading=true;
         maxEnms = 10;
     }
     if(level3)
     {
+        snds->stopGameSound();
         p->parallaxInit("images/game/stage3.png");
         doneLoading=true;
         maxEnms = 15;
     }
     if(level4)
     {
+        snds->stopGameSound();
         p->parallaxInit("images/game/stage4.png");
         doneLoading=true;
         maxEnms = 20;
@@ -210,8 +222,18 @@ GLint GLScene::drawScene()    // this function runs on a loop
 
             //snds->firstGameSound(sndsIterator);
             //snds->secondGameSound(sndsIterator);
-            snds->thirdGameSound(sndsIterator);
+            //snds->thirdGameSound(sndsIterator);
+
         }
+        if(level1)     snds->firstGameSound(sndsIterator);
+        else if (level2)
+        {
+            //snds->stopGameSound();
+            //if(snds->)
+            snds->secondGameSound(sndsIterator);
+        }
+        else if (level3)snds->thirdGameSound(sndsIterator);
+
         glEnable(GL_LIGHTING);
         glPopMatrix();
 
@@ -226,6 +248,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
             glPopMatrix();
         }
 
+        bool coinSpawned = false;
         enmSpawnRate--;
         if(enmSpawnRate <= 0)
         {
@@ -237,14 +260,14 @@ GLint GLScene::drawScene()    // this function runs on a loop
 
         for(int i = 0; i < maxEnms; i++)
         {
-            glEnable(GL_BLEND);
+            //glEnable(GL_BLEND);
             //enmTexture[2].bindTexture();
             if (player->actionTrigger == player->ROLL) {}
             if(E[i].isEnemyLive)
             {
                 E[i].pos.x < player->plPosition.x ? E[i].action = E[i].WALKRIGHT : E[i].action = E[i].WALKLEFT;
             }
-            if(hit->isRadialCollision(E[i].pos, player->plPosition,0.2,0.2,0.02))
+            if(hit->isRadialCollision(E[i].pos, player->plPosition,0.2,0.2,0.02)) //ENEMY ON PLAYER
             {
                 if((clock() - Iframe->startTime) > 2000 && player->actionTrigger != player->ROLL )
                 {
@@ -257,10 +280,35 @@ GLint GLScene::drawScene()    // this function runs on a loop
                     Iframe->startTime = clock();
                 }
             }
+            for(int j = 0; j < 6; j++) // projectile count
+            {
+                if(hit->isRadialCollision(E[i].pos, P[j].pos,0.4,0.4,0.02) && E[i].isEnemyLive == true) //ENEMY ON BULLET
+                {
+                    coin[coinIter].PlaceItem(E[i].pos);
+                    E[i].isEnemyLive = false;
+                    E[i].pos=deleted; // coins do spawn but we need to remove the enemies, cant do both at the same time
+                    coin[coinIter].coinSpawn = true;
+                    P[j].isLive=false;
+                }
+            }
+            for(int k = 0; k < coinIter; k++)
+            {
+                if(hit->isRadialCollision(coin[k].pos, player->plPosition,0.35,0.35,0.2))
+                {
+                    coin[k].PlaceItem(deleted); //pos=deleted;
+                    coin[k].coinSpawn=false;
+                    Gold++;
+                    cout<<"gold aquired"<<endl;
+
+                }
+            }
+
+
             E[i].drawEnemy();
             E[i].actions();
 
         }
+
 
         snds->stopMenu();
         //snds->playGameSound();
@@ -272,6 +320,57 @@ GLint GLScene::drawScene()    // this function runs on a loop
         health->barActions();
         glEnable(GL_LIGHTING);
         glDisable(GL_BLEND);
+        glPopMatrix();
+
+        BulletTex->bindTexture();
+        if (player->shooting == true && Ammo > 0)
+        {
+            Ammo--;
+
+            //P[Ammo].drawProjectile(player->plPosition);
+            P[Ammo].isLive=true;
+            player->shooting = false;
+            //P[Ammo].playerShootSet(player->plPosition);
+            P[Ammo].drawProjectile(player->plPosition);
+
+        }
+
+        glPushMatrix();
+        glDisable(GL_LIGHTING);
+        glEnable(GL_BLEND);
+        for (int i = 0; i < 6; i++)
+        {
+            if(P[i].isLive == true)
+            {
+                P[i].anotherTime->startTime = clock();
+                P[i].drawProjectileStatic();
+                P[i].bulletMove(player->direction, deleted);
+                //P[i].isExpire();
+                //P[i].ThrowProjectile(player->plPosition,P[i].dest,1.0, 1); // use this to shoot right
+                //P[Ammo].ThrowProjectile(player->plPosition,P[Ammo].dest2,1.0); // use this to shoot left
+            }
+            if(Ammo == 0)
+            {
+                //reload condition
+                Ammo=6;
+            }
+
+            glEnable(GL_LIGHTING);
+            glPopMatrix();
+
+        }
+        CoinTex->bindTexture();
+        glPushMatrix();
+        glDisable(GL_LIGHTING);
+        glEnable(GL_BLEND);
+        for (int i = 0; i < 100; i++)
+        {
+            if (coin[i].coinSpawn)
+            {
+                coin[i].drawItem(); // Draw the coin
+            }
+        }
+        glEnable(GL_LIGHTING);
         glPopMatrix();
 
     }

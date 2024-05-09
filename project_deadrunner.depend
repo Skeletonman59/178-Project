@@ -7,7 +7,7 @@
 	<iostream>
 	<windows.h>
 
-1715227350 c:\users\skele\desktop\178games\project_deadrunner\include\glscene.h
+1715244529 c:\users\skele\desktop\178games\project_deadrunner\include\glscene.h
 	<common.h>
 	<GLTimer.h>
 	<GLScene.h>
@@ -65,26 +65,27 @@
 1710785889 c:\users\skele\desktop\178games\project_deadrunner\include\gltexture.h
 	<common.h>
 
-1715232948 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
+1715250901 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
 	"GLInputs.h"
 	<common.h>
 
-1715228099 c:\users\skele\desktop\178games\project_deadrunner\include\glinputs.h
+1715248149 c:\users\skele\desktop\178games\project_deadrunner\include\glinputs.h
 	<Screen.h>
 	<Object.h>
 	<common.h>
 	<GLPlayer.h>
 	<GLSounds.h>
+	<GLProjectile.h>
 
 1710785888 c:\users\skele\desktop\178games\project_deadrunner\include\glmodel.h
 	<common.h>
 
-1713395373 c:\users\skele\desktop\178games\project_deadrunner\include\glparallax.h
+1715243539 c:\users\skele\desktop\178games\project_deadrunner\include\glparallax.h
 	<common.h>
 	<GLTexture.h>
 	<GLTimer.h>
 
-1715202200 c:\users\skele\desktop\178games\project_deadrunner\include\glplayer.h
+1715248685 c:\users\skele\desktop\178games\project_deadrunner\include\glplayer.h
 	<common.h>
 	<GLTexture.h>
 	<GLTimer.h>
@@ -116,7 +117,7 @@
 1713395376 source:c:\users\skele\desktop\178games\project_deadrunner\src\glparallax.cpp
 	"GLParallax.h"
 
-1715237626 source:c:\users\skele\desktop\178games\project_deadrunner\src\glplayer.cpp
+1715248788 source:c:\users\skele\desktop\178games\project_deadrunner\src\glplayer.cpp
 	"GLPlayer.h"
 
 1711184682 source:c:\users\skele\desktop\178games\project_deadrunner\src\gltexture.cpp
@@ -134,7 +135,7 @@
 1713992091 source:c:\users\skele\desktop\178games\project_deadrunner\src\screen.cpp
 	"Screen.h"
 
-1715237668 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
+1715250825 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
 	<GLScene.h>
 	<GLLight.h>
 	<GLParallax.h>
@@ -264,10 +265,10 @@
 
 1713809704 c:\users\skele\desktop\178games\project_deadrunner\include\al\alc.h
 
-1715202835 source:c:\users\skele\desktop\178games\project_deadrunner\src\glprojectile.cpp
+1715250992 source:c:\users\skele\desktop\178games\project_deadrunner\src\glprojectile.cpp
 	"GLProjectile.h"
 
-1715202835 c:\users\skele\desktop\178games\project_deadrunner\include\glprojectile.h
+1715250825 c:\users\skele\desktop\178games\project_deadrunner\include\glprojectile.h
 	<common.h>
 	<GLTexture.h>
 	<GLTimer.h>

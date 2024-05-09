@@ -217,6 +217,9 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, S
             break;
         }
         break;
+    case VK_SPACE:
+        if(screenToggle== GAMESCREEN) player->shooting = true;
+        break;
     }
 }
 

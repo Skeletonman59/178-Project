@@ -5,6 +5,7 @@
 #include<common.h>
 #include<GLPlayer.h>
 #include<GLSounds.h>
+#include<GLProjectile.h>
 
 class GLInputs
 {
