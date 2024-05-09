@@ -40,7 +40,7 @@ void GLSounds::firstGameSound(int zCount) //bcs we don't know if we're doing it 
     Genesis_1->setIsPaused(false);
     Genesis_2->setIsPaused(false);
     Genesis_3->setIsPaused(false);
-    if (zCount <= 3)
+    if (zCount <= 1)
     {
         if(clock() - myTime->startTime>15)
         {
@@ -54,7 +54,7 @@ void GLSounds::firstGameSound(int zCount) //bcs we don't know if we're doing it 
             myTime->startTime =clock();
         }
     }
-    else if (zCount > 3 && zCount <=6)
+    else if (zCount == 2)
     {
         if(clock() - myTime->startTime>15)
         {
@@ -67,7 +67,7 @@ void GLSounds::firstGameSound(int zCount) //bcs we don't know if we're doing it 
             myTime->startTime =clock();
         }
     }
-    else if (zCount > 6)
+    else if (zCount >= 3 )
     {
         if(clock() - myTime->startTime>15)
         {
@@ -83,10 +83,14 @@ void GLSounds::firstGameSound(int zCount) //bcs we don't know if we're doing it 
 }
 void GLSounds::secondGameSound(int zCount)
 {
+    Genesis_1->setIsPaused(true);
+    Genesis_2->setIsPaused(true);
+    Genesis_3->setIsPaused(true);
+
     Exposure_1->setIsPaused(false);
     Exposure_2->setIsPaused(false);
     Exposure_3->setIsPaused(false);
-    if (zCount <= 3)
+    if (zCount <= 1)
     {
         if(clock() - myTime->startTime>15)
         {
@@ -101,7 +105,7 @@ void GLSounds::secondGameSound(int zCount)
         }
 
     }
-    else if (zCount > 3 && zCount <=6)
+    else if (zCount == 2)
     {
         if(clock() - myTime->startTime>15)
         {
@@ -114,7 +118,7 @@ void GLSounds::secondGameSound(int zCount)
             myTime->startTime =clock();
         }
     }
-    else if (zCount > 6)
+    else if (zCount >= 3 )
     {
         if(clock() - myTime->startTime>15)
         {
@@ -135,7 +139,7 @@ void GLSounds::thirdGameSound(int zCount)
     Stubborn_1->setIsPaused(false);
     Stubborn_2->setIsPaused(false);
     Stubborn_3->setIsPaused(false);
-    if (zCount <= 3)
+    if (zCount <= 1)
     {
         if(clock() - myTime->startTime>15)
         {
@@ -151,7 +155,7 @@ void GLSounds::thirdGameSound(int zCount)
         }
 
     }
-    else if (zCount > 3 && zCount <=6)
+    else if (zCount == 2)
     {
         if(clock() - myTime->startTime>15)
         {
@@ -167,7 +171,7 @@ void GLSounds::thirdGameSound(int zCount)
             myTime->startTime =clock();
         }
     }
-    else if (zCount > 6)
+   else if (zCount >= 3 )
     {
         if(clock() - myTime->startTime>15)
         {

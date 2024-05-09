@@ -220,19 +220,8 @@ GLint GLScene::drawScene()    // this function runs on a loop
             glEnable(GL_LIGHTING);
             glPopMatrix();
 
-            //snds->firstGameSound(sndsIterator);
-            //snds->secondGameSound(sndsIterator);
-            //snds->thirdGameSound(sndsIterator);
+        }
 
-        }
-        if(level1)     snds->firstGameSound(sndsIterator);
-        else if (level2)
-        {
-            //snds->stopGameSound();
-            //if(snds->)
-            snds->secondGameSound(sndsIterator);
-        }
-        else if (level3)snds->thirdGameSound(sndsIterator);
 
         glEnable(GL_LIGHTING);
         glPopMatrix();
@@ -284,22 +273,12 @@ GLint GLScene::drawScene()    // this function runs on a loop
             {
                 if(hit->isRadialCollision(E[i].pos, P[j].pos,0.4,0.4,0.02) && E[i].isEnemyLive == true) //ENEMY ON BULLET
                 {
+                    goal--;
                     coin[coinIter].PlaceItem(E[i].pos);
                     E[i].isEnemyLive = false;
                     E[i].pos=deleted; // coins do spawn but we need to remove the enemies, cant do both at the same time
                     coin[coinIter].coinSpawn = true;
                     P[j].isLive=false;
-                }
-            }
-            for(int k = 0; k < coinIter; k++)
-            {
-                if(hit->isRadialCollision(coin[k].pos, player->plPosition,0.35,0.35,0.2))
-                {
-                    coin[k].PlaceItem(deleted); //pos=deleted;
-                    coin[k].coinSpawn=false;
-                    Gold++;
-                    cout<<"gold aquired"<<endl;
-
                 }
             }
 
@@ -321,6 +300,21 @@ GLint GLScene::drawScene()    // this function runs on a loop
         glEnable(GL_LIGHTING);
         glDisable(GL_BLEND);
         glPopMatrix();
+
+        if(level1 && goal > 0)
+        {
+            snds->firstGameSound(health->barTrigger);
+
+            //use hpbar instead
+        }
+        else if(level2 && goal > 0)
+        {
+            snds->secondGameSound(health->barTrigger);
+        }
+        else if(level3 && goal > 0)
+        {
+            snds->thirdGameSound(health->barTrigger);
+        }
 
         BulletTex->bindTexture();
         if (player->shooting == true && Ammo > 0)
@@ -372,6 +366,18 @@ GLint GLScene::drawScene()    // this function runs on a loop
         }
         glEnable(GL_LIGHTING);
         glPopMatrix();
+
+        for(int k = 0; k < coinIter; k++)
+            {
+                if(hit->isRadialCollision(coin[k].pos, player->plPosition,0.35,0.35,0.2))
+                {
+                    coin[k].PlaceItem(deleted); //pos=deleted;
+                    coin[k].coinSpawn=false;
+                    Gold++;
+                    cout<<"gold aquired"<<endl;
+
+                }
+            }
 
     }
     if(pause->current)

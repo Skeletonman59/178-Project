@@ -621,6 +621,7 @@ void GLInputs::keyBackground(float speed)
         //    myTime->startTime =clock();
     }
 }
+
 void GLInputs::soundIterator(int &iter)
 {
 // NOTE (Skele#1#): This is to see what soundIter is, delete when done testing

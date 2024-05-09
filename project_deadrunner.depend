@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1715212834 source:c:\users\skele\desktop\178games\project_deadrunner\main.cpp
+1715254137 source:c:\users\skele\desktop\178games\project_deadrunner\main.cpp
 	<windows.h>
 	<GLScene.h>
 	<GL/glut.h>
@@ -7,7 +7,7 @@
 	<iostream>
 	<windows.h>
 
-1715244529 c:\users\skele\desktop\178games\project_deadrunner\include\glscene.h
+1715252775 c:\users\skele\desktop\178games\project_deadrunner\include\glscene.h
 	<common.h>
 	<GLTimer.h>
 	<GLScene.h>
@@ -65,7 +65,7 @@
 1710785889 c:\users\skele\desktop\178games\project_deadrunner\include\gltexture.h
 	<common.h>
 
-1715250901 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
+1715254561 source:c:\users\skele\desktop\178games\project_deadrunner\src\glinputs.cpp
 	"GLInputs.h"
 	<common.h>
 
@@ -135,7 +135,7 @@
 1713992091 source:c:\users\skele\desktop\178games\project_deadrunner\src\screen.cpp
 	"Screen.h"
 
-1715250825 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
+1715255847 source:c:\users\skele\desktop\178games\project_deadrunner\src\glscene.cpp
 	<GLScene.h>
 	<GLLight.h>
 	<GLParallax.h>
@@ -250,7 +250,7 @@
 1714464654 c:\users\skele\desktop\178games\project_deadrunner\include\glsounds.h
 	<common.h>
 
-1715211649 source:c:\users\skele\desktop\178games\project_deadrunner\src\glsounds.cpp
+1715255766 source:c:\users\skele\desktop\178games\project_deadrunner\src\glsounds.cpp
 	"GLSounds.h"
 
 1713814119 source:c:\users\skele\desktop\178games\project_deadrunner\src\alsounds.cpp
