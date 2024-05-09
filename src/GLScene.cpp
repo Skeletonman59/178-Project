@@ -88,7 +88,9 @@ GLint GLScene::initGL()
     {
         E[i].isEnemyLive = false;
         E[i].tex = &enmTexture[(rand() % 3)];
-        E[i].pos.x = 3.5f;
+        int wallspawn = (rand()%99);
+        if (wallspawn >50) E[i].pos.x = 5.0f;
+        else E[i].pos.x = -5.0f;
         E[i].pos.y =-1.5;
         E[i].action = E[i].WALKLEFT;
         E[i].eScale.x = E[i].eScale.y = 0.5;
@@ -114,22 +116,22 @@ GLint GLScene::initGL()
     }
     if(level2)
     {
-        snds->stopGameSound();
+        //snds->stopGameSound();
         p->parallaxInit("images/game/stage2.png");
         doneLoading=true;
         maxEnms = 10;
     }
     if(level3)
     {
-        snds->stopGameSound();
+        //snds->stopGameSound();
         p->parallaxInit("images/game/stage3.png");
         doneLoading=true;
         maxEnms = 15;
     }
     if(level4)
     {
-        snds->stopGameSound();
-        p->parallaxInit("images/game/stage4.png");
+        //snds->stopGameSound();
+        p->parallaxInit("images/game/stage1.png"); //placeholder
         doneLoading=true;
         maxEnms = 20;
     }
@@ -244,7 +246,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
             E[enmN++].isEnemyLive = true;
             if(enmN >= maxEnms);
             enmN %= maxEnms;
-            enmSpawnRate = (float)rand()/(float)RAND_MAX*500 + 1350;
+            enmSpawnRate = (float)rand()/(float)RAND_MAX*100; //+ 1350;
         }
 
         for(int i = 0; i < maxEnms; i++)
@@ -271,14 +273,19 @@ GLint GLScene::drawScene()    // this function runs on a loop
             }
             for(int j = 0; j < 6; j++) // projectile count
             {
-                if(hit->isRadialCollision(E[i].pos, P[j].pos,0.4,0.4,0.02) && E[i].isEnemyLive == true) //ENEMY ON BULLET
+                if(hit->isRadialCollision(E[i].pos, P[j].pos,0.2,0.2,0.02) && E[i].isEnemyLive == true) //ENEMY ON BULLET
                 {
-                    goal--;
-                    coin[coinIter].PlaceItem(E[i].pos);
-                    E[i].isEnemyLive = false;
-                    E[i].pos=deleted; // coins do spawn but we need to remove the enemies, cant do both at the same time
-                    coin[coinIter].coinSpawn = true;
+                    E[i].enemyHealth--;
                     P[j].isLive=false;
+                    P[j].pos = deleted;
+                    if (E[i].enemyHealth <= 0)
+                    {
+                        coin[coinIter].PlaceItem(E[i].pos);
+                        E[i].isEnemyLive = false;
+                        E[i].pos=deleted; // coins do spawn but we need to remove the enemies, cant do both at the same time
+                        coin[coinIter].coinSpawn = true;
+                        coinIter++;
+                    }
                 }
             }
 
@@ -301,19 +308,18 @@ GLint GLScene::drawScene()    // this function runs on a loop
         glDisable(GL_BLEND);
         glPopMatrix();
 
-        if(level1 && goal > 0)
+        if(level1 && goal != maxEnms)
         {
             snds->firstGameSound(health->barTrigger);
 
-            //use hpbar instead
         }
-        else if(level2 && goal > 0)
+        else if(level2 && goal != maxEnms)
         {
             snds->secondGameSound(health->barTrigger);
         }
-        else if(level3 && goal > 0)
+        else if(level3 && goal != maxEnms)
         {
-            snds->thirdGameSound(health->barTrigger);
+            snds->fourthGameSound(health->barTrigger);
         }
 
         BulletTex->bindTexture();
@@ -368,16 +374,21 @@ GLint GLScene::drawScene()    // this function runs on a loop
         glPopMatrix();
 
         for(int k = 0; k < coinIter; k++)
-            {
-                if(hit->isRadialCollision(coin[k].pos, player->plPosition,0.35,0.35,0.2))
-                {
-                    coin[k].PlaceItem(deleted); //pos=deleted;
-                    coin[k].coinSpawn=false;
-                    Gold++;
-                    cout<<"gold aquired"<<endl;
+        {
+            //COMMENT THIS OUT IF YOU DO NOT LIKE HAVING AUTO-COINS
+            if(player->plPosition.x > coin[k].pos.x ) coin[k].pos.x +=0.01;
+            else if (player->plPosition.x < coin[k].pos.x ) coin[k].pos.x -=0.01;
 
-                }
+            if(hit->isRadialCollision(coin[k].pos, player->plPosition,0.15,0.15,0.2))
+            {
+                coin[k].PlaceItem(deleted); //pos=deleted;
+                coin[k].coinSpawn=false;
+                Gold++;
+                goal++;
+                //cout<<"gold aquired"<<endl;
+
             }
+        }
 
     }
     if(pause->current)
@@ -444,9 +455,9 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         kbMs->wParam = wParam;
         kbMs->keyPress(load, menu, help, game, pause, newgame, guide, quit, player, snds); // Pass screen instance
 
-        kbMs->keyPress2(player, bullet);
-        kbMs->keyTest(health);
-        kbMs->soundIterator(sndsIterator);
+        //kbMs->keyPress2(player, bullet);
+        //kbMs->keyTest(health);
+        //kbMs->soundIterator(sndsIterator);
         break;
 
     case WM_KEYUP:

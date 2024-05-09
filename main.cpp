@@ -408,25 +408,30 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 				}
 			}
 
-			if(scene->player->rightBound() && scene->level1 && !scene->goal ){
+
+			if(scene->player->rightBound() && scene->level1 && scene->goal >= scene->maxEnms ){
                 scene->level2 = !scene->level2;
                 scene->level1 = !scene->level1;
                 scene->snds->stopGameSound();
+                scene->goal = 0;
                 scene->doneLoading = false;
 			}
 
-			else if(scene->player->rightBound()&& scene->level2 ){
+			else if(scene->player->rightBound()&& scene->level2 && scene->goal >= scene->maxEnms ){
                 scene->level3 = !scene->level3;
                 scene->level2 = !scene->level2;
                 scene->snds->stopGameSound();
+                scene->goal = 0;
                 scene->doneLoading = false;
 			}
 
-			else if(scene->player->rightBound()&& scene->level3 ){
+			else if(scene->player->rightBound()&& scene->level3 && scene->goal >= scene->maxEnms ){
                 scene->level4 = !scene->level4;
                 scene->level3 = !scene->level3;
                 scene->snds->stopGameSound();
+                scene->goal = 0;
                 scene->doneLoading = false;
+
 			}
 		}
 	}

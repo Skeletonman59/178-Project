@@ -16,6 +16,7 @@ class GLEnms
         void actions();
 
         bool isEnemyLive =true;
+        int enemyHealth = 4;
 
         enum{STAND,WALKLEFT,WALKRIGHT,ROLLLEFT,ROLLRIGHT,ATTACK};
 

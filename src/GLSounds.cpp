@@ -192,6 +192,8 @@ void GLSounds::thirdGameSound(int zCount)
 void GLSounds::fourthGameSound(int)
 {
     //TODO: ADD FOURTH SOUND
+    Funk_4->setIsPaused(false);
+
 }
 //TODO: maybe add a shop sound? it'd be funny if we just got a Kevin Macleod song in
 void GLSounds::stopGameSound()
@@ -205,6 +207,7 @@ void GLSounds::stopGameSound()
     Stubborn_1->setIsPaused(true);
     Stubborn_2->setIsPaused(true);
     Stubborn_3->setIsPaused(true);
+    Funk_4->setIsPaused(true);
 
 
     Genesis_1->setPlayPosition(0);
@@ -216,6 +219,7 @@ void GLSounds::stopGameSound()
     Stubborn_1->setPlayPosition(0);
     Stubborn_2->setPlayPosition(0);
     Stubborn_3->setPlayPosition(0);
+    Funk_4->setPlayPosition(0);
 }
 void GLSounds::playSelectSoundOne()
 {
@@ -253,6 +257,7 @@ int GLSounds::initSounds()
     Stubborn_1 = engine->play2D("sounds/Game/lvl3/Stubborn-1.wav", true, true, true);
     Stubborn_2 = engine->play2D("sounds/Game/lvl3/Stubborn-2.wav", true, true, true);
     Stubborn_3 = engine->play2D("sounds/Game/lvl3/Stubborn-3.wav", true, true, true);
+    Funk_4     = engine->play2D("sounds/Game/lvl4/Funk.wav", true, true, true);
 
     if(introMenu) introMenu->setVolume(1);
     if(mainMenu) mainMenu->setVolume(1);
@@ -265,6 +270,7 @@ int GLSounds::initSounds()
     if(Stubborn_1) Stubborn_1->setVolume(0);
     if(Stubborn_2) Stubborn_2->setVolume(secondVol);
     if(Stubborn_3) Stubborn_3->setVolume(thirdVol);
+    if(Funk_4) Funk_4->setVolume(0);
 
     return 1;
 }

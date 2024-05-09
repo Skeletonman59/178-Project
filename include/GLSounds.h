@@ -22,6 +22,7 @@ class GLSounds
         ISound* Stubborn_1;
         ISound* Stubborn_2;
         ISound* Stubborn_3;
+        ISound* Funk_4;
 
         void playMenu();
         void stopMenu();
