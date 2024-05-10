@@ -12,6 +12,18 @@
 #include<GLSounds.h>
 #include<GLProjectile.h>
 
+//FINAL NOTES: the only additions this game needs are:
+//A shop
+//A bool array
+//A variable resetter for gameover to newgame
+
+//Approach ideas:
+//Shop:
+//no actual screen menu with button inputs, instead a loony shop drops from the sky
+//onto the center of the screen. If the player jumps on the shop, a big Screen zooms
+//in from the Z axis and shows what Upgrades are available. Each upgrade will be a
+// different key to save on time
+
 GLScene::GLScene()
 {
     //ctor
@@ -566,10 +578,7 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_KEYDOWN:
         kbMs->wParam = wParam;
         kbMs->keyPress(load, menu, help, game, pause, newgame, guide, quit, player, snds, over); // Pass screen instance
-
-        //kbMs->keyPress2(player, bullet);
-        //kbMs->keyTest(health);
-        //kbMs->soundIterator(sndsIterator);
+        kbMs->keyBackground(p, 0.001);
         break;
 
     case WM_KEYUP:

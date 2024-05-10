@@ -619,96 +619,22 @@ void GLInputs::mouseMove(float w, float h, float screenWidth, float screenHeight
     }
 
 }
-void GLInputs::keyBackground(float speed)
+void GLInputs::keyBackground(GLParallax* plx, float speed)
 {
-    //  if(clock() - myTime->startTime>15)
-    switch(wParam)
+    if(clock() - myTime->startTime>15)
     {
-    case VK_UP:               // move parallax up
-        break;
-
-    case VK_DOWN:           // move parallax down
-        break;
-
-    case VK_LEFT:            // move parallax left
-        break;
-
-    case VK_RIGHT:         //// move parallax right
-        break;
-        //    myTime->startTime =clock();
-    }
-}
-/*
-void GLInputs::soundIterator(int &iter)
-{
-// NOTE (Skele#1#): This is to see what soundIter is, delete when done testing
-    //cout << iter << endl;
-    switch(wParam)
-    {
-    case VK_SPACE:
-        iter++;
-
-        break;
-    case VK_TAB:
-        iter--;
-        break;
-    }
-}
-void GLInputs::keyTest(Object* health)
-{
-    switch(wParam)
-    {
-    case VK_NUMPAD8:
-        switch (health->barTrigger)
+        switch(wParam)
         {
-        case health->FULL: break;
-        case health->QUARTER: health->barTrigger = health->FULL; break;
-        case health->THIRD: health->barTrigger = health->QUARTER; break;
-        case health->DOUBLE: health->barTrigger = health->THIRD; break;
-        case health->SINGLE: health->barTrigger = health->DOUBLE; break;
-        case health->EMPTY: break; //buddy's dead, yo
+        case VK_LEFT:            // move parallax left
+            plx->xMin -=speed;
+            plx->xMax -=speed;
+            break;
+        case VK_RIGHT:         //// move parallax right
+            plx->xMin +=speed;
+            plx->xMax +=speed;
+            break;
+
         }
-        break;
-    case VK_NUMPAD2:
-        switch (health->barTrigger)
-        {
-        case health->FULL: health->barTrigger = health->QUARTER; break;
-        case health->QUARTER: health->barTrigger = health->THIRD; break;
-        case health->THIRD: health->barTrigger = health->DOUBLE; break;
-        case health->DOUBLE: health->barTrigger = health->SINGLE; break;
-        case health->SINGLE: health->barTrigger = health->EMPTY; break;
-        case health->EMPTY: break; //STOP! HE'S ALREADY DEAD!!
-        }
-        break;
+        myTime->startTime =clock();
     }
 }
-void GLInputs::keyPress2(GLPlayer* player, Object* bullet)
-{
-    //cout << player->plPosition << endl;
-    switch(wParam)
-    {
-    case VK_NUMPAD9: //+Z
-        player->plPosition.z = player->plPosition.z + 0.1;
-        break;
-    case VK_NUMPAD3: //-Z
-        player->plPosition.z = player->plPosition.z - 0.1;
-        break;
-    case VK_NUMPAD7: //+X
-        player->plPosition.x = player->plPosition.x + 0.1;
-        break;
-    case VK_NUMPAD1: //-X
-        player->plPosition.x = player->plPosition.x + 0.1;
-        break;
-    case VK_NUMPAD8: //+Y
-        player->plPosition.y = player->plPosition.y + 0.1;
-        break;
-    case VK_NUMPAD2: //-Y
-        player->plPosition.y = player->plPosition.y - 0.1;
-        break;
-    case VK_SPACE:
-        //cout<< "bruh" << endl;
-        bullet->objPosition.x = player->plPosition.x;
-        break;
-    }
-}
-*/

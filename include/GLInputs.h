@@ -6,6 +6,7 @@
 #include<GLPlayer.h>
 #include<GLSounds.h>
 #include<GLProjectile.h>
+#include<GLParallax.h>
 
 class GLInputs
 {
@@ -15,11 +16,8 @@ class GLInputs
         virtual ~GLInputs();
 
         void keyPress(Screen*, Screen*, Screen*, Screen*, Screen*, Object*, Object*, Object*, GLPlayer*, GLSounds*, Screen*);            // when key pressed
-        void keyPress2(GLPlayer*, Object*);
-        void soundIterator(int&); //DEBUGGING: DELETE WHEN DONE
-        void keyTest(Object*);   //keyPress/KeyUP cluttered, delete this when done
         void keyUP(Screen*, Screen*, Screen*, Screen*, Screen*, Screen*, GLPlayer*, Object*, Object*, Object*, Object*, GLSounds*, Screen* over);                               // when key released
-        void keyBackground(float);    // parallax model & speed
+        void keyBackground(GLParallax*, float);    // parallax model & speed
 
 
         void mouseEventDown(Screen*, Screen* , Screen* , Screen*, Object*, Object*, Object*, GLTimer*, double, double); // mouse btn pressed
