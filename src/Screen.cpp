@@ -83,7 +83,7 @@ void Screen::actions()
             if  (alpha < 1.0) alpha+=0.1;
             else
             {
-                zPos = -1; //push screen back
+                zPos = 5; //push screen back
                 //menuLock = false;
             }
             myTime->startTime =clock();

@@ -18,6 +18,7 @@ GLScene::GLScene()
 
     screenWidth  = GetSystemMetrics(SM_CXSCREEN);
     screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
     level1=  true;   //Used to switch through screens
     level2= false;
     level3=false;
@@ -34,6 +35,7 @@ GLScene::~GLScene()
 
 GLint GLScene::initGL()
 {
+
     glShadeModel(GL_SMOOTH); // for smooth render
     glClearColor(0.0f,0.0f,0.0f,0.0f); // clear background to black
     glClearDepth(2.0f);            // depth test for layers
@@ -96,6 +98,12 @@ GLint GLScene::initGL()
         E[i].action = E[i].WALKLEFT;
         E[i].eScale.x = E[i].eScale.y = 0.5;
     }
+// TODO (Skele#7#): An idea for enemy use: have a separate array that stores bools per index,
+//if an enemy has been defeated then the bool is turned false. that way, when we iterate through
+//the bool array, if the enemy has already been killed, don't use it and skip ahead?
+//
+//This would mean that enemy array size = maxNms1+2+3+4.
+
     enmSpawnRate = (float)rand()/(float)RAND_MAX*100 + 150;
     enmN = 0;
 
@@ -110,7 +118,7 @@ GLint GLScene::initGL()
 
     if(level1)
     {
-        p->parallaxInit("images/game/stage1.png");
+        p->parallaxInit("images/game/night.png");
         doneLoading=true;
         maxEnms = 5;
         /*for(int i=0; i<20; i++)
@@ -122,7 +130,7 @@ GLint GLScene::initGL()
     if(level2)
     {
         //snds->stopGameSound();
-        p->parallaxInit("images/game/stage2.png");
+        p->parallaxInit("images/game/lava.jpg");
         doneLoading=true;
         maxEnms = 10;
         for(int i=0; i<20; i++)
@@ -136,7 +144,7 @@ GLint GLScene::initGL()
     if(level3)
     {
         //snds->stopGameSound();
-        p->parallaxInit("images/game/stage3.png");
+        p->parallaxInit("images/game/forest.png");
         doneLoading=true;
         maxEnms = 15;
         for(int i=0; i<20; i++)
@@ -148,15 +156,11 @@ GLint GLScene::initGL()
             E[i].pos.y+=0.5;
             E[i].radius = 1.0;
         }
-
-
-
-
     }
     if(level4)
     {
         //snds->stopGameSound();
-        p->parallaxInit("images/game/stage1.png"); //placeholder
+        p->parallaxInit("images/game/stage3.png"); //placeholder
         doneLoading=true;
         maxEnms = 20;
 
