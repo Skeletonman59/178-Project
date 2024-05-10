@@ -31,11 +31,14 @@ public:
     Screen *pause = new Screen();
     Screen *game = new Screen();
     Screen *credit = new Screen();
+    Screen *over   = new Screen();
+
 
     Object *newgame = new Object();
     Object *guide = new Object();
     Object *quit = new Object();
     GLParallax *p = new GLParallax();
+
 
     GLSounds *snds = new GLSounds();
 
@@ -61,10 +64,10 @@ public:
     GLint drawScene();
     GLvoid resizeScene(GLsizei, GLsizei);
     float w, h;
-    int Ammo=6;
-    int Gold=0;
-    int coinIter=0;
-    int goal = 0;
+    int Ammo;
+    int Gold;
+    int coinIter;
+    int goal;
 
     int windMsg(HWND,UINT,WPARAM,LPARAM);  // take windows inputs
 
@@ -81,8 +84,8 @@ public:
     vec3 deleted;
 
     int sndsIterator;
-    int iframeValue = 1000;
-    int damage = 1;
+    int iframeValue;
+    int damage;
 protected:
 
 private:

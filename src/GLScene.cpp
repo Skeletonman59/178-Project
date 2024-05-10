@@ -55,6 +55,7 @@ GLint GLScene::initGL()
     menu->screenInit( 0, 0, -1, 1, "images/menu/2.png");
     help->screenInit(-4, 0, 0.01, 0, "images/menu/helpmenu.png"); //seriously, who's gonna tell the help menu is 0.01 units closer?
     pause->screenInit(0, 0, 0, 0, "images/menu/pause.png");
+    over->screenInit(0,0,0,0,"images/game/gameOver.png");
     credit->screenInit(0,0,0,0,"images/menu/creators.png");
     BulletTex->loadTexture("images/game/bullet.png");
     CoinTex->loadTexture("images/game/coin.png");
@@ -172,6 +173,12 @@ GLint GLScene::initGL()
 
 
     }
+    Ammo=6;
+    Gold=0;
+    coinIter=0;
+    goal = 0;
+    iframeValue = 1000;
+    damage = 1;
     return true;
 }
 
@@ -197,6 +204,13 @@ GLint GLScene::drawScene()    // this function runs on a loop
     }
     if(menu->current)
     {
+        // find a way to re-init everything?
+        //thoughts: a function similar to initGL(), that only reloads
+        //things like variables and not objects or screens. does NOT
+        //initialize them, just resets them.
+// TODO (Skele#1#): WORK ON A FUNCTION THAT RESETS NON-OBJECT ITEMS,
+//AND RESETS OBJECT ITEMS TO THEIR ORIGINAL POSITIONS WITHOUT RE-INITIALIZING THEM
+
         newgame->new_button(w,h, screenWidth, screenHeight);
         glPushMatrix();
         glScalef(3.33,3.33,1.0);
@@ -325,7 +339,12 @@ GLint GLScene::drawScene()    // this function runs on a loop
                     player->yMax = 4.0f/player->framesY;
                     if(health->barTrigger != health->EMPTY )health->barTrigger = health->barTrigger + 1;
                     //cout << health->barTrigger << endl;
-                    if (player->hp <= 0) player->playeralive = false;
+                    cout << player->hp << endl;
+                    if (player->hp <= 0)
+                    {
+                        player->playeralive = false;
+                        over->current = true;
+                    }
                     //cout<<"player current hp is " << player-> hp <<endl;
 
                     Iframe->startTime = clock();
@@ -457,6 +476,23 @@ GLint GLScene::drawScene()    // this function runs on a loop
         }
 
     }
+    if(over->current)
+    {
+        game->current = false;
+        player->playerSpawn = false;
+        snds->stopGameSound();
+        kbMs->screenToggle = kbMs->GAMEOVER; //i forgot how this was applied
+
+        glPushMatrix();
+        glScalef(3.33,3.33,1.0);
+        glDisable(GL_LIGHTING);
+        glTranslatef(over->xPos, over->yPos, over->zPos);
+        over->screenDraw(screenWidth, screenHeight);
+        over->actions();
+        glEnable(GL_LIGHTING);
+        glPopMatrix();
+
+    }
     if(pause->current)
     {
         newgame->continue_button(w,h, screenWidth, screenHeight);
@@ -525,7 +561,7 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
     case WM_KEYDOWN:
         kbMs->wParam = wParam;
-        kbMs->keyPress(load, menu, help, game, pause, newgame, guide, quit, player, snds); // Pass screen instance
+        kbMs->keyPress(load, menu, help, game, pause, newgame, guide, quit, player, snds, over); // Pass screen instance
 
         //kbMs->keyPress2(player, bullet);
         //kbMs->keyTest(health);
@@ -534,7 +570,7 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     case WM_KEYUP:
         kbMs->wParam = wParam;
-        kbMs->keyUP(load, help, menu, game, pause, credit, player, newgame, guide, quit, health, snds);
+        kbMs->keyUP(load, help, menu, game, pause, credit, player, newgame, guide, quit, health, snds, over);
         break;
 
     case WM_LBUTTONDOWN:

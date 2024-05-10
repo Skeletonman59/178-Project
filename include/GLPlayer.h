@@ -37,11 +37,11 @@ class GLPlayer
         bool playerSpawn=true;
         float vY;
         float t;
-        bool jumping = false;
+        bool jumping;
         int hp;
-        bool playeralive = true;
-        bool shooting = false;
-        bool hit = false;
+        bool playeralive;
+        bool shooting;
+        bool hit;
 
     protected:
     private:

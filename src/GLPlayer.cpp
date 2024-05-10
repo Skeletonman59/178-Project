@@ -69,6 +69,13 @@ void GLPlayer::initPlayer(int x, int y, char* fileName)
     framesX = x;               // record number of frames
     framesY = y;
 
+    jumping = false;
+    hp = 5;
+    playeralive = true;
+    shooting = false;
+    hit = false;
+
+
     texture->loadTexture(fileName); //loading my background
 
     xMin =0;

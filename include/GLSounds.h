@@ -33,7 +33,7 @@ class GLSounds
         void stopGameSound();
         void playSelectSoundOne();
         void playSelectSoundTwo();
-        void pauseSound(char *);
+        void pauseSound(char*);
         int initSounds();
 
         float firstVol;

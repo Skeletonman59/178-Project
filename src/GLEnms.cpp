@@ -23,6 +23,9 @@ GLEnms::GLEnms()
     yMax=1.0/framesY;
     yMin=0;
 
+    enemyHealth = 4;
+    radius = 0.02;
+
     speed =0.05;  // moving speed
     action= STAND;     // set actions
     theta = 30*PI/180.0;

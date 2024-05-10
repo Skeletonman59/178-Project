@@ -193,6 +193,7 @@ void GLSounds::fourthGameSound(int)
 {
     //TODO: ADD FOURTH SOUND
     Funk_4->setIsPaused(false);
+    Funk_4->setVolume(1);
 
 }
 //TODO: maybe add a shop sound? it'd be funny if we just got a Kevin Macleod song in

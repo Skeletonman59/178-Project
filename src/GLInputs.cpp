@@ -20,8 +20,9 @@ GLInputs::~GLInputs()
     //dtor
 }
 
-void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, Screen*pause, Object* newgame, Object* guide, Object* quit, GLPlayer* player, GLSounds* snds)
+void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, Screen*pause, Object* newgame, Object* guide, Object* quit, GLPlayer* player, GLSounds* snds, Screen* over)
 {
+
     switch(wParam)
     {
     case VK_LEFT:
@@ -198,6 +199,9 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, S
             break;
         case GAMESCREEN:
             break;
+        case GAMEOVER:
+            over->screenTrigger= over->FADEOUT;
+            break;
         }
         break;
     case VK_ESCAPE:
@@ -224,7 +228,7 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, S
 }
 
 
-void GLInputs::keyUP(Screen* load, Screen* help, Screen* menu,Screen* game,Screen* pause,Screen* credit,GLPlayer* player,Object* newgame, Object* guide, Object* quit, Object* health, GLSounds* snds)
+void GLInputs::keyUP(Screen* load, Screen* help, Screen* menu,Screen* game,Screen* pause,Screen* credit,GLPlayer* player,Object* newgame, Object* guide, Object* quit, Object* health, GLSounds* snds, Screen* over)
 {
     switch(wParam)
     {
@@ -355,6 +359,18 @@ void GLInputs::keyUP(Screen* load, Screen* help, Screen* menu,Screen* game,Scree
 
             screenToggle = PAUSESCREEN;
             pause->current = true;
+            break;
+        case GAMEOVER:
+            menu->current= true;
+            over->current = false;
+            menu->screenTrigger = menu->FADEIN;
+
+            newgame->moveTrigger = newgame->APPEAR;
+            guide->moveTrigger = guide->APPEAR;
+            quit->moveTrigger = quit->APPEAR;
+
+
+            screenToggle = MENUSCREEN;
             break;
         }
         break;

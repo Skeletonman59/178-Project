@@ -16,7 +16,7 @@ class GLEnms
         void actions();
 
         bool isEnemyLive =true;
-        int enemyHealth = 4;
+        int enemyHealth;
 
         enum{STAND,WALKLEFT,WALKRIGHT,ROLLLEFT,ROLLRIGHT,ATTACK};
 
@@ -35,7 +35,7 @@ class GLEnms
         int v;   // velocity
         float t; // projectile timer
         float theta;// angle of projectile
-        float radius=0.2;
+        float radius;
 
         float spawnTimer;	// Timer for spawns
         GLTexture *tex = new GLTexture();
