@@ -79,7 +79,7 @@ GLint GLScene::initGL()
 
     T->startTime = clock();
 
-    player->initPlayer(1,1,"images/sprites/Player.png");
+    player->initPlayer(5,5,"images/sprites/Player.png");
     Iframe->startTime = clock();
     enmTexture[0].loadTexture("images/sprites/Enemy01.png");
     enmTexture[1].loadTexture("images/sprites/Enemy02.png");
@@ -112,7 +112,11 @@ GLint GLScene::initGL()
         p->parallaxInit("images/game/stage1.png");
         doneLoading=true;
         maxEnms = 5;
-
+        /*for(int i=0; i<20; i++)
+            {
+                E[i].enemyHealth = 4;
+                E[i].speed = 0.05;
+            }*/
     }
     if(level2)
     {
@@ -120,6 +124,13 @@ GLint GLScene::initGL()
         p->parallaxInit("images/game/stage2.png");
         doneLoading=true;
         maxEnms = 10;
+        for(int i=0; i<20; i++)
+        {
+            E[i].enemyHealth = 3;
+            E[i].speed = 0.065;
+
+        }
+
     }
     if(level3)
     {
@@ -127,6 +138,19 @@ GLint GLScene::initGL()
         p->parallaxInit("images/game/stage3.png");
         doneLoading=true;
         maxEnms = 15;
+        for(int i=0; i<20; i++)
+        {
+            E[i].enemyHealth = 7;
+            E[i].speed = 0.030;
+            E[i].eScale.x =1.5;
+            E[i].eScale.y =1.5;
+            E[i].pos.y+=0.5;
+            E[i].radius = 1.0;
+        }
+
+
+
+
     }
     if(level4)
     {
@@ -134,6 +158,19 @@ GLint GLScene::initGL()
         p->parallaxInit("images/game/stage1.png"); //placeholder
         doneLoading=true;
         maxEnms = 20;
+
+        for(int i=0; i<20; i++)
+        {
+            //E[i].x
+            E[i].enemyHealth = 10;
+            E[i].speed = 0.1;
+            E[i].eScale.x =2.0;
+            E[i].eScale.y =2.0;
+            E[i].radius = 2.0;
+            E[i].pos.y+=1;
+        }
+
+
     }
     return true;
 }
@@ -223,12 +260,10 @@ GLint GLScene::drawScene()    // this function runs on a loop
             glPopMatrix();
 
         }
-
-
         glEnable(GL_LIGHTING);
         glPopMatrix();
 
-        if(player->playerSpawn)
+        if(player->playerSpawn == true/*&& kbMs->screenToggle == GAMESCREEN*/ )
         {
             glPushMatrix();
             glDisable(GL_LIGHTING);
@@ -249,20 +284,45 @@ GLint GLScene::drawScene()    // this function runs on a loop
             enmSpawnRate = (float)rand()/(float)RAND_MAX*100; //+ 1350;
         }
 
+        //if(1==1/*if the shop icon is clicked      */)
+        /* {
+             if(coinIter>31 && kbMs->unlockedRoll == false)// this is an example; it unlocks roll
+             {
+                 kbMs->unlockedRoll = true;
+                 coinIter = (coinIter - 30);
+             }
+             if(coinIter>6){
+              iframeValue = (iframeValue + 500);
+             coinIter = (coinIter - 5);
+
+             }
+                  if(coinIter>11){
+              damage = (damage + 1);
+             coinIter = (coinIter - 10);
+
+         }
+
+         }
+        */
         for(int i = 0; i < maxEnms; i++)
         {
             //glEnable(GL_BLEND);
             //enmTexture[2].bindTexture();
-            if (player->actionTrigger == player->ROLL) {}
             if(E[i].isEnemyLive)
             {
                 E[i].pos.x < player->plPosition.x ? E[i].action = E[i].WALKRIGHT : E[i].action = E[i].WALKLEFT;
             }
-            if(hit->isRadialCollision(E[i].pos, player->plPosition,0.2,0.2,0.02)) //ENEMY ON PLAYER
+            if(hit->isRadialCollision(E[i].pos, player->plPosition,E[i].radius,0.2,0.02)) //ENEMY ON PLAYER
             {
-                if((clock() - Iframe->startTime) > 2000 && player->actionTrigger != player->ROLL )
+                if((clock() - Iframe->startTime) > iframeValue && player->actionTrigger != player->ROLL )
                 {
                     player->hp =  player->hp-1;
+                    player->hit = true;
+                    E[i].pos.x < player->plPosition.x ? player->direction = 1 : player->direction = -1;
+                    player->xMin = 1.0f/player->framesX;
+                    player->xMax = 2.0f/player->framesX;
+                    player->yMin = 3.0f/player->framesY;
+                    player->yMax = 4.0f/player->framesY;
                     if(health->barTrigger != health->EMPTY )health->barTrigger = health->barTrigger + 1;
                     //cout << health->barTrigger << endl;
                     if (player->hp <= 0) player->playeralive = false;
@@ -275,7 +335,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
             {
                 if(hit->isRadialCollision(E[i].pos, P[j].pos,0.2,0.2,0.02) && E[i].isEnemyLive == true) //ENEMY ON BULLET
                 {
-                    E[i].enemyHealth--;
+                    E[i].enemyHealth = E[i].enemyHealth - damage;
                     P[j].isLive=false;
                     P[j].pos = deleted;
                     if (E[i].enemyHealth <= 0)
@@ -299,14 +359,17 @@ GLint GLScene::drawScene()    // this function runs on a loop
         snds->stopMenu();
         //snds->playGameSound();
 
-        glPushMatrix();
-        glDisable(GL_LIGHTING);
-        glEnable(GL_BLEND);
-        health->drawObject();
-        health->barActions();
-        glEnable(GL_LIGHTING);
-        glDisable(GL_BLEND);
-        glPopMatrix();
+        if(player->playerSpawn)
+        {
+            glPushMatrix();
+            glDisable(GL_LIGHTING);
+            glEnable(GL_BLEND);
+            health->drawObject();
+            health->barActions();
+            glEnable(GL_LIGHTING);
+            glDisable(GL_BLEND);
+            glPopMatrix();
+        }
 
         if(level1 && goal != maxEnms)
         {
@@ -318,6 +381,10 @@ GLint GLScene::drawScene()    // this function runs on a loop
             snds->secondGameSound(health->barTrigger);
         }
         else if(level3 && goal != maxEnms)
+        {
+            snds->thirdGameSound(health->barTrigger);
+        }
+        else if(level4 && goal != maxEnms)
         {
             snds->fourthGameSound(health->barTrigger);
         }
@@ -354,11 +421,10 @@ GLint GLScene::drawScene()    // this function runs on a loop
                 //reload condition
                 Ammo=6;
             }
-
-            glEnable(GL_LIGHTING);
-            glPopMatrix();
-
         }
+        glEnable(GL_LIGHTING);
+        glPopMatrix();
+
         CoinTex->bindTexture();
         glPushMatrix();
         glDisable(GL_LIGHTING);
@@ -397,6 +463,12 @@ GLint GLScene::drawScene()    // this function runs on a loop
         glPushMatrix();     //group object
         glScalef(3.33,3.33,1.0);
         glDisable(GL_LIGHTING);
+        player->playerSpawn = false;
+        for(int i=0; i<77; i++)
+        {
+            E[i].isEnemyLive = false;
+
+        }
         glTranslatef(pause->xPos, pause->yPos, pause->zPos);
         pause->screenDraw(screenWidth, screenHeight);  //draw model obj
         pause->actions();

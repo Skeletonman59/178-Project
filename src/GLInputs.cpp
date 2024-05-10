@@ -319,6 +319,7 @@ void GLInputs::keyUP(Screen* load, Screen* help, Screen* menu,Screen* game,Scree
                 player->playerSpawn = true;
                 pause->current=false;
 
+
                 newgame->moveTrigger = newgame->DISAPPEAR;
                 guide->moveTrigger = guide->DISAPPEAR;
                 quit->moveTrigger = quit->DISAPPEAR;

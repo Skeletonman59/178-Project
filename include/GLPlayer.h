@@ -41,6 +41,7 @@ class GLPlayer
         int hp;
         bool playeralive = true;
         bool shooting = false;
+        bool hit = false;
 
     protected:
     private:

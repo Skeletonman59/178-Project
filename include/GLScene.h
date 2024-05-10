@@ -81,8 +81,8 @@ public:
     vec3 deleted;
 
     int sndsIterator;
-
-
+    int iframeValue = 1000;
+    int damage = 1;
 protected:
 
 private:

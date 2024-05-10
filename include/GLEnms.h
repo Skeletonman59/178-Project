@@ -35,6 +35,7 @@ class GLEnms
         int v;   // velocity
         float t; // projectile timer
         float theta;// angle of projectile
+        float radius=0.2;
 
         float spawnTimer;	// Timer for spawns
         GLTexture *tex = new GLTexture();

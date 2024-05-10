@@ -88,14 +88,74 @@ void GLPlayer::actions()
 {
     if((clock() - myTime->startTime) > 100)
     {
+    	if(shooting)
+		{
+			if( rightBound())
+            {
+                actionTrigger = STAND;
+            }
+            else
+            {
+//FRAME DATA
+                if(yMin >= 3.0f/framesY)
+				{
+					xMin = 1.0f/framesX;
+					xMax = 2.0f/framesX;
+					yMin = 2.0f/framesY;
+					yMax = 3.0f/framesY;
+					//shooting = false;
+				}
+				else
+				{
+					if(xMin >= 1.0f)
+					{
+						xMin = 0.0f;
+						xMax = 1.0f/framesX;
+						yMin += 1.0f/framesY;
+						yMax += 1.0f/framesY;
+					}
+					else
+					{
+					xMin += 1.0f/framesX;
+					xMax += 1.0f/framesX;
+					}
+				}
+            }
+		}
+		else if(hit)
+		{
+			if(yMin >= 4.0f/framesY){
+				hit = false;
+				actionTrigger = STAND;
+				direction = plScale.x;
+			}
+			else
+			{
+				if(xMin >= 1.0f)
+				{
+					xMin = 0.0f;
+					xMax = 1.0f/framesX;
+					yMin += 1.0f/framesY;
+					yMax += 1.0f/framesY;
+				}
+				else
+				{
+					xMin += 1.0f/framesX;
+					xMax += 1.0f/framesX;
+				}
+			}
+			plPosition.x += 0.1f * direction;
+		}
+		else
+		{
         switch(actionTrigger)
         {
         case STAND:
 
-            xMin =0;
-            xMax = 1.0/(float)framesX;
+            xMin =1.0f/(float)framesX;
+            xMax = 2.0/(float)framesX;
 
-            yMax =1.0/(float)framesY;
+            yMax =3.0/(float)framesY;
             yMin =yMax-1.0/(float)framesY;
 
             break;
@@ -107,9 +167,21 @@ void GLPlayer::actions()
             }
             else
             {
-                //plScale.x = -0.3f;
-                yMax =2.0/(float)framesY;
-                yMin =yMax-1.0/(float)framesY;
+                plScale.x = -1.0f;
+                if(xMin >= 1.0f)
+				{
+					xMin = 0.0f;
+					xMax = 1.0f/(float)framesX;
+					yMin += 1.0f/(float)framesY;
+					yMax += 1.0f/(float)framesY;
+				}
+				if(yMin >= 2.0f/(float)framesY && xMin >= 1.0f/framesX)
+				{
+					xMin = 0.0f;
+					xMax = 1.0f/(float)framesX;
+					yMin = 0.0f;
+					yMax = 1.0f/framesY;
+				}
 
                 xMax += 1.0/(float)framesX;
                 xMin += 1.0/(float)framesX;
@@ -125,9 +197,21 @@ void GLPlayer::actions()
             }
             else
             {
-                //plScale.x = 0.3f;
-                yMax=3.0/(float)framesY;
-                yMin=yMax-1.0/(float)framesY;
+                plScale.x = 1.0f;
+                if(xMin >= 1.0f)
+				{
+					xMin = 0.0f;
+					xMax = 1.0f/(float)framesX;
+					yMin += 1.0f/(float)framesY;
+					yMax += 1.0f/(float)framesY;
+				}
+				if(yMin >= 2.0f/(float)framesY && xMin >= 1.0f/framesX)
+				{
+					xMin = 0.0f;
+					xMax = 1.0f/(float)framesX;
+					yMin = 0.0f;
+					yMax = 1.0f/framesY;
+				}
 
                 xMin+=1.0/(float)framesX;
                 xMax+=1.0/(float)framesX;
@@ -167,13 +251,33 @@ void GLPlayer::actions()
             else
             {
 //FRAME DATA
-                actionTrigger = STAND;
+                if(yMin >= 3.0f/framesY && xMin >= 1.0f/framesX)
+				{
+					actionTrigger = STAND;
+					shooting = false;
+				}
+				else
+				{
+					if(xMin >= 1.0f)
+					{
+						xMin = 0.0f;
+						xMax = 1.0f/framesX;
+						yMin += 1.0f/framesY;
+						yMax += 1.0f/framesY;
+					}
+					else
+					{
+					xMin += 1.0f/framesX;
+					xMax += 1.0f/framesX;
+					}
+				}
             }
             break;
 
         default:
             break;
         }
+		}
         //myTime->startTime = clock();
         if(jumping)
         {
@@ -189,6 +293,4 @@ void GLPlayer::actions()
         }
         myTime->startTime = clock();
     }
-
-
 }

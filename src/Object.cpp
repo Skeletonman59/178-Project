@@ -3,10 +3,18 @@
 Object::Object()
 {
     //ctor
-    vert[0].x =-0.5; vert[0].y = -0.5; vert[0].z =-1.0;
-    vert[1].x = 0.5; vert[1].y = -0.5; vert[1].z =-1.0;
-    vert[2].x = 0.5; vert[2].y =  0.5; vert[2].z =-1.0;
-    vert[3].x =-0.5; vert[3].y =  0.5; vert[3].z =-1.0;
+    vert[0].x =-0.5;
+    vert[0].y = -0.5;
+    vert[0].z =-1.0;
+    vert[1].x = 0.5;
+    vert[1].y = -0.5;
+    vert[1].z =-1.0;
+    vert[2].x = 0.5;
+    vert[2].y =  0.5;
+    vert[2].z =-1.0;
+    vert[3].x =-0.5;
+    vert[3].y =  0.5;
+    vert[3].z =-1.0;
 }
 
 Object::~Object()
@@ -167,6 +175,15 @@ void Object::actions()
             myTime->startTime = clock();
         }
         break;
+    case ON:
+        if(clock() - myTime->startTime>30)
+        {
+            if (objPosition.y  > 0.5) objPosition.x += 0.1;
+            myTime->startTime = clock();
+        }
+        break;
+    case OFF:
+        objPosition.y = 1;
     default:
         break;
     }
@@ -176,6 +193,8 @@ void Object::barActions()
 {
     switch (barTrigger)
     {
+        //-0.6,0.5,0
+        break;
     case FULL:
         xMin = 0;
         xMax = 1.0/(float)framesX;
@@ -184,33 +203,33 @@ void Object::barActions()
         break;
     case QUARTER:
         xMin = 0;
-    xMax = 1.0/(float)framesX;
-    yMax = 2.0/(float)framesY;
-    yMin = yMax-1.0/(float)framesY;
+        xMax = 1.0/(float)framesX;
+        yMax = 2.0/(float)framesY;
+        yMin = yMax-1.0/(float)framesY;
         break;
     case THIRD:
         xMin = 0;
-    xMax = 1.0/(float)framesX;
-    yMax = 3.0/(float)framesY;
-    yMin = yMax-1.0/(float)framesY;
+        xMax = 1.0/(float)framesX;
+        yMax = 3.0/(float)framesY;
+        yMin = yMax-1.0/(float)framesY;
         break;
     case DOUBLE:
         xMin = 0;
-    xMax = 1.0/(float)framesX;
-    yMax = 4.0/(float)framesY;
-    yMin = yMax-1.0/(float)framesY;
+        xMax = 1.0/(float)framesX;
+        yMax = 4.0/(float)framesY;
+        yMin = yMax-1.0/(float)framesY;
         break;
     case SINGLE:
         xMin = 0;
-    xMax = 1.0/(float)framesX;
-    yMax = 5.0/(float)framesY;
-    yMin = yMax-1.0/(float)framesY;
+        xMax = 1.0/(float)framesX;
+        yMax = 5.0/(float)framesY;
+        yMin = yMax-1.0/(float)framesY;
         break;
     case EMPTY:
         xMin = 0;
-    xMax = 1.0/(float)framesX;
-    yMax = 6.0/(float)framesY;
-    yMin = yMax-1.0/(float)framesY;
+        xMax = 1.0/(float)framesX;
+        yMax = 6.0/(float)framesY;
+        yMin = yMax-1.0/(float)framesY;
         break;
 
     default:

@@ -47,7 +47,7 @@ class Object
 
         void barActions();
         int barTrigger;
-        enum {FULL, QUARTER, THIRD, DOUBLE, SINGLE, EMPTY};
+        enum {FULL, QUARTER, THIRD, DOUBLE, SINGLE, EMPTY, ON, OFF};
 
 
     protected:
