@@ -37,6 +37,7 @@ class GLPlayer
         bool playerSpawn=true;
         float vY;
         float t;
+        float speed;
         bool jumping;
         int hp;
         bool playeralive;

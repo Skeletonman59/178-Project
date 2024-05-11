@@ -35,8 +35,8 @@ GLScene::GLScene()
     level2= false;
     level3=false;
     level4=false;
-    sndsIterator = 0;
     doneLoading= false;
+    resetTrigger = false;
 
 }
 
@@ -60,9 +60,9 @@ GLint GLScene::initGL()
     glEnable(GL_BLEND);             // Transparent effect of pngs
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    deleted.x =999.0; // use dest to shoot right
-    deleted.y =999.0;
-    deleted.z = 999.0;
+    deleted.x =999.0;
+    deleted.y =-1.5;
+    deleted.z = -7;
 
     glEnable(GL_TEXTURE_2D);  //enable textures
     load->screenInit( 0, 0,  0, 0, "images/menu/loadmenu.png");
@@ -86,8 +86,6 @@ GLint GLScene::initGL()
     quit->quit_button(w,h, screenWidth, screenHeight);
     health->initObject(-0.6,0.5,0,5,9, "images/game/healthBarSprite.png");
     health->health_bar(w, h, screenWidth, screenHeight);
-    bullet->initObject(0, 0, -6, 1,2, "images/game/bullet.png");
-    bullet->default_obj();
 
     snds->initSounds();
     snds->myTime->startTime = clock();
@@ -145,13 +143,11 @@ GLint GLScene::initGL()
         p->parallaxInit("images/game/lava.jpg");
         doneLoading=true;
         maxEnms = 10;
-        for(int i=0; i<20; i++)
+        for(int i=0; i<maxEnms; i++)
         {
-            E[i].enemyHealth = 3;
-            E[i].speed = 0.065;
-
+            E[i].enemyHealth = 6;
+            E[i].speed = (0.065) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.1-0.065)));
         }
-
     }
     if(level3)
     {
@@ -159,14 +155,14 @@ GLint GLScene::initGL()
         p->parallaxInit("images/game/forest.png");
         doneLoading=true;
         maxEnms = 15;
-        for(int i=0; i<20; i++)
+        for(int i=0; i<maxEnms; i++)
         {
             E[i].enemyHealth = 7;
-            E[i].speed = 0.030;
-            E[i].eScale.x =1.5;
-            E[i].eScale.y =1.5;
-            E[i].pos.y+=0.5;
-            E[i].radius = 1.0;
+            E[i].speed = E[i].speed = (0.065) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.1-0.065)));
+            //E[i].eScale.x =1.5;
+            //E[i].eScale.y =1.5;
+            //E[i].pos.y+=0.5;
+            //E[i].radius = 1.0;
         }
     }
     if(level4)
@@ -176,18 +172,17 @@ GLint GLScene::initGL()
         doneLoading=true;
         maxEnms = 20;
 
-        for(int i=0; i<20; i++)
+        for(int i=0; i<maxEnms; i++)
         {
             //E[i].x
             E[i].enemyHealth = 10;
             E[i].speed = 0.1;
-            E[i].eScale.x =2.0;
-            E[i].eScale.y =2.0;
-            E[i].radius = 2.0;
-            E[i].pos.y+=1;
+            //E[i].eScale.x =2.0;
+            //E[i].eScale.y =2.0;
+            //E[i].radius = 2.0;
+            //E[i].pos.y+=1;
+           // E[i].pos.z = -7;
         }
-
-
     }
     Ammo=6;
     Gold=0;
@@ -197,10 +192,110 @@ GLint GLScene::initGL()
     damage = 1;
     return true;
 }
+GLvoid GLScene::resetValues()
+{
+    level1=  true;   //Used to switch through screens
+    level2= false;
+    level3= false;
+    level4= false;
+    snds->myTime->startTime = clock();
+    T->startTime = clock();
+    Iframe->startTime = clock();
+    for(int i=0; i<20; i++)
+    {
+        E[i].isEnemyLive = false;
+        E[i].tex = &enmTexture[(rand() % 3)]; //texture already set.
+        int wallspawn = (rand()%99);
+        if (wallspawn >50) E[i].pos.x = 5.0f;
+        else E[i].pos.x = -5.0f;
+        //spawnplace should be random each time
+        E[i].pos.y =-1.5;
+        //E[i].action = E[i].WALKLEFT;
+        E[i].eScale.x = E[i].eScale.y = 0.5;
+    }
+    enmSpawnRate = (float)rand()/(float)RAND_MAX*100 + 150;
+    enmN = 0; //not sure what this does
+
+    if(level1)
+    {
+        p->parallaxInit("images/game/night.png");
+        doneLoading=true;
+        maxEnms = 5;
+        for(int i=0; i<maxEnms; i++)
+            {
+                E[i].enemyHealth = 4;
+                E[i].speed = (0.05) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.1-0.05)));
+            }
+    }
+
+    if(level2)
+    {
+        //snds->stopGameSound();
+        p->parallaxInit("images/game/lava.jpg");
+        doneLoading=true;
+        maxEnms = 10;
+        for(int i=0; i<maxEnms; i++)
+        {
+            E[i].enemyHealth = 6;
+            E[i].speed = (0.065) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.1-0.065)));
+        }
+    }
+    if(level3)
+    {
+        //snds->stopGameSound();
+        p->parallaxInit("images/game/forest.png");
+        doneLoading=true;
+        maxEnms = 15;
+        for(int i=0; i<maxEnms; i++)
+        {
+            E[i].enemyHealth = 7;
+            E[i].speed = E[i].speed = (0.065) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.1-0.065)));
+            //E[i].eScale.x =1.5;
+            //E[i].eScale.y =1.5;
+            //E[i].pos.y+=0.5;
+            //E[i].radius = 1.0;
+        }
+    }
+    if(level4)
+    {
+        //snds->stopGameSound();
+        p->parallaxInit("images/game/stage3.png"); //placeholder
+        doneLoading=true;
+        maxEnms = 20;
+
+        for(int i=0; i<maxEnms; i++)
+        {
+            //E[i].x
+            E[i].enemyHealth = 10;
+            E[i].speed = 0.1;
+            //E[i].eScale.x =2.0;
+            //E[i].eScale.y =2.0;
+            //E[i].radius = 2.0;
+            //E[i].pos.y+=1;
+           // E[i].pos.z = -7;
+        }
+    }
+
+    Ammo = 6;
+    Gold = 0;
+    coinIter = 0;
+    goal = 0;
+    //iframeValue = 1000;
+    damage = 1;
+
+    player->hp = player->maxHealth;
+    health->barTrigger = health->FULL;
+    over->zPos = 0;
+    over->screenTrigger= over->FADEIN;
+    over->alpha = 0;
+
+}
+
 
 GLint GLScene::drawScene()    // this function runs on a loop
 // DO NOT ABUSE ME
 {
+
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);// clear bits in each iteration
     glLoadIdentity();
     glColor3f(1.0,1.0,1.0);     //color the object red
@@ -224,8 +319,15 @@ GLint GLScene::drawScene()    // this function runs on a loop
         //thoughts: a function similar to initGL(), that only reloads
         //things like variables and not objects or screens. does NOT
         //initialize them, just resets them.
-// TODO (Skele#1#): WORK ON A FUNCTION THAT RESETS NON-OBJECT ITEMS,
+// TODO (Skele#8#): WORK ON A FUNCTION THAT RESETS NON-OBJECT ITEMS,
 //AND RESETS OBJECT ITEMS TO THEIR ORIGINAL POSITIONS WITHOUT RE-INITIALIZING THEM
+
+        if(!resetTrigger)
+        {
+            resetValues();
+            resetTrigger = true;
+            //cout << "reset" << endl;
+        }
 
         newgame->new_button(w,h, screenWidth, screenHeight);
         glPushMatrix();
@@ -265,17 +367,6 @@ GLint GLScene::drawScene()    // this function runs on a loop
     }
     if(game->current)
     {
-        //object tester
-        /*
-        glPushMatrix();
-        glDisable(GL_LIGHTING);
-        glEnable(GL_BLEND);
-        bullet->drawObject();
-        glEnable(GL_LIGHTING);
-        glDisable(GL_BLEND);
-        glPopMatrix();
-        */
-
         glPushMatrix();     //group object
         glScalef(3.33,3.33,1.0);
         glDisable(GL_LIGHTING);
@@ -338,6 +429,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
         {
             //glEnable(GL_BLEND);
             //enmTexture[2].bindTexture();
+            //cout << boolalpha << E[i].isEnemyLive << " (" << E[i].pos.x << ", "  << E[i].pos.y << " " << E[i].pos.z<< ")" << " | ";
             if(E[i].isEnemyLive)
             {
                 E[i].pos.x < player->plPosition.x ? E[i].action = E[i].WALKRIGHT : E[i].action = E[i].WALKLEFT;
@@ -371,7 +463,6 @@ GLint GLScene::drawScene()    // this function runs on a loop
                 if(hit->isRadialCollision(E[i].pos, P[j].pos,0.2,0.2,0.02) && E[i].isEnemyLive == true) //ENEMY ON BULLET
                 {
                     E[i].enemyHealth = E[i].enemyHealth - damage;
-                    P[j].isLive=false;
                     P[j].pos = deleted;
                     if (E[i].enemyHealth <= 0)
                     {
@@ -496,6 +587,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
     {
         game->current = false;
         player->playerSpawn = false;
+        resetTrigger = false;
         snds->stopGameSound();
         kbMs->screenToggle = kbMs->GAMEOVER; //i forgot how this was applied
 

@@ -44,6 +44,7 @@ public:
 
     GLPlayer *player = new GLPlayer();
     GLEnms E[20];
+    bool enemyStatus[20];
     GLProjectile P[6];
     GLProjectile coin[100];
     GLTexture enmTexture[3];
@@ -53,7 +54,7 @@ public:
     GLTimer* Iframe = new GLTimer();
 
     Object* health = new Object();
-    Object* bullet = new Object();
+    GLProjectile* shop = new GLProjectile();
 
     float enmT;
     float enmSpawnRate;
@@ -62,8 +63,10 @@ public:
 
     GLint initGL();
     GLint drawScene();
+    GLvoid resetValues();  //resets variables when a new game is selected.
     GLvoid resizeScene(GLsizei, GLsizei);
     float w, h;
+    bool resetTrigger;
     int Ammo;
     int Gold;
     int coinIter;

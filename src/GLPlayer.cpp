@@ -69,6 +69,8 @@ void GLPlayer::initPlayer(int x, int y, char* fileName)
     framesX = x;               // record number of frames
     framesY = y;
 
+    speed = 0.2;
+
     jumping = false;
     hp = 5;
     playeralive = true;
@@ -192,7 +194,7 @@ void GLPlayer::actions()
 
                 xMax += 1.0/(float)framesX;
                 xMin += 1.0/(float)framesX;
-                plPosition.x -=.1;
+                plPosition.x -= speed;
                 direction = -1;
             }
             break;
@@ -222,7 +224,7 @@ void GLPlayer::actions()
 
                 xMin+=1.0/(float)framesX;
                 xMax+=1.0/(float)framesX;
-                plPosition.x +=0.1;
+                plPosition.x +=speed;
                 direction = 1;
 
             }
@@ -244,7 +246,7 @@ void GLPlayer::actions()
 
                 xMin+=1.0/(float)framesX;
                 xMax+=1.0/(float)framesX;
-                plPosition.x +=0.1;
+                plPosition.x +=speed;
 
             }
             break;

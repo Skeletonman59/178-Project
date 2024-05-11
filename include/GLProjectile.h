@@ -14,6 +14,7 @@ class GLProjectile
 
         GLTimer   *myTimer = new GLTimer();
         GLTimer   *anotherTime = new GLTimer();
+        GLTexture *texture = new GLTexture();
 
         void drawProjectile(vec3);
         void drawProjectileStatic();
