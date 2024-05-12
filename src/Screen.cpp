@@ -29,6 +29,7 @@ void Screen::screenInit(float x, float y, float z, float a, char* filename)
 
 void Screen::screenDraw(float width, float height)
 {
+    glTranslatef(xPos,yPos,zPos);
     glColor3f(1.0,1.0,1.0); //white rectangle
     bg->bindTexture();      //binding my background
     glBegin(GL_POLYGON);
@@ -102,6 +103,32 @@ void Screen::actions()
         if(clock() - myTime->startTime>10)
         {
             if(xPos > -4) xPos-=0.1;
+            //kbMs->helpTransitioning = false; // Reset transitioning flag
+            myTime->startTime =clock();
+        }
+        break;
+    case POPFROMMIDDLE:
+        //cout << zPos << endl;
+        if(clock() - myTime->startTime>15)
+        {
+
+            if(zPos < 3) zPos+=0.1;
+            else zPos = 3;
+            if (yPos < 1) yPos+=0.1;
+            else yPos =1;
+            //kbMs->helpTransitioning = false; // Reset transitioning flag
+            myTime->startTime =clock();
+        }
+        break;
+    case POPTOMIDDLE:
+        if(clock() - myTime->startTime>15)
+        {
+
+            if(zPos > 0) zPos-=0.1;
+            else zPos = 0;
+            if (yPos > 0) yPos-=0.1;
+            else yPos =0;
+
             //kbMs->helpTransitioning = false; // Reset transitioning flag
             myTime->startTime =clock();
         }

@@ -142,6 +142,18 @@ void Object::health_bar(float w, float h, float screenWidth, float screenHeight)
     yMax = 1.0/(float)framesY;
     yMin = yMax-1.0/(float)framesY;
 }
+void Object::shop_obj()
+{
+    xMin =0;
+    yMax =1.0/(float)framesY;
+    xMax =1.0/(float)framesX;
+    yMin =yMax-1.0/(float)framesY;
+
+    objScale.x = 2.0;   //initialize scale
+    objScale.y = 2.0;
+    objScale.z = 1.0;
+}
+
 void Object::actions()
 {
     //cout << objPosition.x << endl;
@@ -184,6 +196,31 @@ void Object::actions()
         break;
     case OFF:
         objPosition.y = 1;
+        break;
+    case OPEN:
+        if(clock() - myTime->startTime>300)
+        {
+            if(xMax < 4.0/framesX)
+            {
+
+                xMin +=1.0/framesX;
+                xMax +=1.0/framesX;
+            }
+            myTime->startTime =clock();
+        }
+        break;
+    case CLOSED:
+        if(clock() - myTime->startTime>300)
+        {
+            if(xMax > 1.0/framesX)
+            {
+
+                xMin -=1.0/framesX;
+                xMax -=1.0/framesX;
+            }
+            myTime->startTime =clock();
+        }
+        break;
     default:
         break;
     }

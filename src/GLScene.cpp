@@ -15,7 +15,7 @@
 //FINAL NOTES: the only additions this game needs are:
 //A shop
 //A bool array
-//A variable resetter for gameover to newgame
+
 
 //Approach ideas:
 //Shop:
@@ -37,6 +37,9 @@ GLScene::GLScene()
     level4=false;
     doneLoading= false;
     resetTrigger = false;
+    UPGRADE1 = false;
+    UPGRADE2 = false;
+    UPGRADE3 = false;
 
 }
 
@@ -69,7 +72,8 @@ GLint GLScene::initGL()
     menu->screenInit( 0, 0, -1, 1, "images/menu/2.png");
     help->screenInit(-4, 0, 0.01, 0, "images/menu/helpmenu.png"); //seriously, who's gonna tell the help menu is 0.01 units closer?
     pause->screenInit(0, 0, 0, 0, "images/menu/pause.png");
-    over->screenInit(0,0,0,0,"images/game/gameOver.png");
+    over->screenInit(0,0,1,0,"images/game/gameOver.png");
+    shopscreen->screenInit(0,0,0,0, "images/menu/shop.png");
     credit->screenInit(0,0,0,0,"images/menu/creators.png");
     BulletTex->loadTexture("images/game/bullet.png");
     CoinTex->loadTexture("images/game/coin.png");
@@ -86,6 +90,9 @@ GLint GLScene::initGL()
     quit->quit_button(w,h, screenWidth, screenHeight);
     health->initObject(-0.6,0.5,0,5,9, "images/game/healthBarSprite.png");
     health->health_bar(w, h, screenWidth, screenHeight);
+    shop->initObject(0,-1.5,-7,4,1, "images/sprites/shop.png");
+    shop->shop_obj();
+
 
     snds->initSounds();
     snds->myTime->startTime = clock();
@@ -145,7 +152,8 @@ GLint GLScene::initGL()
         maxEnms = 10;
         for(int i=0; i<maxEnms; i++)
         {
-            E[i].enemyHealth = 6;
+            if(UPGRADE2) E[i].enemyHealth = 4;
+            else E[i].enemyHealth = 6;
             E[i].speed = (0.065) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.1-0.065)));
         }
     }
@@ -157,7 +165,8 @@ GLint GLScene::initGL()
         maxEnms = 15;
         for(int i=0; i<maxEnms; i++)
         {
-            E[i].enemyHealth = 7;
+            if(UPGRADE2) E[i].enemyHealth = 5;
+            else E[i].enemyHealth = 7;
             E[i].speed = E[i].speed = (0.065) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.1-0.065)));
             //E[i].eScale.x =1.5;
             //E[i].eScale.y =1.5;
@@ -175,13 +184,14 @@ GLint GLScene::initGL()
         for(int i=0; i<maxEnms; i++)
         {
             //E[i].x
-            E[i].enemyHealth = 10;
+            if(UPGRADE2) E[i].enemyHealth = 7;
+            else E[i].enemyHealth = 10;
             E[i].speed = 0.1;
             //E[i].eScale.x =2.0;
             //E[i].eScale.y =2.0;
             //E[i].radius = 2.0;
             //E[i].pos.y+=1;
-           // E[i].pos.z = -7;
+            // E[i].pos.z = -7;
         }
     }
     Ammo=6;
@@ -222,10 +232,10 @@ GLvoid GLScene::resetValues()
         doneLoading=true;
         maxEnms = 5;
         for(int i=0; i<maxEnms; i++)
-            {
-                E[i].enemyHealth = 4;
-                E[i].speed = (0.05) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.1-0.05)));
-            }
+        {
+            E[i].enemyHealth = 4;
+            E[i].speed = (0.05) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.1-0.05)));
+        }
     }
 
     if(level2)
@@ -236,7 +246,8 @@ GLvoid GLScene::resetValues()
         maxEnms = 10;
         for(int i=0; i<maxEnms; i++)
         {
-            E[i].enemyHealth = 6;
+            if(UPGRADE2) E[i].enemyHealth = 4;
+            else E[i].enemyHealth = 6;
             E[i].speed = (0.065) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.1-0.065)));
         }
     }
@@ -248,7 +259,8 @@ GLvoid GLScene::resetValues()
         maxEnms = 15;
         for(int i=0; i<maxEnms; i++)
         {
-            E[i].enemyHealth = 7;
+            if(UPGRADE2) E[i].enemyHealth = 5;
+            else E[i].enemyHealth = 7;
             E[i].speed = E[i].speed = (0.065) + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(0.1-0.065)));
             //E[i].eScale.x =1.5;
             //E[i].eScale.y =1.5;
@@ -266,13 +278,14 @@ GLvoid GLScene::resetValues()
         for(int i=0; i<maxEnms; i++)
         {
             //E[i].x
-            E[i].enemyHealth = 10;
+            if(UPGRADE2) E[i].enemyHealth = 7;
+            else E[i].enemyHealth = 10;
             E[i].speed = 0.1;
             //E[i].eScale.x =2.0;
             //E[i].eScale.y =2.0;
             //E[i].radius = 2.0;
             //E[i].pos.y+=1;
-           // E[i].pos.z = -7;
+            // E[i].pos.z = -7;
         }
     }
 
@@ -282,6 +295,9 @@ GLvoid GLScene::resetValues()
     goal = 0;
     //iframeValue = 1000;
     damage = 1;
+    UPGRADE1 = false;
+    UPGRADE2 = false;
+    UPGRADE3 = false;
 
     player->hp = player->maxHealth;
     health->barTrigger = health->FULL;
@@ -295,10 +311,11 @@ GLvoid GLScene::resetValues()
 GLint GLScene::drawScene()    // this function runs on a loop
 // DO NOT ABUSE ME
 {
-
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);// clear bits in each iteration
     glLoadIdentity();
     glColor3f(1.0,1.0,1.0);     //color the object red
+
+
 
     if(load->current)
     {
@@ -315,13 +332,6 @@ GLint GLScene::drawScene()    // this function runs on a loop
     }
     if(menu->current)
     {
-        // find a way to re-init everything?
-        //thoughts: a function similar to initGL(), that only reloads
-        //things like variables and not objects or screens. does NOT
-        //initialize them, just resets them.
-// TODO (Skele#8#): WORK ON A FUNCTION THAT RESETS NON-OBJECT ITEMS,
-//AND RESETS OBJECT ITEMS TO THEIR ORIGINAL POSITIONS WITHOUT RE-INITIALIZING THEM
-
         if(!resetTrigger)
         {
             resetValues();
@@ -384,6 +394,27 @@ GLint GLScene::drawScene()    // this function runs on a loop
         glEnable(GL_LIGHTING);
         glPopMatrix();
 
+        if (goal == maxEnms)
+        {
+            glPushMatrix();
+            glDisable(GL_LIGHTING);
+            glEnable(GL_BLEND);
+
+            shop->drawObject();
+            shop->actions();
+            glEnable(GL_LIGHTING);
+            glDisable(GL_BLEND);
+            glPopMatrix();
+            if(shop->objPosition.y > -1.5) shop->objPosition.y -=0.1;
+            if(hit->isRadialCollision(shop->objPosition, player->plPosition, 0.15,0.15,0.2))
+            {
+                shop->moveTrigger = shop->OPEN;
+            }
+            else shop->moveTrigger = shop->CLOSED;
+
+        }
+        else shop->objPosition.y = 3.5;
+
         if(player->playerSpawn == true/*&& kbMs->screenToggle == GAMESCREEN*/ )
         {
             glPushMatrix();
@@ -393,6 +424,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
             player->actions();
             glEnable(GL_LIGHTING);
             glPopMatrix();
+            if(UPGRADE1) player->speed = 0.2;
         }
 
         bool coinSpawned = false;
@@ -405,26 +437,6 @@ GLint GLScene::drawScene()    // this function runs on a loop
             enmSpawnRate = (float)rand()/(float)RAND_MAX*100; //+ 1350;
         }
 
-        //if(1==1/*if the shop icon is clicked      */)
-        /* {
-             if(coinIter>31 && kbMs->unlockedRoll == false)// this is an example; it unlocks roll
-             {
-                 kbMs->unlockedRoll = true;
-                 coinIter = (coinIter - 30);
-             }
-             if(coinIter>6){
-              iframeValue = (iframeValue + 500);
-             coinIter = (coinIter - 5);
-
-             }
-                  if(coinIter>11){
-              damage = (damage + 1);
-             coinIter = (coinIter - 10);
-
-         }
-
-         }
-        */
         for(int i = 0; i < maxEnms; i++)
         {
             //glEnable(GL_BLEND);
@@ -447,7 +459,7 @@ GLint GLScene::drawScene()    // this function runs on a loop
                     player->yMax = 4.0f/player->framesY;
                     if(health->barTrigger != health->EMPTY )health->barTrigger = health->barTrigger + 1;
                     //cout << health->barTrigger << endl;
-                    cout << player->hp << endl;
+                    //cout << player->hp << endl;
                     if (player->hp <= 0)
                     {
                         player->playeralive = false;
@@ -500,7 +512,6 @@ GLint GLScene::drawScene()    // this function runs on a loop
         if(level1 && goal != maxEnms)
         {
             snds->firstGameSound(health->barTrigger);
-
         }
         else if(level2 && goal != maxEnms)
         {
@@ -576,11 +587,13 @@ GLint GLScene::drawScene()    // this function runs on a loop
                 coin[k].PlaceItem(deleted); //pos=deleted;
                 coin[k].coinSpawn=false;
                 Gold++;
+                //cout << Gold << " \n";
                 goal++;
                 //cout<<"gold aquired"<<endl;
 
             }
         }
+
 
     }
     if(over->current)
@@ -599,6 +612,20 @@ GLint GLScene::drawScene()    // this function runs on a loop
         over->actions();
         glEnable(GL_LIGHTING);
         glPopMatrix();
+
+    }
+    if (shopscreen->current)
+    {
+        shopscreen->screenTrigger = shopscreen->POPFROMMIDDLE;
+        glPushMatrix();
+        //glScalef(3.33,3.33,1.0);
+        glDisable(GL_LIGHTING);
+        glTranslatef(over->xPos, over->yPos, over->zPos);
+        shopscreen->screenDraw(screenWidth, screenHeight);
+        shopscreen->actions();
+        glEnable(GL_LIGHTING);
+        glPopMatrix();
+
 
     }
     if(pause->current)
@@ -669,7 +696,7 @@ int GLScene::windMsg(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
     case WM_KEYDOWN:
         kbMs->wParam = wParam;
-        kbMs->keyPress(load, menu, help, game, pause, newgame, guide, quit, player, snds, over); // Pass screen instance
+        kbMs->keyPress(load, menu, help, game, pause, newgame, guide, quit, player, snds, over, hit, shop, shopscreen, UPGRADE1, UPGRADE2, UPGRADE3); // Pass screen instance
         kbMs->keyBackground(p, 0.001);
         break;
 

@@ -32,12 +32,14 @@ public:
     Screen *game = new Screen();
     Screen *credit = new Screen();
     Screen *over   = new Screen();
+    Screen *shopscreen = new Screen();
 
 
     Object *newgame = new Object();
     Object *guide = new Object();
     Object *quit = new Object();
     GLParallax *p = new GLParallax();
+
 
 
     GLSounds *snds = new GLSounds();
@@ -54,7 +56,7 @@ public:
     GLTimer* Iframe = new GLTimer();
 
     Object* health = new Object();
-    GLProjectile* shop = new GLProjectile();
+    Object* shop = new Object();
 
     float enmT;
     float enmSpawnRate;
@@ -71,6 +73,9 @@ public:
     int Gold;
     int coinIter;
     int goal;
+    bool UPGRADE1;
+    bool UPGRADE2;
+    bool UPGRADE3;
 
     int windMsg(HWND,UINT,WPARAM,LPARAM);  // take windows inputs
 

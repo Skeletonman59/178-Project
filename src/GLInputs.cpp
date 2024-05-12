@@ -20,9 +20,8 @@ GLInputs::~GLInputs()
     //dtor
 }
 
-void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, Screen*pause, Object* newgame, Object* guide, Object* quit, GLPlayer* player, GLSounds* snds, Screen* over)
+void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, Screen*pause, Object* newgame, Object* guide, Object* quit, GLPlayer* player, GLSounds* snds, Screen* over, GLCheckCollision* hit, Object* shop, Screen* shopscreen, bool &UPGRADE1, bool &UPGRADE2, bool &UPGRADE3)
 {
-
     switch(wParam)
     {
     case VK_LEFT:
@@ -104,8 +103,14 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, S
                 buttonToggle = NEW_BUTTON;
                 break;
             }
-
             break;
+        case GAMESCREEN:
+            if(UPGRADE3)
+            {
+                player->actionTrigger = player->ROLL;
+                //cout << "erm, what the flip? did i just roll?"<< endl;
+            }
+
         }
         break;
     case VK_UP:
@@ -182,7 +187,17 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, S
             }
             break;
         case GAMESCREEN:
-            player->actionTrigger= player->JUMP;
+            if(hit->isRadialCollision(shop->objPosition, player->plPosition, 0.15,0.15,0.2))
+            {
+                //activate shop stuff
+                shopscreen->current = true;
+                shopscreen->screenTrigger = shopscreen->POPFROMMIDDLE;
+                screenToggle = SHOPSCREEN;
+            }
+            if(!shopscreen->current) player->actionTrigger = player->JUMP;
+
+            break;
+        case SHOPSCREEN:
             break;
         }
         break;
@@ -201,6 +216,12 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, S
             break;
         case GAMEOVER:
             over->screenTrigger= over->FADEOUT;
+
+            break;
+        case SHOPSCREEN:
+            shopscreen->screenTrigger = shopscreen->POPTOMIDDLE;
+            screenToggle = GAMESCREEN;
+            shopscreen->current = false;
             break;
         }
         break;
@@ -223,6 +244,17 @@ void GLInputs::keyPress(Screen* load, Screen* menu, Screen* help, Screen*game, S
         break;
     case VK_SPACE:
         if(screenToggle== GAMESCREEN) player->shooting = true;
+        break;
+    //SHOP UPGRADE INPUTS:
+
+    case 49: //1
+        if((screenToggle == SHOPSCREEN)) UPGRADE1 = true;
+        break;
+    case 50: //2
+        if((screenToggle == SHOPSCREEN)) UPGRADE2 = true;
+        break;
+    case 51: //3
+        if((screenToggle == SHOPSCREEN)) UPGRADE3 = true;
         break;
     }
 }

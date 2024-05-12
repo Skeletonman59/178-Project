@@ -19,7 +19,7 @@ class Screen
         float xMax,xMin,yMax,yMin,zPos,xPos, yPos;
         float alphaIter, alpha;
 
-        enum{NOTHING, FADEIN, FADEOUT, HELPIN, HELPOUT, ON, OFF};
+        enum{NOTHING, FADEIN, FADEOUT, HELPIN, HELPOUT, ON, OFF, POPTOMIDDLE, POPFROMMIDDLE};
         bool lScreen;
 
         void actions();
